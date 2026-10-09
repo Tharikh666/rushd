@@ -306,10 +306,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
           subtitle: 'Read, listen and reflect',
           accentColor: RushdColors.primary,
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/quran',
-            );
+            context.push('/quran');
           },
         ),
 
@@ -423,10 +420,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
           progressLabel: '64%',
           accentColor: RushdColors.primary,
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/quran',
-            );
+            context.push('/quran');
           },
         ),
 

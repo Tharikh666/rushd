@@ -64,7 +64,7 @@ class PrayerRepositoryImpl implements PrayerRepository {
       type: type,
       name: protoPrayer.name,
       arabicName: protoPrayer.arabicName,
-      time: DateTime.parse(protoPrayer.isoDatetime),
+      time: DateTime.parse(protoPrayer.isoDatetime).toLocal(),
     );
   }
 }

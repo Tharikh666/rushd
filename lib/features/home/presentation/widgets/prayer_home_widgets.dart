@@ -54,7 +54,7 @@ class _PrayerHeroContent extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 6),
           Text(
             nextPrayer.name,
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -69,7 +69,7 @@ class _PrayerHeroContent extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.72),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 5),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -93,12 +93,12 @@ class _PrayerHeroContent extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
           _HeroPill(
             icon: Icons.notifications_none_rounded,
             label: 'Prayer reminder',
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
           Row(
             children: state.prayers.map((prayer) {
               return Expanded(
@@ -341,7 +341,7 @@ class _HeroContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(22),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,

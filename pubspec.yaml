@@ -21,6 +21,7 @@ dependencies:
   geolocator: ^14.1.1
   flutter_timezone: ^5.1.1
   geocoding: ^5.0.0
+  quran: 1.4.1
 
 dev_dependencies:
   flutter_test:
