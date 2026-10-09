@@ -1,233 +1,345 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/rushd_colors.dart';
 import '../data/quran_providers.dart';
+import '../domain/quran_ayah.dart';
 
 class QuranHomeScreen extends ConsumerWidget {
   const QuranHomeScreen({super.key});
 
+  void _openReader(
+    BuildContext context,
+    int surahNumber, [
+    int ayahNumber = 1,
+  ]) {
+    context.push('/quran/read/$surahNumber?ayah=$ayahNumber');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final quran = ref.watch(quranDataServiceProvider);
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final data = ref.watch(quranDataServiceProvider);
+    final theme = Theme.of(context);
+    final today = DateTime.now().day;
+    final dailySurah = ((DateTime.now().dayOfYear - 1) % 114) + 1;
+    const dailyAyah = 1;
 
-    final textColor = isDark
-        ? RushdColors.darkTextPrimary
-        : RushdColors.lightTextPrimary;
+    final dailyText = data.getVerse(dailySurah, dailyAyah);
+    final dailyTranslation = data.getTranslation(dailySurah, dailyAyah);
 
-    final secondaryTextColor = isDark
-        ? RushdColors.darkTextSecondary
-        : RushdColors.lightTextSecondary;
-
-    final surfaceColor = isDark
-        ? RushdColors.darkSurface
-        : RushdColors.lightSurface;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Al-Quran',
-          style: TextStyle(fontWeight: FontWeight.w700),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Al-Quran',
+            style: TextStyle(fontWeight: FontWeight.w800),
+          ),
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Surahs'),
+              Tab(text: 'Juz'),
+              Tab(text: 'Bookmarks'),
+            ],
+          ),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 8),
+              child: Column(
+                children: [
+                  _dailyAyahCard(
+                    context,
+                    surahName: data.getSurahName(dailySurah),
+                    arabic: dailyText,
+                    translation: dailyTranslation,
+                    onTap: () => _openReader(context, dailySurah, dailyAyah),
+                  ),
+                  const SizedBox(height: 12),
+                  _continueReadingCard(context, ref),
+                ],
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  _surahList(context, data),
+                  _juzList(context, data),
+                  _bookmarkList(context, ref),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
-        children: [
-          // Quran introduction card.
-          Container(
-            padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  RushdColors.primaryDark,
-                  RushdColors.primary,
-                  Color(0xFF168F80),
+    );
+  }
+
+  Widget _dailyAyahCard(
+    BuildContext context, {
+    required String surahName,
+    required String arabic,
+    required String translation,
+    required VoidCallback onTap,
+  }) {
+    return Material(
+      color: RushdColors.primaryDark,
+      borderRadius: BorderRadius.circular(22),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Row(
+                children: [
+                  Icon(Icons.auto_awesome, color: Colors.white70, size: 18),
+                  SizedBox(width: 8),
+                  Text(
+                    "TODAY'S AYAH",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 11,
+                      letterSpacing: 1.3,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(Icons.arrow_outward, color: Colors.white70, size: 18),
                 ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(24),
+              const SizedBox(height: 14),
+              Text(
+                arabic,
+                textDirection: TextDirection.rtl,
+                textAlign: TextAlign.right,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  height: 1.8,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                translation,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: Colors.white, height: 1.5),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Surah $surahName · 1:1',
+                style: const TextStyle(color: Colors.white70, fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _continueReadingCard(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(quranDataServiceProvider);
+    final progressService = ref.watch(quranProgressServiceProvider);
+
+    return FutureBuilder<QuranAyah?>(
+      future: progressService.getProgress(),
+      builder: (context, snapshot) {
+        final progress = snapshot.data;
+        final surahNumber = progress?.surahNumber ?? 1;
+        final ayahNumber = progress?.ayahNumber ?? 1;
+
+        return Card(
+          child: ListTile(
+            leading: const CircleAvatar(
+              backgroundColor: Color(0x1A0F766E),
+              child: Icon(Icons.menu_book_rounded, color: RushdColors.primary),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Icon(
-                  Icons.menu_book_rounded,
-                  color: Colors.white70,
-                  size: 30,
+            title: Text(
+              progress == null ? 'Start reading' : 'Continue reading',
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            subtitle: Text(
+              '${data.getSurahName(surahNumber)} · Ayah $ayahNumber',
+            ),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () => _openReader(context, surahNumber, ayahNumber),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _surahList(BuildContext context, dynamic data) {
+    return ListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+      itemCount: data.totalSurahs,
+      itemBuilder: (context, index) {
+        final number = index + 1;
+
+        return Card(
+          margin: const EdgeInsets.only(bottom: 8),
+          child: ListTile(
+            onTap: () => _openReader(context, number),
+            leading: Container(
+              width: 42,
+              height: 42,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: RushdColors.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(13),
+              ),
+              child: Text(
+                '$number',
+                style: const TextStyle(
+                  color: RushdColors.primary,
+                  fontWeight: FontWeight.bold,
                 ),
-                const SizedBox(height: 18),
-                const Text(
-                  'The Noble Quran',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                const Text(
-                  'Read, reflect, and reconnect.',
-                  style: TextStyle(color: Colors.white70, fontSize: 14),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    _QuranStat(value: '${quran.totalSurahs}', label: 'Surahs'),
-                    const SizedBox(width: 24),
-                    const _QuranStat(value: '30', label: 'Juz'),
-                    const SizedBox(width: 24),
-                    const _QuranStat(value: '114', label: 'Chapters'),
-                  ],
-                ),
-              ],
+              ),
+            ),
+            title: Text(
+              data.getSurahName(number),
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            subtitle: Text(
+              '${data.getSurahNameEnglish(number)} · '
+              '${data.getVerseCount(number)} Ayahs · '
+              '${data.getPlaceOfRevelation(number)}',
+            ),
+            trailing: Text(
+              data.getSurahNameArabic(number),
+              textDirection: TextDirection.rtl,
+              style: const TextStyle(fontSize: 23),
             ),
           ),
+        );
+      },
+    );
+  }
 
-          const SizedBox(height: 28),
+  Widget _juzList(BuildContext context, dynamic data) {
+    return ListView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+      itemCount: data.totalJuz,
+      itemBuilder: (context, index) {
+        final juzNumber = index + 1;
+        final entries = data.getSurahsInJuz(juzNumber).entries.toList();
 
-          Text(
-            'SURAH DIRECTORY',
-            style: TextStyle(
-              color: secondaryTextColor,
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.4,
-            ),
-          ),
-
-          const SizedBox(height: 12),
-
-          // All 114 Surahs, read from the local Quran package.
-          ...List.generate(quran.totalSurahs, (index) {
-            final surahNumber = index + 1;
-            final name = quran.getSurahName(surahNumber);
-            final englishName = quran.getSurahNameEnglish(surahNumber);
-            final arabicName = quran.getSurahNameArabic(surahNumber);
-            final verseCount = quran.getVerseCount(surahNumber);
-            final revelation = quran.getPlaceOfRevelation(surahNumber);
-
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Material(
-                color: surfaceColor,
-                borderRadius: BorderRadius.circular(18),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(18),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          '$name will be available in the reader soon.',
-                        ),
-                        duration: const Duration(seconds: 2),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 15,
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 42,
-                          height: 42,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: RushdColors.primary.withOpacity(0.10),
-                            borderRadius: BorderRadius.circular(13),
-                          ),
-                          child: Text(
-                            '$surahNumber',
-                            style: const TextStyle(
-                              color: RushdColors.primary,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                name,
-                                style: TextStyle(
-                                  color: textColor,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '$englishName  •  $verseCount Ayahs',
-                                style: TextStyle(
-                                  color: secondaryTextColor,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              Text(
-                                revelation,
-                                style: TextStyle(
-                                  color: secondaryTextColor,
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Text(
-                          arabicName,
-                          textDirection: TextDirection.rtl,
-                          style: TextStyle(
-                            color: textColor,
-                            fontSize: 23,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+        return Card(
+          margin: const EdgeInsets.only(bottom: 8),
+          child: ExpansionTile(
+            leading: CircleAvatar(
+              backgroundColor: RushdColors.primary.withOpacity(0.1),
+              child: Text(
+                '$juzNumber',
+                style: const TextStyle(
+                  color: RushdColors.primary,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+            title: Text(
+              'Juz $juzNumber',
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            subtitle: Text('${entries.length} Surah sections'),
+            children: entries.map((entry) {
+              final surahNumber = entry.key;
+              final startAyah = entry.value[0];
+              final endAyah = entry.value[1];
+
+              return ListTile(
+                contentPadding: const EdgeInsets.only(left: 72, right: 16),
+                title: Text(data.getSurahName(surahNumber)),
+                subtitle: Text('Ayahs $startAyah–$endAyah'),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => _openReader(context, surahNumber, startAyah),
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _bookmarkList(BuildContext context, WidgetRef ref) {
+    final data = ref.watch(quranDataServiceProvider);
+    final service = ref.watch(quranBookmarkServiceProvider);
+
+    return FutureBuilder<List<QuranAyah>>(
+      future: service.getBookmarks(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return const Center(child: Text('Could not load bookmarks.'));
+        }
+
+        final bookmarks = snapshot.data ?? [];
+
+        if (bookmarks.isEmpty) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(32),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.bookmark_border_rounded, size: 48),
+                  SizedBox(height: 12),
+                  Text(
+                    'No bookmarks yet',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    'Open a Surah and tap the heart icon to save an Ayah.',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: bookmarks.length,
+          itemBuilder: (context, index) {
+            final ayah = bookmarks[index];
+
+            return Card(
+              margin: const EdgeInsets.only(bottom: 8),
+              child: ListTile(
+                leading: const Icon(
+                  Icons.favorite_rounded,
+                  color: Colors.redAccent,
+                ),
+                title: Text(data.getSurahName(ayah.surahNumber)),
+                subtitle: Text(
+                  'Ayah ${ayah.ayahNumber} · '
+                  '${data.getSurahNameEnglish(ayah.surahNumber)}',
+                ),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () =>
+                    _openReader(context, ayah.surahNumber, ayah.ayahNumber),
               ),
             );
-          }),
-        ],
-      ),
+          },
+        );
+      },
     );
   }
 }
 
-class _QuranStat extends StatelessWidget {
-  const _QuranStat({required this.value, required this.label});
-
-  final String value;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: 3),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.white70, fontSize: 12),
-        ),
-      ],
-    );
+extension on DateTime {
+  int get dayOfYear {
+    final start = DateTime(year, 1, 1);
+    return difference(start).inDays + 1;
   }
 }
