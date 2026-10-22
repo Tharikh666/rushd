@@ -4,6 +4,8 @@ import 'package:rushd/features/qibla/presentation/screens/qibla_screen.dart';
 import 'package:rushd/features/salah/presentation/screens/salah_guide_screen.dart';
 import 'package:rushd/features/yaseen/presentation/screens/yaseen_screen.dart';
 
+import '../../features/duas/presentation/screens/dua_category_screen.dart';
+import '../../features/duas/presentation/screens/dua_detail_scrren.dart';
 import '../../features/duas/presentation/screens/duas_screen.dart';
 import '../../features/home/presentation/home_page.dart';
 import '../../features/prayer/presentation/pages/prayer_times_page.dart';
@@ -16,16 +18,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     routes: [
+
+      // HOME
       GoRoute(
         path: '/',
         name: 'home',
         builder: (context, state) => const RushdHomeScreen(),
       ),
+
+      // PRAYER TIMES
       GoRoute(
         path: '/prayer-times',
         name: 'prayer',
         builder: (context, state) => const PrayerTimesPage(),
       ),
+
+      // QURAN
       GoRoute(
         path: '/quran',
         name: 'quran',
@@ -61,16 +69,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+
+      // YASEEN
       GoRoute(
         path: '/yaseen',
         name: 'yaseen',
         builder: (context, state) => const YaseenScreen(),
       ),
+
+      // QIBLA
       GoRoute(
         path: '/qibla',
         name: 'qibla',
         builder: (context, state) => const QiblaScreen(),
       ),
+
+      // SALAH GUIDE
       GoRoute(
         path: '/salah-guide',
         name: 'salah-guide',
@@ -84,10 +98,31 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return SalahPrayerDetailScreen(prayerId: prayerId);
         },
       ),
+
+      // DUA & DIKR
       GoRoute(
         path: '/duas',
         name: 'duas',
         builder: (context, state) => const DuasScreen(),
+      ),
+      GoRoute(
+        path: '/duas/category/:categoryId',
+        name: 'dua-category',
+        builder: (context, state) {
+          final categoryId = state.pathParameters['categoryId']!;
+
+          return DuaCategoryScreen(
+            categoryId: categoryId,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/duas/:duaId',
+        builder: (context, state) {
+          final duaId = state.pathParameters['duaId']!;
+
+          return DuaDetailScreen(duaId: duaId);
+        },
       ),
     ],
   );

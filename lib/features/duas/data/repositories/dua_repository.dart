@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/services.dart';
 
@@ -22,10 +23,23 @@ class DuaRepository {
     return duas.where((dua) => dua['category'] == categoryId).toList();
   }
 
-  Future<List<Map<String, dynamic>>> getFeaturedDuas() async {
+  Future<List<Map<String, dynamic>>> getDuasOfTheDay({DateTime? date}) async {
     final duas = await getAllDuas();
 
-    return duas.where((dua) => dua['featured'] == true).toList();
+    if (duas.isEmpty) {
+      return [];
+    }
+
+    // Use the local calendar date as the daily random seed.
+    final today = date ?? DateTime.now();
+    final seed = today.year * 10000 + today.month * 100 + today.day;
+
+    // Copy the list so the repository's original order is preserved.
+    final dailyDuas = List<Map<String, dynamic>>.from(duas);
+
+    dailyDuas.shuffle(Random(seed));
+
+    return dailyDuas.take(3).toList();
   }
 
   Future<List<Map<String, dynamic>>> searchDuas(String query) async {
