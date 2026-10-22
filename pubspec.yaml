@@ -22,6 +22,8 @@ dependencies:
   flutter_timezone: ^5.1.1
   geocoding: ^5.0.0
   quran: 1.4.1
+  scrollable_positioned_list: ^0.3.8
+  flutter_compass: ^0.8.1
 
 dev_dependencies:
   flutter_test:
@@ -37,3 +39,4 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/config/
+    - assets/datasets/

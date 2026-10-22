@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/rushd_colors.dart';
 import '../../domain/entities/prayer_time.dart';
@@ -21,102 +22,184 @@ class PrayerHomeHeroCard extends ConsumerWidget {
   }
 }
 
+
 class _PrayerHeroContent extends StatelessWidget {
-  const _PrayerHeroContent({
-    required this.state,
-  });
+  const _PrayerHeroContent({required this.state});
 
   final PrayerState state;
 
   @override
   Widget build(BuildContext context) {
     final nextPrayer = state.nextPrayer;
+    final theme = Theme.of(context);
 
-    return _HeroContainer(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(30),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => context.push('/prayer-times'),
+        child: Container(
+          height: 256,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF078F83),
+                Color(0xFF006C61),
+                Color(0xFF004D46),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Stack(
+            clipBehavior: Clip.hardEdge,
             children: [
-              const Icon(
-                Icons.access_time_rounded,
-                size: 18,
-                color: Colors.white,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'NEXT PRAYER',
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: Colors.white.withValues(alpha: 0.78),
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.2,
+              // Large translucent circle.
+              Positioned(
+                left: -105,
+                top: -150,
+                child: Container(
+                  width: 330,
+                  height: 330,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.055),
+                  ),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            nextPrayer.name,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            nextPrayer.arabicName,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withValues(alpha: 0.72),
-            ),
-          ),
-          const SizedBox(height: 5),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                _formatTime(nextPrayer.time),
-                style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
+
+              // Oversized mosque watermark.
+              Positioned(
+                right: -22,
+                bottom: -28,
+                child: Icon(
+                  Icons.mosque_rounded,
+                  size: 205,
+                  color: const Color(0xFF002F2B)
+                      .withValues(alpha: 0.22),
                 ),
               ),
-              const SizedBox(width: 10),
+
+              // Decorative crescent.
+              Positioned(
+                right: 38,
+                top: 24,
+                child: Icon(
+                  Icons.nightlight_round,
+                  size: 54,
+                  color: const Color(0xFFB9D7A5)
+                      .withValues(alpha: 0.12),
+                ),
+              ),
+
               Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                  _formatRemaining(state.remaining),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.82),
-                    fontWeight: FontWeight.w600,
-                  ),
+                padding: const EdgeInsets.fromLTRB(22, 20, 22, 18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Featured badge.
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 9,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: const Text(
+                        'FEATURED  •  PRAYER TIMES',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1.1,
+                        ),
+                      ),
+                    ),
+
+                    const Spacer(),
+
+                    Text(
+                      nextPrayer.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        color: Colors.white,
+                        fontSize: 34,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.7,
+                      ),
+                    ),
+
+                    const SizedBox(height: 2),
+
+                    Text(
+                      nextPrayer.arabicName,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: Colors.white.withValues(alpha: 0.86),
+                        fontSize: 19,
+                      ),
+                    ),
+
+                    const SizedBox(height: 9),
+
+                    Text(
+                      'Next: ${nextPrayer.name}  •  '
+                          '${_formatTime(nextPrayer.time)}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white.withValues(alpha: 0.90),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    Text(
+                      '${_formatRemaining(state.remaining)} remaining',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white.withValues(alpha: 0.76),
+                        fontSize: 12,
+                      ),
+                    ),
+
+                    const Spacer(),
+
+                    Row(
+                      children: [
+                        Text(
+                          'Tap to explore',
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            color: Colors.white.withValues(alpha: 0.95),
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 9),
+                        const Icon(
+                          Icons.arrow_forward_rounded,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          _HeroPill(
-            icon: Icons.notifications_none_rounded,
-            label: 'Prayer reminder',
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: state.prayers.map((prayer) {
-              return Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: _PrayerMiniTime(
-                    prayer: prayer,
-                    isNext: prayer.type == nextPrayer.type,
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
+
 
 class PrayerHomeTimeline extends ConsumerWidget {
   const PrayerHomeTimeline({super.key});
@@ -330,10 +413,9 @@ class _HeroPill extends StatelessWidget {
   }
 }
 
+
 class _HeroContainer extends StatelessWidget {
-  const _HeroContainer({
-    required this.child,
-  });
+  const _HeroContainer({required this.child});
 
   final Widget child;
 
@@ -341,24 +423,42 @@ class _HeroContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            RushdColors.primary,
-            RushdColors.primaryDark,
+            Color(0xFF078F83),
+            Color(0xFF006C61),
+            Color(0xFF004D46),
           ],
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(30),
       ),
       child: Stack(
+        clipBehavior: Clip.hardEdge,
         children: [
-          const Positioned(
-            right: -35,
-            top: -35,
-            child: _HeroDecoration(),
+          Positioned(
+            left: -95,
+            top: -125,
+            child: Container(
+              width: 280,
+              height: 280,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.055),
+              ),
+            ),
+          ),
+          Positioned(
+            right: -24,
+            bottom: -25,
+            child: Icon(
+              Icons.mosque_rounded,
+              size: 175,
+              color: const Color(0xFF002F2B)
+                  .withValues(alpha: 0.16),
+            ),
           ),
           child,
         ],
@@ -366,6 +466,7 @@ class _HeroContainer extends StatelessWidget {
     );
   }
 }
+
 
 class _HeroDecoration extends StatelessWidget {
   const _HeroDecoration();

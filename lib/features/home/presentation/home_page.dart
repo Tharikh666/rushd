@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:quran/quran.dart' as quran;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,8 @@ import '../../../../core/premium/feature_access_controller.dart';
 import '../../../../core/premium/rushd_feature.dart';
 import '../../../../core/theme/rushd_colors.dart';
 
+import '../../quran/data/quran_metadata.dart';
+
 class RushdHomeScreen extends ConsumerStatefulWidget {
   const RushdHomeScreen({super.key});
 
@@ -19,9 +22,7 @@ class RushdHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
-  final PageController _heroController = PageController(
-    initialPage: 1000,
-  );
+  final PageController _heroController = PageController(initialPage: 1000);
 
   Timer? _heroTimer;
   Timer? _clockTimer;
@@ -40,31 +41,25 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   void initState() {
     super.initState();
 
-    _heroTimer = Timer.periodic(
-      const Duration(seconds: 5),
-          (_) {
-        if (!_heroController.hasClients) return;
+    _heroTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+      if (!_heroController.hasClients) return;
 
-        _heroPage++;
+      _heroPage++;
 
-        _heroController.animateToPage(
-          _heroPage,
-          duration: const Duration(milliseconds: 600),
-          curve: Curves.easeOutCubic,
-        );
-      },
-    );
+      _heroController.animateToPage(
+        _heroPage,
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeOutCubic,
+      );
+    });
 
-    _clockTimer = Timer.periodic(
-      const Duration(minutes: 1),
-          (_) {
-        if (!mounted) return;
+    _clockTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (!mounted) return;
 
-        setState(() {
-          _now = DateTime.now();
-        });
-      },
-    );
+      setState(() {
+        _now = DateTime.now();
+      });
+    });
   }
 
   @override
@@ -93,58 +88,54 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
             slivers: [
               SliverPersistentHeader(
                 pinned: true,
-                delegate: _RushdGreetingHeader(
-                  now: _now,
-                ),
+                delegate: _RushdGreetingHeader(now: _now),
               ),
 
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    16,
-                    20,
-                    16,
-                    120,
-                  ),
+                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 120),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildHeroCarousel(context),
 
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 36),
 
                       _buildSectionHeader(
                         context,
-                        title: 'WORSHIP',
+                        title: 'DAILY WORSHIP',
+                        subtitle: 'Quick access to your spiritual routine',
                       ),
 
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 16),
 
                       _buildWorshipSection(context),
 
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 36),
 
                       _buildSectionHeader(
                         context,
                         title: "TODAY'S PRAYERS",
+                        subtitle: 'Timings and progress timeline',
                         actionText: 'View All',
                         onAction: () {
                           context.push('/prayer-times');
                         },
                       ),
 
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 16),
 
                       const PrayerHomeTimeline(),
 
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 36),
 
                       _buildSectionHeader(
                         context,
                         title: 'CONTINUE YOUR JOURNEY',
+                        subtitle: 'Pick up right where you left off',
                       ),
 
-                      const SizedBox(height: 14),
+                      const SizedBox(height: 16),
 
                       _buildJourneySection(context),
                     ],
@@ -159,9 +150,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   }
 
   Future<void> _refreshHome() async {
-    await Future.delayed(
-      const Duration(milliseconds: 700),
-    );
+    await Future.delayed(const Duration(milliseconds: 700));
 
     if (!mounted) return;
 
@@ -171,17 +160,13 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   }
 
   Widget _buildHeroCarousel(BuildContext context) {
-    final featureAccess =
-    ref.watch(featureAccessControllerProvider);
-
-    final showAdvertisement =
-    featureAccess.canAccess(RushdFeature.ads);
+    final featureAccess = ref.watch(featureAccessControllerProvider);
+    final showAdvertisement = featureAccess.canAccess(RushdFeature.ads);
 
     final visibleHeroTypes = _heroTypes.where((type) {
       if (type == _HeroType.advertisement) {
         return showAdvertisement;
       }
-
       return true;
     }).toList();
 
@@ -192,8 +177,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
           child: PageView.builder(
             controller: _heroController,
             itemBuilder: (context, index) {
-              final type =
-              visibleHeroTypes[index % visibleHeroTypes.length];
+              final type = visibleHeroTypes[index % visibleHeroTypes.length];
 
               return AnimatedBuilder(
                 animation: _heroController,
@@ -201,34 +185,24 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                   double scale = 1.0;
 
                   if (_heroController.position.haveDimensions) {
-                    final page =
-                        _heroController.page ?? _heroPage.toDouble();
-
-                    final difference =
-                    (page - index).abs().clamp(0.0, 1.0);
-
+                    final page = _heroController.page ?? _heroPage.toDouble();
+                    final difference = (page - index).abs().clamp(0.0, 1.0);
                     scale = 1 - (difference * 0.04);
                   }
 
                   return Transform.scale(
                     scale: scale,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 2,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
                       child: child,
                     ),
                   );
                 },
-                child: _buildHeroCard(
-                  context,
-                  type,
-                ),
+                child: _buildHeroCard(context, type),
               );
             },
             onPageChanged: (page) {
               if (!mounted) return;
-
               setState(() {
                 _heroPage = page;
               });
@@ -236,170 +210,131 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
           ),
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
-        _buildHeroIndicator(
-          context,
-          visibleHeroTypes.length,
-        ),
+        _buildHeroIndicator(context, visibleHeroTypes.length),
       ],
     );
   }
 
-  Widget _buildHeroCard(
-      BuildContext context,
-      _HeroType type,
-      ) {
+  Widget _buildHeroCard(BuildContext context, _HeroType type) {
     switch (type) {
       case _HeroType.prayer:
         return const PrayerHomeHeroCard();
-
       case _HeroType.ayah:
         return const _DailyAyahHeroCard();
-
       case _HeroType.advertisement:
         return const _AdvertisementHeroCard();
     }
   }
 
-  Widget _buildHeroIndicator(
-      BuildContext context,
-      int count,
-      ) {
+  Widget _buildHeroIndicator(BuildContext context, int count) {
     final activeIndex = _heroPage % count;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        count,
-            (index) {
-          final active = index == activeIndex;
+      children: List.generate(count, (index) {
+        final active = index == activeIndex;
 
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            margin: const EdgeInsets.symmetric(
-              horizontal: 4,
-            ),
-            width: active ? 32 : 7,
-            height: 7,
-            decoration: BoxDecoration(
-              color: active
-                  ? RushdColors.primary
-                  : RushdColors.primary.withOpacity(0.18),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          );
-        },
-      ),
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: active ? 28 : 6,
+          height: 6,
+          decoration: BoxDecoration(
+            color: active
+                ? RushdColors.primary
+                : RushdColors.primary.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        );
+      }),
     );
   }
 
+  // ============================================================================
+  // REDESIGNED WORSHIP SECTION (Bento Grid Style)
+  // ============================================================================
   Widget _buildWorshipSection(BuildContext context) {
     return Column(
       children: [
-        // ---------------------------------------------------------
-        // QURAN
-        // ---------------------------------------------------------
+        // Primary Feature Tile (Quran)
         _WorshipFeatureTile(
           icon: Icons.menu_book_rounded,
-          title: 'Quran',
-          subtitle: 'Read, listen and reflect',
+          title: 'Holy Quran',
+          subtitle: 'Read, audio recitation & deep reflection',
           accentColor: RushdColors.primary,
+          badgeText: 'Most Loved',
           onTap: () {
             context.push('/quran');
           },
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
-        // ---------------------------------------------------------
-        // YASEEN + QIBLA
-        // ---------------------------------------------------------
+        // Medium Dual Tiles (Yaseen & Qibla)
         Row(
           children: [
             Expanded(
               child: _WorshipMediumTile(
                 icon: Icons.auto_stories_rounded,
-                title: 'Yaseen',
+                title: 'Surah Yaseen',
                 subtitle: 'Heart of Quran',
                 accentColor: const Color(0xFF6366F1),
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/yaseen',
-                  );
+                  context.push('/yaseen');
                 },
               ),
             ),
-
-            const SizedBox(width: 12),
-
+            const SizedBox(width: 14),
             Expanded(
               child: _WorshipMediumTile(
                 icon: Icons.explore_rounded,
-                title: 'Qibla',
-                subtitle: 'Find direction',
+                title: 'Qibla Finder',
+                subtitle: 'Precise direction',
                 accentColor: const Color(0xFFF59E0B),
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/qibla',
-                  );
+                  context.push('/qibla');
                 },
               ),
             ),
           ],
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
-        // ---------------------------------------------------------
-        // SALAH / DUAS / DHIKR
-        // ---------------------------------------------------------
+        // Compact Trio Tiles (Salah, Duas, Dhikr)
         Row(
           children: [
             Expanded(
               child: _WorshipCompactTile(
                 icon: Icons.mosque_rounded,
-                title: 'Salah',
+                title: 'Salah Guide',
                 accentColor: RushdColors.primary,
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/salah-guide',
-                  );
+                  Navigator.pushNamed(context, '/salah-guide');
                 },
               ),
             ),
-
             const SizedBox(width: 10),
-
             Expanded(
               child: _WorshipCompactTile(
                 icon: Icons.favorite_outline_rounded,
-                title: 'Duas',
+                title: 'Daily Duas',
                 accentColor: const Color(0xFFEC4899),
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/duas',
-                  );
+                  Navigator.pushNamed(context, '/duas');
                 },
               ),
             ),
-
             const SizedBox(width: 10),
-
             Expanded(
               child: _WorshipCompactTile(
                 icon: Icons.fingerprint_rounded,
-                title: 'Dhikr',
+                title: 'Tasbeeh',
                 accentColor: const Color(0xFF0EA5E9),
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/tasbeeh',
-                  );
+                  Navigator.pushNamed(context, '/tasbeeh');
                 },
               ),
             ),
@@ -409,13 +344,16 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
     );
   }
 
+  // ============================================================================
+  // REDESIGNED JOURNEY SECTION
+  // ============================================================================
   Widget _buildJourneySection(BuildContext context) {
     return Column(
       children: [
         _JourneyCard(
           icon: Icons.menu_book_rounded,
-          title: 'Quran',
-          subtitle: 'Surah Al-Baqarah',
+          title: 'Quran Reading Progress',
+          subtitle: 'Surah Al-Baqarah • Verse 142',
           progress: 0.64,
           progressLabel: '64%',
           accentColor: RushdColors.primary,
@@ -424,40 +362,32 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
           },
         ),
 
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
         Row(
           children: [
             Expanded(
               child: _SmallJourneyCard(
                 icon: Icons.auto_stories_rounded,
-                title: 'Yaseen',
+                title: 'Yaseen Memorization',
                 progress: 0.72,
                 progressLabel: '72%',
                 accentColor: const Color(0xFF6366F1),
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/yaseen',
-                  );
+                  Navigator.pushNamed(context, '/yaseen');
                 },
               ),
             ),
-
-            const SizedBox(width: 12),
-
+            const SizedBox(width: 14),
             Expanded(
               child: _SmallJourneyCard(
                 icon: Icons.fingerprint_rounded,
-                title: 'Dhikr',
+                title: 'Weekly Dhikr Goal',
                 progress: 0.34,
                 progressLabel: '34%',
                 accentColor: const Color(0xFF0EA5E9),
                 onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/tasbeeh',
-                  );
+                  Navigator.pushNamed(context, '/tasbeeh');
                 },
               ),
             ),
@@ -468,32 +398,52 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   }
 
   Widget _buildSectionHeader(
-      BuildContext context, {
-        required String title,
-        String? actionText,
-        VoidCallback? onAction,
-      }) {
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    String? actionText,
+    VoidCallback? onAction,
+  }) {
     final theme = Theme.of(context);
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Text(
-          title,
-          style: theme.textTheme.labelLarge?.copyWith(
-            fontSize: 13,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 1.2,
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontSize: 15,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0.8,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              subtitle,
+              style: theme.textTheme.bodySmall?.copyWith(
+                fontSize: 11,
+                color: theme.textTheme.bodySmall?.color?.withOpacity(0.55),
+              ),
+            ),
+          ],
         ),
         const Spacer(),
         if (actionText != null)
-          GestureDetector(
+          InkWell(
             onTap: onAction,
-            child: Text(
-              actionText,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: RushdColors.primary,
-                fontWeight: FontWeight.w700,
+            borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+              child: Text(
+                actionText,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: RushdColors.primary,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12,
+                ),
               ),
             ),
           ),
@@ -503,227 +453,156 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
 }
 
 // ============================================================================
-// HERO TYPES
+// HERO TYPES & CARDS (Intact per instructions)
 // ============================================================================
 
-enum _HeroType {
-  prayer,
-  ayah,
-  advertisement,
-}
-
-// ============================================================================
-// NEXT PRAYER HERO
-// ============================================================================
-
-class _NextPrayerHeroCard extends StatelessWidget {
-  const _NextPrayerHeroCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return _HeroContainer(
-      child: Stack(
-        children: [
-          Positioned(
-            right: -30,
-            top: -40,
-            child: _HeroDecoration(
-              icon: Icons.mosque_rounded,
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    _HeroPill(
-                      icon: Icons.access_time_rounded,
-                      label: 'NEXT PRAYER',
-                    ),
-                    const Spacer(),
-                    const Icon(
-                      Icons.notifications_none_rounded,
-                      color: Colors.white70,
-                    ),
-                  ],
-                ),
-
-                const Spacer(),
-
-                const Text(
-                  'Asr',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 36,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -1,
-                  ),
-                ),
-
-                const SizedBox(height: 2),
-
-                const Text(
-                  '04:21 PM',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                const SizedBox(height: 16),
-
-                Row(
-                  children: [
-                    const Text(
-                      'Starts in ',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 13,
-                      ),
-                    ),
-                    const Text(
-                      '01h 24m',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 20),
-
-                Row(
-                  children: const [
-                    _PrayerMiniTime(
-                      name: 'Fajr',
-                      time: '05:12',
-                      active: false,
-                    ),
-                    _PrayerMiniTime(
-                      name: 'Dhuhr',
-                      time: '12:32',
-                      active: false,
-                    ),
-                    _PrayerMiniTime(
-                      name: 'Asr',
-                      time: '04:21',
-                      active: true,
-                    ),
-                    _PrayerMiniTime(
-                      name: 'Maghrib',
-                      time: '06:18',
-                      active: false,
-                    ),
-                    _PrayerMiniTime(
-                      name: 'Isha',
-                      time: '07:34',
-                      active: false,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ============================================================================
-// DAILY AYAH HERO
-// ============================================================================
+enum _HeroType { prayer, ayah, advertisement }
 
 class _DailyAyahHeroCard extends StatelessWidget {
   const _DailyAyahHeroCard();
 
   @override
   Widget build(BuildContext context) {
-    return _HeroContainer(
-      child: Stack(
-        children: [
-          Positioned(
-            right: -20,
-            top: -20,
-            child: _HeroDecoration(
-              icon: Icons.auto_awesome_rounded,
-            ),
+    final now = DateTime.now();
+    final dayOfYear = now.difference(DateTime(now.year, 1, 1)).inDays;
+
+    final surah = (dayOfYear % 114) + 1;
+    final totalVerses = quran.getVerseCount(surah);
+    final ayah = (dayOfYear % totalVerses) + 1;
+
+    final surahName = QuranMetadata.englishMeanings[surah];
+    final arabicName = quran.getSurahNameArabic(surah);
+    final malayalamMeaning = QuranMetadata.malayalamMeanings[surah];
+    final malayalamName = QuranMetadata.malayalamNames[surah] ?? '';
+
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(28),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () {
+          context.push('/quran/verse/$surah/$ayah');
+        },
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: const Color(0xFF0C7043),
+            borderRadius: BorderRadius.circular(28),
           ),
-
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
-              children: [
-                const _HeroPill(
-                  icon: Icons.menu_book_rounded,
-                  label: "TODAY'S AYAH",
-                ),
-
-                const Spacer(),
-
-                const Text(
-                  'وَاذْكُرُونِي أَذْكُرْكُمْ',
-                  textDirection: TextDirection.rtl,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    height: 1.7,
-                    fontWeight: FontWeight.w600,
+          child: Stack(
+            clipBehavior: Clip.hardEdge,
+            children: [
+              Positioned(
+                top: -90,
+                left: -70,
+                child: Opacity(
+                  opacity: 0.15,
+                  child: Container(
+                    width: 320,
+                    height: 320,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFF1CB76E),
+                    ),
                   ),
                 ),
-
-                const SizedBox(height: 8),
-
-                Text(
-                  '“And remember Me; I will remember you.”',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.78),
-                    fontSize: 13,
-                    height: 1.5,
-                  ),
-                ),
-
-                const SizedBox(height: 12),
-
-                Row(
+              ),
+              Padding(
+                padding: const EdgeInsets.all(26.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF3B8361).withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        'FEATURED AYAH',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
                     const Text(
-                      'Al-Baqarah • 2:152',
+                      "Today's Quran Verse",
                       style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '$arabicName • $malayalamName',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.95),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '($surahName/$malayalamMeaning)',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.95),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Ayah $ayah',
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.9),
+                        fontSize: 15,
+                        fontStyle: FontStyle.italic,
                       ),
                     ),
                     const Spacer(),
-                    Icon(
-                      Icons.arrow_forward_rounded,
-                      color: Colors.white.withOpacity(0.8),
-                      size: 18,
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Tap to explore',
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.arrow_forward_rounded,
+                          color: Colors.white.withValues(alpha: 0.9),
+                          size: 17,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
-
-// ============================================================================
-// ADVERTISEMENT HERO
-// ============================================================================
 
 class _AdvertisementHeroCard extends StatelessWidget {
   const _AdvertisementHeroCard();
@@ -736,58 +615,46 @@ class _AdvertisementHeroCard extends StatelessWidget {
           Positioned(
             right: -30,
             bottom: -40,
-            child: _HeroDecoration(
-              icon: Icons.auto_awesome_rounded,
-            ),
+            child: _HeroDecoration(icon: Icons.auto_awesome_rounded),
           ),
-
           Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const _HeroPill(
                   icon: Icons.campaign_outlined,
                   label: 'ADVERTISEMENT',
                 ),
-
                 const Spacer(),
-
                 const Text(
                   'Support something\nmeaningful.',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 28,
-                    height: 1.1,
+                    fontSize: 26,
+                    height: 1.15,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-
-                const SizedBox(height: 10),
-
+                const SizedBox(height: 8),
                 Text(
                   'Discover services and initiatives from trusted partners.',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.72),
+                    color: Colors.white.withOpacity(0.75),
                     fontSize: 13,
                     height: 1.4,
                   ),
                 ),
-
-                const SizedBox(height: 18),
-
+                const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 14,
-                    vertical: 9,
+                    vertical: 8,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.14),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.12),
-                    ),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white.withOpacity(0.12)),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
@@ -797,14 +664,14 @@ class _AdvertisementHeroCard extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 12,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       SizedBox(width: 6),
                       Icon(
                         Icons.arrow_forward_rounded,
                         color: Colors.white,
-                        size: 15,
+                        size: 14,
                       ),
                     ],
                   ),
@@ -818,16 +685,9 @@ class _AdvertisementHeroCard extends StatelessWidget {
   }
 }
 
-// ============================================================================
-// HERO CONTAINER
-// ============================================================================
-
 class _HeroContainer extends StatelessWidget {
   final Widget child;
-
-  const _HeroContainer({
-    required this.child,
-  });
+  const _HeroContainer({required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -838,17 +698,13 @@ class _HeroContainer extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF115E59),
-            Color(0xFF0F766E),
-            Color(0xFF134E4A),
-          ],
+          colors: [Color(0xFF115E59), Color(0xFF0F766E), Color(0xFF134E4A)],
         ),
         boxShadow: [
           BoxShadow(
-            color: RushdColors.primary.withOpacity(0.18),
-            blurRadius: 24,
-            offset: const Offset(0, 12),
+            color: RushdColors.primary.withOpacity(0.15),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -859,52 +715,32 @@ class _HeroContainer extends StatelessWidget {
 
 class _HeroDecoration extends StatelessWidget {
   final IconData icon;
-
-  const _HeroDecoration({
-    required this.icon,
-  });
+  const _HeroDecoration({required this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      icon,
-      size: 190,
-      color: Colors.white.withOpacity(0.055),
-    );
+    return Icon(icon, size: 180, color: Colors.white.withOpacity(0.05));
   }
 }
 
 class _HeroPill extends StatelessWidget {
   final IconData icon;
   final String label;
-
-  const _HeroPill({
-    required this.icon,
-    required this.label,
-  });
+  const _HeroPill({required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 6,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.12),
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.10),
-        ),
+        border: Border.all(color: Colors.white.withOpacity(0.1)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            color: Colors.white70,
-            size: 13,
-          ),
+          Icon(icon, color: Colors.white70, size: 12),
           const SizedBox(width: 6),
           Text(
             label,
@@ -912,7 +748,7 @@ class _HeroPill extends StatelessWidget {
               color: Colors.white,
               fontSize: 9,
               fontWeight: FontWeight.w800,
-              letterSpacing: 1,
+              letterSpacing: 0.9,
             ),
           ),
         ],
@@ -921,69 +757,8 @@ class _HeroPill extends StatelessWidget {
   }
 }
 
-class _PrayerMiniTime extends StatelessWidget {
-  final String name;
-  final String time;
-  final bool active;
-
-  const _PrayerMiniTime({
-    required this.name,
-    required this.time,
-    required this.active,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.only(right: 5),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 4,
-          vertical: 7,
-        ),
-        decoration: BoxDecoration(
-          color: active
-              ? Colors.white.withOpacity(0.15)
-              : Colors.white.withOpacity(0.055),
-          borderRadius: BorderRadius.circular(11),
-          border: Border.all(
-            color: active
-                ? Colors.white.withOpacity(0.20)
-                : Colors.transparent,
-          ),
-        ),
-        child: Column(
-          children: [
-            Text(
-              name,
-              style: TextStyle(
-                color: Colors.white.withOpacity(
-                  active ? 1 : 0.55,
-                ),
-                fontSize: 9,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              time,
-              style: TextStyle(
-                color: Colors.white.withOpacity(
-                  active ? 1 : 0.65,
-                ),
-                fontSize: 9,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 // ============================================================================
-// WORSHIP FEATURE TILE
+// REDESIGNED WORSHIP TILES (Sleek Professional Design)
 // ============================================================================
 
 class _WorshipFeatureTile extends StatelessWidget {
@@ -991,6 +766,7 @@ class _WorshipFeatureTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final Color accentColor;
+  final String? badgeText;
   final VoidCallback onTap;
 
   const _WorshipFeatureTile({
@@ -998,6 +774,7 @@ class _WorshipFeatureTile extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.accentColor,
+    this.badgeText,
     required this.onTap,
   });
 
@@ -1007,48 +784,63 @@ class _WorshipFeatureTile extends StatelessWidget {
 
     return _BaseTile(
       onTap: onTap,
-      radius: 28,
-      padding: const EdgeInsets.all(22),
+      radius: 24,
+      padding: const EdgeInsets.all(20),
       child: SizedBox(
-        height: 145,
+        height: 130,
         child: Stack(
           children: [
             Positioned(
-              right: -12,
-              bottom: -28,
+              right: -16,
+              bottom: -24,
               child: Icon(
                 icon,
-                size: 150,
-                color: accentColor.withOpacity(0.045),
+                size: 140,
+                color: accentColor.withOpacity(0.06),
               ),
             ),
-
             Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _IconBox(
-                  icon: icon,
-                  color: accentColor,
-                  size: 54,
+                Row(
+                  children: [
+                    _IconBox(icon: icon, color: accentColor, size: 48),
+                    const Spacer(),
+                    if (badgeText != null)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: accentColor.withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          badgeText!,
+                          style: TextStyle(
+                            color: accentColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-
                 const Spacer(),
-
                 Text(
                   title,
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w800,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 16,
                   ),
                 ),
-
-                const SizedBox(height: 3),
-
+                const SizedBox(height: 2),
                 Text(
                   subtitle,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.textTheme.bodySmall?.color
-                        ?.withOpacity(0.62),
+                    fontSize: 12,
+                    color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
                   ),
                 ),
               ],
@@ -1059,10 +851,6 @@ class _WorshipFeatureTile extends StatelessWidget {
     );
   }
 }
-
-// ============================================================================
-// WORSHIP MEDIUM TILE
-// ============================================================================
 
 class _WorshipMediumTile extends StatelessWidget {
   final IconData icon;
@@ -1085,29 +873,22 @@ class _WorshipMediumTile extends StatelessWidget {
 
     return _BaseTile(
       onTap: onTap,
-      radius: 24,
-      padding: const EdgeInsets.all(15),
+      radius: 22,
+      padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          _IconBox(
-            icon: icon,
-            color: accentColor,
-            size: 46,
-          ),
-
-          const SizedBox(width: 11),
-
+          _IconBox(icon: icon, color: accentColor, size: 42),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
-              mainAxisAlignment:
-              MainAxisAlignment.center,
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w800,
+                    fontSize: 13.5,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -1116,29 +897,23 @@ class _WorshipMediumTile extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    fontSize: 10,
-                    color: theme.textTheme.bodySmall?.color
-                        ?.withOpacity(0.55),
+                    fontSize: 11,
+                    color: theme.textTheme.bodySmall?.color?.withOpacity(0.55),
                   ),
                 ),
               ],
             ),
           ),
-
           Icon(
             Icons.arrow_forward_ios_rounded,
-            size: 12,
-            color: theme.iconTheme.color?.withOpacity(0.35),
+            size: 11,
+            color: theme.iconTheme.color?.withOpacity(0.3),
           ),
         ],
       ),
     );
   }
 }
-
-// ============================================================================
-// WORSHIP COMPACT TILE
-// ============================================================================
 
 class _WorshipCompactTile extends StatelessWidget {
   final IconData icon;
@@ -1159,26 +934,20 @@ class _WorshipCompactTile extends StatelessWidget {
 
     return _BaseTile(
       onTap: onTap,
-      radius: 22,
-      padding: const EdgeInsets.symmetric(
-        vertical: 15,
-        horizontal: 8,
-      ),
+      radius: 20,
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
       child: Column(
-        mainAxisAlignment:
-        MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _IconBox(
-            icon: icon,
-            color: accentColor,
-            size: 40,
-          ),
-          const SizedBox(height: 8),
+          _IconBox(icon: icon, color: accentColor, size: 38),
+          const SizedBox(height: 10),
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: theme.textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              fontSize: 11,
+              fontWeight: FontWeight.w800,
+              fontSize: 11.5,
             ),
           ),
         ],
@@ -1187,22 +956,8 @@ class _WorshipCompactTile extends StatelessWidget {
   }
 }
 
-class _PrayerItem {
-  final String name;
-  final String time;
-  final bool completed;
-  final bool current;
-
-  const _PrayerItem({
-    required this.name,
-    required this.time,
-    this.completed = false,
-    this.current = false,
-  });
-}
-
 // ============================================================================
-// JOURNEY CARD
+// REDESIGNED JOURNEY CARDS
 // ============================================================================
 
 class _JourneyCard extends StatelessWidget {
@@ -1230,77 +985,61 @@ class _JourneyCard extends StatelessWidget {
 
     return _BaseTile(
       onTap: onTap,
-      radius: 24,
+      radius: 22,
       padding: const EdgeInsets.all(18),
       child: Row(
         children: [
-          _IconBox(
-            icon: icon,
-            color: accentColor,
-            size: 48,
-          ),
-
+          _IconBox(icon: icon, color: accentColor, size: 46),
           const SizedBox(width: 14),
-
           Expanded(
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w800,
+                    fontSize: 14,
                   ),
                 ),
-
                 const SizedBox(height: 3),
-
                 Text(
                   subtitle,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    fontSize: 11,
-                    color: theme.textTheme.bodySmall?.color
-                        ?.withOpacity(0.55),
+                    fontSize: 11.5,
+                    color: theme.textTheme.bodySmall?.color?.withOpacity(0.55),
                   ),
                 ),
-
                 const SizedBox(height: 10),
-
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: LinearProgressIndicator(
                     value: progress,
                     minHeight: 6,
-                    backgroundColor:
-                    accentColor.withOpacity(0.10),
-                    valueColor:
-                    AlwaysStoppedAnimation<Color>(
-                      accentColor,
-                    ),
+                    backgroundColor: accentColor.withOpacity(0.12),
+                    valueColor: AlwaysStoppedAnimation<Color>(accentColor),
                   ),
                 ),
               ],
             ),
           ),
-
           const SizedBox(width: 14),
-
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 progressLabel,
                 style: theme.textTheme.labelLarge?.copyWith(
                   color: accentColor,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 13,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 6),
               Icon(
                 Icons.arrow_forward_rounded,
-                size: 17,
-                color:
-                theme.iconTheme.color?.withOpacity(0.4),
+                size: 16,
+                color: theme.iconTheme.color?.withOpacity(0.4),
               ),
             ],
           ),
@@ -1309,10 +1048,6 @@ class _JourneyCard extends StatelessWidget {
     );
   }
 }
-
-// ============================================================================
-// SMALL JOURNEY CARD
-// ============================================================================
 
 class _SmallJourneyCard extends StatelessWidget {
   final IconData icon;
@@ -1337,52 +1072,43 @@ class _SmallJourneyCard extends StatelessWidget {
 
     return _BaseTile(
       onTap: onTap,
-      radius: 22,
+      radius: 20,
       padding: const EdgeInsets.all(15),
       child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              _IconBox(
-                icon: icon,
-                color: accentColor,
-                size: 40,
-              ),
+              _IconBox(icon: icon, color: accentColor, size: 38),
               const Spacer(),
               Text(
                 progressLabel,
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: accentColor,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 12,
                 ),
               ),
             ],
           ),
-
-          const SizedBox(height: 13),
-
+          const SizedBox(height: 12),
           Text(
             title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: theme.textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w800,
+              fontSize: 12.5,
             ),
           ),
-
           const SizedBox(height: 8),
-
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 5,
-              backgroundColor:
-              accentColor.withOpacity(0.10),
-              valueColor:
-              AlwaysStoppedAnimation<Color>(
-                accentColor,
-              ),
+              backgroundColor: accentColor.withOpacity(0.12),
+              valueColor: AlwaysStoppedAnimation<Color>(accentColor),
             ),
           ),
         ],
@@ -1392,7 +1118,7 @@ class _SmallJourneyCard extends StatelessWidget {
 }
 
 // ============================================================================
-// BASE TILE
+// BASE CONTAINER & ICON BOX HELPERS
 // ============================================================================
 
 class _BaseTile extends StatelessWidget {
@@ -1405,7 +1131,7 @@ class _BaseTile extends StatelessWidget {
     required this.child,
     this.onTap,
     this.padding = const EdgeInsets.all(16),
-    this.radius = 24,
+    this.radius = 22,
   });
 
   @override
@@ -1417,18 +1143,14 @@ class _BaseTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(
-          color: theme.dividerColor.withOpacity(0.65),
-        ),
+        border: Border.all(color: theme.dividerColor.withOpacity(0.4)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(
-              theme.brightness == Brightness.dark
-                  ? 0.12
-                  : 0.035,
+              theme.brightness == Brightness.dark ? 0.1 : 0.025,
             ),
-            blurRadius: 18,
-            offset: const Offset(0, 7),
+            blurRadius: 14,
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -1450,20 +1172,12 @@ class _BaseTile extends StatelessWidget {
   }
 }
 
-// ============================================================================
-// ICON BOX
-// ============================================================================
-
 class _IconBox extends StatelessWidget {
   final IconData icon;
   final Color color;
   final double size;
 
-  const _IconBox({
-    required this.icon,
-    required this.color,
-    this.size = 48,
-  });
+  const _IconBox({required this.icon, required this.color, this.size = 44});
 
   @override
   Widget build(BuildContext context) {
@@ -1471,186 +1185,136 @@ class _IconBox extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: color.withOpacity(0.10),
-        borderRadius: BorderRadius.circular(
-          size * 0.34,
-        ),
+        color: color.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(size * 0.32),
       ),
-      child: Icon(
-        icon,
-        color: color,
-        size: size * 0.48,
-      ),
+      child: Icon(icon, color: color, size: size * 0.48),
     );
   }
 }
 
 // ============================================================================
-// GREETING HEADER
+// REDESIGNED FROSTED GLASS HEADER
 // ============================================================================
 
-class _RushdGreetingHeader
-    extends SliverPersistentHeaderDelegate {
+class _RushdGreetingHeader extends SliverPersistentHeaderDelegate {
   final DateTime now;
 
-  _RushdGreetingHeader({
-    required this.now,
-  });
+  _RushdGreetingHeader({required this.now});
 
   @override
-  double get minExtent => 78;
+  double get minExtent => 74;
 
   @override
-  double get maxExtent => 142;
+  double get maxExtent => 136;
 
   @override
   Widget build(
-      BuildContext context,
-      double shrinkOffset,
-      bool overlapsContent,
-      ) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final theme = Theme.of(context);
-
-    final progress =
-    (shrinkOffset / (maxExtent - minExtent))
-        .clamp(0.0, 1.0);
-
-    final greeting = _greetingForHour(now.hour);
+    final progress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
 
     return ClipRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: 18,
-          sigmaY: 18,
-        ),
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
-          padding: EdgeInsets.fromLTRB(
-            16,
-            10,
-            16,
-            progress > 0.7 ? 8 : 14,
-          ),
+          padding: EdgeInsets.fromLTRB(20, 8, 20, progress > 0.7 ? 10 : 12),
           decoration: BoxDecoration(
-            color: theme.scaffoldBackgroundColor
-                .withOpacity(0.82),
+            color: theme.scaffoldBackgroundColor.withOpacity(0.85),
             border: Border(
-              bottom: BorderSide(
-                color: theme.dividerColor.withOpacity(0.5),
-              ),
+              bottom: BorderSide(color: theme.dividerColor.withOpacity(0.3)),
             ),
           ),
           child: AnimatedSwitcher(
-            duration: const Duration(
-              milliseconds: 220,
-            ),
+            duration: const Duration(milliseconds: 200),
             child: progress > 0.72
-                ? _buildCollapsedHeader(
-              context,
-            )
-                : _buildExpandedHeader(
-              context,
-              greeting,
-            ),
+                ? _buildCollapsedHeader(context)
+                : _buildExpandedHeader(context),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildExpandedHeader(
-      BuildContext context,
-      String greeting,
-      ) {
+  Widget _buildExpandedHeader(BuildContext context) {
     final theme = Theme.of(context);
 
     return Row(
       key: const ValueKey('expanded'),
-      crossAxisAlignment:
-      CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 48,
-          height: 48,
+          width: 46,
+          height: 46,
           decoration: BoxDecoration(
-            color: RushdColors.primary.withOpacity(0.10),
+            color: RushdColors.primary.withOpacity(0.12),
             shape: BoxShape.circle,
+            border: Border.all(
+              color: RushdColors.primary.withOpacity(0.2),
+              width: 1.5,
+            ),
           ),
           child: const Icon(
             Icons.person_outline_rounded,
             color: RushdColors.primary,
-            size: 25,
+            size: 23,
           ),
         ),
-
         const SizedBox(width: 12),
-
         Expanded(
           child: Column(
-            mainAxisAlignment:
-            MainAxisAlignment.center,
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                greeting,
+                'Assalamu Alaikum',
                 style: theme.textTheme.bodySmall?.copyWith(
                   fontSize: 11,
-                  color: theme.textTheme.bodySmall?.color
-                      ?.withOpacity(0.55),
+                  fontWeight: FontWeight.w600,
+                  color: RushdColors.primary,
+                  letterSpacing: 0.3,
                 ),
               ),
-
-              const SizedBox(height: 2),
-
+              const SizedBox(height: 1),
               Text(
                 'Tharikh',
                 style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 16,
                 ),
               ),
-
-              const SizedBox(height: 2),
-
+              const SizedBox(height: 1),
               Text(
                 _formatDate(now),
                 style: theme.textTheme.bodySmall?.copyWith(
                   fontSize: 10,
-                  color: theme.textTheme.bodySmall?.color
-                      ?.withOpacity(0.50),
+                  color: theme.textTheme.bodySmall?.color?.withOpacity(0.5),
                 ),
               ),
             ],
           ),
         ),
-
         _HeaderButton(
           icon: Icons.notifications_none_rounded,
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/notifications',
-            );
+            Navigator.pushNamed(context, '/notifications');
           },
         ),
-
-        const SizedBox(width: 8),
-
+        const SizedBox(width: 10),
         _HeaderButton(
           icon: Icons.settings_outlined,
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/settings',
-            );
+            Navigator.pushNamed(context, '/settings');
           },
         ),
       ],
     );
   }
 
-  Widget _buildCollapsedHeader(
-      BuildContext context,
-      ) {
+  Widget _buildCollapsedHeader(BuildContext context) {
     return Row(
       key: const ValueKey('collapsed'),
       children: [
@@ -1658,49 +1322,27 @@ class _RushdGreetingHeader
           'RUSHD',
           style: TextStyle(
             color: RushdColors.primary,
-            fontSize: 17,
+            fontSize: 16,
             fontWeight: FontWeight.w900,
-            letterSpacing: 1.8,
+            letterSpacing: 2.0,
           ),
         ),
-
         const Spacer(),
-
         _HeaderButton(
           icon: Icons.notifications_none_rounded,
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/notifications',
-            );
+            Navigator.pushNamed(context, '/notifications');
           },
         ),
-
-        const SizedBox(width: 8),
-
+        const SizedBox(width: 10),
         _HeaderButton(
           icon: Icons.settings_outlined,
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/settings',
-            );
+            Navigator.pushNamed(context, '/settings');
           },
         ),
       ],
     );
-  }
-
-  String _greetingForHour(int hour) {
-    if (hour < 12) {
-      return 'Assalamu Alaikum';
-    }
-
-    if (hour < 17) {
-      return 'Assalamu Alaikum';
-    }
-
-    return 'Assalamu Alaikum';
   }
 
   String _formatDate(DateTime date) {
@@ -1713,7 +1355,6 @@ class _RushdGreetingHeader
       'Saturday',
       'Sunday',
     ];
-
     const months = [
       'January',
       'February',
@@ -1729,30 +1370,20 @@ class _RushdGreetingHeader
       'December',
     ];
 
-    return '${weekdays[date.weekday - 1]}, '
-        '${date.day} ${months[date.month - 1]}';
+    return '${weekdays[date.weekday - 1]}, ${date.day} ${months[date.month - 1]}';
   }
 
   @override
-  bool shouldRebuild(
-      covariant _RushdGreetingHeader oldDelegate,
-      ) {
+  bool shouldRebuild(covariant _RushdGreetingHeader oldDelegate) {
     return oldDelegate.now != now;
   }
 }
-
-// ============================================================================
-// HEADER BUTTON
-// ============================================================================
 
 class _HeaderButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _HeaderButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _HeaderButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1760,24 +1391,18 @@ class _HeaderButton extends StatelessWidget {
 
     return Material(
       color: theme.cardColor,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(12),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(12),
         child: Container(
-          width: 40,
-          height: 40,
+          width: 38,
+          height: 38,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: theme.dividerColor.withOpacity(0.6),
-            ),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: theme.dividerColor.withOpacity(0.5)),
           ),
-          child: Icon(
-            icon,
-            size: 19,
-            color: theme.iconTheme.color,
-          ),
+          child: Icon(icon, size: 18, color: theme.iconTheme.color),
         ),
       ),
     );
