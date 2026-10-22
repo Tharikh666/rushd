@@ -312,7 +312,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                 title: 'Salah Guide',
                 accentColor: RushdColors.primary,
                 onTap: () {
-                  Navigator.pushNamed(context, '/salah-guide');
+                  context.push('/salah-guide');
                 },
               ),
             ),
@@ -323,7 +323,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                 title: 'Daily Duas',
                 accentColor: const Color(0xFFEC4899),
                 onTap: () {
-                  Navigator.pushNamed(context, '/duas');
+                  context.push('/duas');
                 },
               ),
             ),

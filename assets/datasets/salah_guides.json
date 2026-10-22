@@ -1,0 +1,738 @@
+[
+  {
+    "prayer_id": "fajr",
+    "name": "Fajr",
+    "arabic": "الفجر",
+    "malayalam": "സുബ്ഹ്",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "fard",
+        "steps": [
+          {
+            "step_id": "takbiratul_ihram",
+            "position": "qiyam",
+            "recitation_id": "takbiratul_ihram",
+            "instruction": "Raise both hands to your shoulders and say 'Allahu Akbar' to begin the prayer with your intention."
+          },
+          {
+            "step_id": "thana",
+            "position": "qiyam",
+            "recitation_id": "thana",
+            "instruction": "Recite the opening supplication (Dua al-Iftitah) quietly while standing."
+          },
+          {
+            "step_id": "taawwudh",
+            "position": "qiyam",
+            "recitation_id": "taawwudh",
+            "instruction": "Seek refuge in Allah from Satan silently before starting the recitation."
+          },
+          {
+            "step_id": "basmala",
+            "position": "qiyam",
+            "recitation_id": "basmala",
+            "instruction": "Recite the Basmala aloud as it is an integral verse of Surah Al-Fatiha."
+          },
+          {
+            "step_id": "surah_fatiha",
+            "position": "qiyam",
+            "recitation_id": "surah_fatiha",
+            "instruction": "Recite Surah Al-Fatiha clearly and aloud. This is a fundamental pillar of Salah."
+          },
+          {
+            "step_id": "ameen",
+            "position": "qiyam",
+            "recitation_id": "ameen",
+            "instruction": "Say 'Ameen' aloud after completing Surah Al-Fatiha."
+          },
+          {
+            "step_id": "additional_surah",
+            "position": "qiyam",
+            "recitation_id": "additional_surah",
+            "instruction": "Recite another complete Surah or a few verses from the Holy Quran aloud."
+          },
+          {
+            "step_id": "ruku_dhikr",
+            "position": "ruku",
+            "recitation_id": "ruku_dhikr",
+            "instruction": "Say 'Allahu Akbar' and bow down, placing your hands on your knees with a straight back, glorifying Allah."
+          },
+          {
+            "step_id": "sami_allahu_liman_hamidah",
+            "position": "qawmah",
+            "recitation_id": "sami_allahu_liman_hamidah",
+            "instruction": "Rise up from bowing to a fully upright standing position while raising your hands."
+          },
+          {
+            "step_id": "rabbana_lakal_hamd",
+            "position": "qawmah",
+            "recitation_id": "rabbana_lakal_hamd",
+            "instruction": "Stand straight calmly and recite the praise of our Lord."
+          },
+          {
+            "step_id": "sujud_dhikr",
+            "position": "sujud",
+            "recitation_id": "sujud_dhikr",
+            "instruction": "Say 'Allahu Akbar' and prostrate, ensuring seven body parts touch the ground, glorifying Allah."
+          },
+          {
+            "step_id": "rabbighfirli",
+            "position": "jalsa",
+            "recitation_id": "rabbighfirli",
+            "instruction": "Say 'Allahu Akbar' and sit up calmly on your left foot (Iftirishah posture), reciting the supplication."
+          },
+          {
+            "step_id": "sujud_dhikr_2",
+            "position": "sujud",
+            "recitation_id": "sujud_dhikr",
+            "instruction": "Say 'Allahu Akbar' and perform the second prostration exactly like the first one."
+          }
+        ]
+      },
+      {
+        "rakah": 2,
+        "type": "fard",
+        "steps": [
+          {
+            "step_id": "taawwudh",
+            "position": "qiyam",
+            "recitation_id": "taawwudh",
+            "instruction": "Rise up to the second Rakah, stand straight, and seek refuge in Allah."
+          },
+          {
+            "step_id": "basmala",
+            "position": "qiyam",
+            "recitation_id": "basmala",
+            "instruction": "Recite the Basmala aloud before starting the Fatiha recitation."
+          },
+          {
+            "step_id": "surah_fatiha",
+            "position": "qiyam",
+            "recitation_id": "surah_fatiha",
+            "instruction": "Recite Surah Al-Fatiha aloud completely."
+          },
+          {
+            "step_id": "ameen",
+            "position": "qiyam",
+            "recitation_id": "ameen",
+            "instruction": "Say 'Ameen' aloud upon completing the Fatiha."
+          },
+          {
+            "step_id": "additional_surah",
+            "position": "qiyam",
+            "recitation_id": "additional_surah",
+            "instruction": "Recite another short Surah aloud."
+          },
+          {
+            "step_id": "ruku_dhikr",
+            "position": "ruku",
+            "recitation_id": "ruku_dhikr",
+            "instruction": "Say 'Allahu Akbar' and bow down into Ruku."
+          },
+          {
+            "step_id": "sami_allahu_liman_hamidah",
+            "position": "qawmah",
+            "recitation_id": "sami_allahu_liman_hamidah",
+            "instruction": "Rise back to the standing position (Qawmah)."
+          },
+          {
+            "step_id": "rabbana_lakal_hamd",
+            "position": "qawmah",
+            "recitation_id": "rabbana_lakal_hamd",
+            "instruction": "Stand firmly and recite the praise of Allah."
+          },
+          {
+            "step_id": "dua_qunoot",
+            "position": "qawmah",
+            "recitation_id": "dua_qunoot",
+            "instruction": "While remaining standing, raise both hands to chest level and recite the Qunoot supplication aloud."
+          },
+          {
+            "step_id": "sujud_dhikr",
+            "position": "sujud",
+            "recitation_id": "sujud_dhikr",
+            "instruction": "Say 'Allahu Akbar' and descend directly into the first prostration."
+          },
+          {
+            "step_id": "rabbighfirli",
+            "position": "jalsa",
+            "recitation_id": "rabbighfirli",
+            "instruction": "Sit up between the two prostrations and make your supplication."
+          },
+          {
+            "step_id": "sujud_dhikr_2",
+            "position": "sujud",
+            "recitation_id": "sujud_dhikr",
+            "instruction": "Perform the final prostration of the prayer."
+          },
+          {
+            "step_id": "attahiyyath",
+            "position": "tashahhud",
+            "recitation_id": "attahiyyath",
+            "instruction": "Sit in the Tawarruk position (hip on the ground) and recite the greetings of faith, lifting your right index finger at 'Illallah'."
+          },
+          {
+            "step_id": "salath_ibrahimiyyah",
+            "position": "tashahhud",
+            "recitation_id": "salath_ibrahimiyyah",
+            "instruction": "Send blessings upon Prophet Muhammad and his family, and Prophet Ibrahim and his family."
+          },
+          {
+            "step_id": "dua_before_salam",
+            "position": "tashahhud",
+            "recitation_id": "dua_before_salam",
+            "instruction": "Recite the recommended final supplication seeking protection from the four trials."
+          },
+          {
+            "step_id": "tasleem",
+            "position": "tasleem",
+            "recitation_id": "tasleem",
+            "instruction": "Turn your face to the right saying the Salam to conclude, then repeat to the left."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "prayer_id": "dhuhr",
+    "name": "Dhuhr",
+    "arabic": "الظهر",
+    "malayalam": "ളുഹർ",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "fard",
+        "steps": [
+          { "step_id": "takbiratul_ihram", "position": "qiyam", "recitation_id": "takbiratul_ihram", "instruction": "Raise hands and make Takbir to start Dhuhr prayer." },
+          { "step_id": "thana", "position": "qiyam", "recitation_id": "thana", "instruction": "Recite the opening supplication silently." },
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Seek refuge in Allah quietly." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite the Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku and praise Allah." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise to standing posture." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Recite praise while standing straight." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Prostrate and glorify Allah." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between the two prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform the second prostration." }
+        ]
+      },
+      {
+        "rakah": 2,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Stand for Rakah 2 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise to standing posture." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah while standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform the first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between the prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform the second prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit in Iftirishah posture for the first Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send blessings upon the Prophet before standing up." }
+        ]
+      },
+      {
+        "rakah": 3,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Rise up to Rakah 3 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently (No extra surah is read here)." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 4,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Rise up to the final Rakah and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform final prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit in Tawarruk position for final Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send complete blessings upon the Prophet and Ibrahim." },
+          { "step_id": "dua_before_salam", "position": "tashahhud", "recitation_id": "dua_before_salam", "instruction": "Recite the final protection supplication." },
+          { "step_id": "tasleem", "position": "tasleem", "recitation_id": "tasleem", "instruction": "Turn your face right then left saying Salam to finish." }
+        ]
+      }
+    ]
+  },
+  {
+    "prayer_id": "asr",
+    "name": "Asr",
+    "arabic": "العصر",
+    "malayalam": "അസർ",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "fard",
+        "steps": [
+          { "step_id": "takbiratul_ihram", "position": "qiyam", "recitation_id": "takbiratul_ihram", "instruction": "Raise hands and make Takbir to start Asr prayer." },
+          { "step_id": "thana", "position": "qiyam", "recitation_id": "thana", "instruction": "Recite the opening supplication silently." },
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Seek refuge in Allah quietly." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite the Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise to standing posture." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Recite praise while standing straight." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Prostrate and glorify Allah." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between the two prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform the second prostration." }
+        ]
+      },
+      {
+        "rakah": 2,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Stand for Rakah 2 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise to standing posture." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah while standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform the first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between the prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform the second prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit in Iftirishah posture for the first Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send blessings upon the Prophet before standing up." }
+        ]
+      },
+      {
+        "rakah": 3,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Rise up to Rakah 3 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently (No extra surah)." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 4,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Rise up to the final Rakah and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform final prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit in Tawarruk position for final Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send complete blessings upon the Prophet." },
+          { "step_id": "dua_before_salam", "position": "tashahhud", "recitation_id": "dua_before_salam", "instruction": "Recite the final protection supplication." },
+          { "step_id": "tasleem", "position": "tasleem", "recitation_id": "tasleem", "instruction": "Turn face right then left saying Salam to finish." }
+        ]
+      }
+    ]
+  },
+  {
+    "prayer_id": "maghrib",
+    "name": "Maghrib",
+    "arabic": "المغرب",
+    "malayalam": "മഗ്രിബ്",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "fard",
+        "steps": [
+          { "step_id": "takbiratul_ihram", "position": "qiyam", "recitation_id": "takbiratul_ihram", "instruction": "Raise hands and make Takbir to start Maghrib." },
+          { "step_id": "thana", "position": "qiyam", "recitation_id": "thana", "instruction": "Recite opening supplication silently." },
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Seek refuge quietly." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala aloud." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha aloud." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' aloud." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah aloud." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up to standing position." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing straight." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 2,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Stand for Rakah 2 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala aloud." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha aloud." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' aloud." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah aloud." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise to standing posture." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah while standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between the prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit in Iftirishah posture for first Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send blessings upon the Prophet." }
+        ]
+      },
+      {
+        "rakah": 3,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Stand for the final Rakah and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise to standing posture." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah while standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between the prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform final prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit in Tawarruk position for final Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send complete blessings upon the Prophet." },
+          { "step_id": "dua_before_salam", "position": "tashahhud", "recitation_id": "dua_before_salam", "instruction": "Recite final protection supplication." },
+          { "step_id": "tasleem", "position": "tasleem", "recitation_id": "tasleem", "instruction": "Turn face right then left saying Salam to finish." }
+        ]
+      }
+    ]
+  },
+  {
+    "prayer_id": "isha",
+    "name": "Isha",
+    "arabic": "العشاء",
+    "malayalam": "ഇശാഅ്",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "fard",
+        "steps": [
+          { "step_id": "takbiratul_ihram", "position": "qiyam", "recitation_id": "takbiratul_ihram", "instruction": "Raise hands and make Takbir to start Isha." },
+          { "step_id": "thana", "position": "qiyam", "recitation_id": "thana", "instruction": "Recite opening supplication quietly." },
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Seek refuge quietly." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala aloud." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha aloud." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' aloud." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah aloud." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up to standing position." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing straight." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 2,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Stand for Rakah 2 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala aloud." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha aloud." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' aloud." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah aloud." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise to standing posture." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah while standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between the prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit for the first Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send blessings upon the Prophet." }
+        ]
+      },
+      {
+        "rakah": 3,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Rise up to Rakah 3 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 4,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Rise up to the final Rakah and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform final prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit in Tawarruk position for final Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send complete blessings upon the Prophet." },
+          { "step_id": "dua_before_salam", "position": "tashahhud", "recitation_id": "dua_before_salam", "instruction": "Recite final protection supplication." },
+          { "step_id": "tasleem", "position": "tasleem", "recitation_id": "tasleem", "instruction": "Turn face right then left saying Salam to finish." }
+        ]
+      }
+    ]
+  },
+  {
+    "prayer_id": "fajr_sunnah",
+    "name": "Fajr Sunnah (Rawatib)",
+    "arabic": "سنة الفجر",
+    "malayalam": "സുബ്ഹിയുടെ സുന്നത്ത്",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "sunnah",
+        "steps": [
+          { "step_id": "takbiratul_ihram", "position": "qiyam", "recitation_id": "takbiratul_ihram", "instruction": "Begin the 2 Rakah Sunnah prayer before Fajr." },
+          { "step_id": "thana", "position": "qiyam", "recitation_id": "thana", "instruction": "Recite the opening supplication quietly." },
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Seek refuge quietly." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah silently (e.g., Al-Kafirun)." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 2,
+        "type": "sunnah",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Stand for Rakah 2 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah silently (e.g., Al-Ikhlas)." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform final prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit in Tawarruk position for final Tashahhud." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send blessings upon the Prophet." },
+          { "step_id": "dua_before_salam", "position": "tashahhud", "recitation_id": "dua_before_salam", "instruction": "Recite final protection supplication." },
+          { "step_id": "tasleem", "position": "tasleem", "recitation_id": "tasleem", "instruction": "Turn face right then left saying Salam to finish." }
+        ]
+      }
+    ]
+  },
+  {
+    "prayer_id": "witr",
+    "name": "Witr",
+    "arabic": "الوتر",
+    "malayalam": "വിത്ർ",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "witr",
+        "steps": [
+          { "step_id": "takbiratul_ihram", "position": "qiyam", "recitation_id": "takbiratul_ihram", "instruction": "Begin the Witr prayer with Takbir." },
+          { "step_id": "thana", "position": "qiyam", "recitation_id": "thana", "instruction": "Recite the opening supplication quietly." },
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Seek refuge quietly." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah silently (e.g., Al-A'la)." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 2,
+        "type": "witr",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Stand for Rakah 2 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah silently (e.g., Al-Kafirun)." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 3,
+        "type": "witr",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Stand for the final Rakah and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala silently." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha silently." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' silently." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "additional_surah", "instruction": "Recite an additional Surah silently (e.g., Al-Ikhlas)." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up from Ruku into standing position." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah while standing straight." },
+          { "step_id": "dua_qunoot", "position": "qawmah", "recitation_id": "dua_qunoot", "instruction": "Recite Dua al-Qunoot aloud during Qawmah (prescribed in Shafi'i for the second half of Ramadan)." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform final prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit in Tawarruk posture for final Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send complete blessings upon the Prophet." },
+          { "step_id": "dua_before_salam", "position": "tashahhud", "recitation_id": "dua_before_salam", "instruction": "Recite final protection supplication." },
+          { "step_id": "tasleem", "position": "tasleem", "recitation_id": "tasleem", "instruction": "Turn face right then left saying Salam to finish." }
+        ]
+      }
+    ]
+  },
+  {
+    "prayer_id": "jumuah",
+    "name": "Jumu'ah",
+    "arabic": "الجمعة",
+    "malayalam": "ജുമുഅ",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "fard",
+        "steps": [
+          { "step_id": "takbiratul_ihram", "position": "qiyam", "recitation_id": "takbiratul_ihram", "instruction": "Raise hands and make Takbir to start Jumu'ah prayer." },
+          { "step_id": "thana", "position": "qiyam", "recitation_id": "thana", "instruction": "Recite opening supplication quietly." },
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Seek refuge quietly." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala aloud." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha aloud with the Imam." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' aloud." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "sunnah_surah_jumuah_r1", "instruction": "Listen to the Imam reciting a Sunnah Surah (e.g., Al-A'la or Al-Jumu'ah) aloud." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up to standing position." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing straight." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 2,
+        "type": "fard",
+        "steps": [
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Stand for Rakah 2 and seek refuge." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala aloud." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha aloud with the Imam." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' aloud." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "sunnah_surah_jumuah_r2", "instruction": "Listen to the Imam reciting a Sunnah Surah (e.g., Al-Ghashiyah or Al-Munafiqun) aloud." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise to standing posture." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah while standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between the prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform final prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit for final Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send complete blessings upon the Prophet." },
+          { "step_id": "dua_before_salam", "position": "tashahhud", "recitation_id": "dua_before_salam", "instruction": "Recite final protection supplication." },
+          { "step_id": "tasleem", "position": "tasleem", "recitation_id": "tasleem", "instruction": "Turn face right then left saying Salam to finish." }
+        ]
+      }
+    ]
+  },
+  {
+    "prayer_id": "eid",
+    "name": "Eid",
+    "arabic": "العيد",
+    "malayalam": "പെരുന്നാൾ നിസ്കാരം",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "sunnah",
+        "steps": [
+          { "step_id": "takbiratul_ihram", "position": "qiyam", "recitation_id": "takbiratul_ihram", "instruction": "Raise hands and make Takbir to start Eid prayer." },
+          { "step_id": "thana", "position": "qiyam", "recitation_id": "thana", "instruction": "Recite opening supplication quietly." },
+          { "step_id": "extra_takbirs", "position": "qiyam", "recitation_id": "eid_takbir_dhikr", "instruction": "Perform 7 extra Takbirs, reciting the specific Dhikr between each." },
+          { "step_id": "taawwudh", "position": "qiyam", "recitation_id": "taawwudh", "instruction": "Seek refuge quietly." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala aloud." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha aloud with the Imam." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' aloud." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "sunnah_surah_eid_r1", "instruction": "Listen to the Imam reciting a Sunnah Surah (e.g., Al-A'la or Qaf) aloud." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow down into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise up to standing position." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah standing straight." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform second prostration." }
+        ]
+      },
+      {
+        "rakah": 2,
+        "type": "sunnah",
+        "steps": [
+          { "step_id": "extra_takbirs_r2", "position": "qiyam", "recitation_id": "eid_takbir_dhikr", "instruction": "Rise up and perform 5 extra Takbirs, reciting the specific Dhikr between each." },
+          { "step_id": "basmala", "position": "qiyam", "recitation_id": "basmala", "instruction": "Recite Basmala aloud." },
+          { "step_id": "surah_fatiha", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Recite Surah Al-Fatiha aloud with the Imam." },
+          { "step_id": "ameen", "position": "qiyam", "recitation_id": "ameen", "instruction": "Say 'Ameen' aloud." },
+          { "step_id": "additional_surah", "position": "qiyam", "recitation_id": "sunnah_surah_eid_r2", "instruction": "Listen to the Imam reciting a Sunnah Surah (e.g., Al-Ghashiyah or Al-Qamar) aloud." },
+          { "step_id": "ruku_dhikr", "position": "ruku", "recitation_id": "ruku_dhikr", "instruction": "Bow into Ruku." },
+          { "step_id": "sami_allahu_liman_hamidah", "position": "qawmah", "recitation_id": "sami_allahu_liman_hamidah", "instruction": "Rise to standing posture." },
+          { "step_id": "rabbana_lakal_hamd", "position": "qawmah", "recitation_id": "rabbana_lakal_hamd", "instruction": "Praise Allah while standing." },
+          { "step_id": "sujud_dhikr", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform first prostration." },
+          { "step_id": "rabbighfirli", "position": "jalsa", "recitation_id": "rabbighfirli", "instruction": "Sit up between the prostrations." },
+          { "step_id": "sujud_dhikr_2", "position": "sujud", "recitation_id": "sujud_dhikr", "instruction": "Perform final prostration." },
+          { "step_id": "attahiyyath", "position": "tashahhud", "recitation_id": "attahiyyath", "instruction": "Sit for final Tashahhud and recite greetings." },
+          { "step_id": "salath_ibrahimiyyah", "position": "tashahhud", "recitation_id": "salath_ibrahimiyyah", "instruction": "Send complete blessings upon the Prophet." },
+          { "step_id": "dua_before_salam", "position": "tashahhud", "recitation_id": "dua_before_salam", "instruction": "Recite final protection supplication." },
+          { "step_id": "tasleem", "position": "tasleem", "recitation_id": "tasleem", "instruction": "Turn face right then left saying Salam to finish." }
+        ]
+      }
+    ]
+  },
+  {
+    "prayer_id": "janaza",
+    "name": "Janaza",
+    "arabic": "الجنازة",
+    "malayalam": "മയ്യിത്ത് നിസ്കാരം",
+    "rakahs": [
+      {
+        "rakah": 1,
+        "type": "fard_kifayah",
+        "steps": [
+          { "step_id": "takbir_1", "position": "qiyam", "recitation_id": "surah_fatiha", "instruction": "Raise hands, say the 1st Takbir with Niyyah, fold hands, and recite Surah Al-Fatiha quietly." },
+          { "step_id": "takbir_2", "position": "qiyam", "recitation_id": "janaza_recitation_salat_alan_nabi", "instruction": "Raise hands, say the 2nd Takbir, and recite Salat al-Ibrahimiyyah (Durood)." },
+          { "step_id": "takbir_3", "position": "qiyam", "recitation_id": "janaza_dua_complete_male", "instruction": "Raise hands, say the 3rd Takbir, and recite the complete comprehensive Du'a for the deceased." },
+          { "step_id": "takbir_4", "position": "qiyam", "recitation_id": "janaza_dua_fourth_takbir", "instruction": "Raise hands, say the 4th Takbir, and recite the recommended brief Sunnah Du'a before Salaam." },
+          { "step_id": "tasleem", "position": "tasleem", "recitation_id": "janaza_tasleem", "instruction": "Turn face right then left while standing, saying the Salaam to conclude the funeral prayer." }
+        ]
+      }
+    ]
+  }
+]

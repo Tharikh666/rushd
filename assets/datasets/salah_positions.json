@@ -1,0 +1,34 @@
+{
+  "niyyah_fajr": "niyyah",
+  "niyyah_dhuhr": "niyyah",
+  "niyyah_asr": "niyyah",
+  "niyyah_maghrib": "niyyah",
+  "niyyah_isha": "niyyah",
+
+  "takbiratul_ihram": "qiyam",
+  "thana": "qiyam",
+  "taawwudh": "qiyam",
+  "basmala": "qiyam",
+  "surah_fatiha": "qiyam",
+  "ameen": "qiyam",
+  "additional_surah": "qiyam",
+
+  "extra_takbirs": "qiyam",
+  "janaza_takbirs": "qiyam",
+
+  "ruku_dhikr": "ruku",
+
+  "sami_allahu_liman_hamidah": "qawmah",
+  "rabbana_lakal_hamd": "qawmah",
+  "dua_qunoot": "qawmah",
+
+  "sujud_dhikr": "sujud",
+
+  "rabbighfirli": "jalsa",
+
+  "attahiyyath": "tashahhud",
+  "salath_ibrahimiyyah": "tashahhud",
+  "dua_before_salam": "tashahhud",
+
+  "tasleem": "tasleem"
+}

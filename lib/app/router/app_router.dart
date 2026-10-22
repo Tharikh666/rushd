@@ -1,13 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rushd/features/qibla/presentation/screens/qibla_screen.dart';
+import 'package:rushd/features/salah/presentation/screens/salah_guide_screen.dart';
 import 'package:rushd/features/yaseen/presentation/screens/yaseen_screen.dart';
 
+import '../../features/duas/presentation/screens/duas_screen.dart';
 import '../../features/home/presentation/home_page.dart';
 import '../../features/prayer/presentation/pages/prayer_times_page.dart';
 import '../../features/quran/presentation/quran_home_screen.dart';
 import '../../features/quran/presentation/quran_reader_screen.dart';
 import '../../features/quran/presentation/quran_verse_screen.dart';
+import '../../features/salah/presentation/screens/salah_prayer_detail_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -67,6 +70,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/qibla',
         name: 'qibla',
         builder: (context, state) => const QiblaScreen(),
+      ),
+      GoRoute(
+        path: '/salah-guide',
+        name: 'salah-guide',
+        builder: (context, state) => const SalahGuideScreen(),
+      ),
+      GoRoute(
+        path: '/salah-guide/:prayerId',
+        name: 'salah-prayer-detail',
+        builder: (context, state) {
+          final prayerId = state.pathParameters['prayerId']!;
+          return SalahPrayerDetailScreen(prayerId: prayerId);
+        },
+      ),
+      GoRoute(
+        path: '/duas',
+        name: 'duas',
+        builder: (context, state) => const DuasScreen(),
       ),
     ],
   );

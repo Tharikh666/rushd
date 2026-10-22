@@ -1,0 +1,29 @@
+[
+  {
+    "id": "jumuah",
+    "name": "Jumu'ah",
+    "arabic": "الجمعة",
+    "malayalam": "ജുമുഅ",
+    "description": "2 Khutbahs • 2 Fard Rak'ahs",
+    "gradient": ["#0F766E", "#14B8A6"],
+    "icon": "mosque_rounded"
+  },
+  {
+    "id": "eid",
+    "name": "Eid Prayer",
+    "arabic": "العيد",
+    "malayalam": "പെരുന്നാൾ നിസ്കാരം",
+    "description": "7 + 5 Takbirs",
+    "gradient": ["#16A34A", "#86EFAC"],
+    "icon": "celebration_rounded"
+  },
+  {
+    "id": "janaza",
+    "name": "Janazah",
+    "arabic": "الجنازة",
+    "malayalam": "മയ്യിത്ത് നിസ്കാരം",
+    "description": "4 Takbirs • Standing Only",
+    "gradient": ["#475569", "#94A3B8"],
+    "icon": "volunteer_activism_rounded"
+  }
+]

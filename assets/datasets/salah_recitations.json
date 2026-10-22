@@ -1,0 +1,332 @@
+[
+  {
+    "id": "niyyah_fajr",
+    "category": "intention",
+    "name": "Niyyah for Fajr",
+    "arabic": "أُصَلِّي رَكْعَتَيْنِ فَرْضَ الْفَجْرِ لِلَّهِ تَعَالَى مُتَوَجِّهًا إِلَى جِهَةِ الْكَعْبَةِ الشَّرِيفَةِ",
+    "english_transliteration": "Usalli rak'ataini fardal-fajri lillahi ta'ala mutawajjihan ila jihatil-ka'batish-sharifah",
+    "malayalam_transliteration": "ഉസല്ലി റക്അതൈനി ഫർദൽ ഫജ്‌രി ലില്ലാഹി തആലാ മുതവജ്ജിഹൻ ഇലാ ജിഹതിൽ കഅ്ബതിഷ് ശരീഫഹ്",
+    "english_translation": "I pray two rak'ahs of the obligatory Fajr prayer for Allah the Almighty, facing towards the direction of the noble Kaaba.",
+    "malayalam_translation": "ആദരണീയമായ കഅ്ബയുടെ ദിശയിലേക്ക് തിരിഞ്ഞ്, അല്ലാഹു തആലാക്ക് വേണ്ടി ഞാൻ ഫർദ് ഫജ്‌റ് രണ്ട് റക്അത്ത് നമസ്കരിക്കുന്നു."
+  },
+  {
+    "id": "niyyah_dhuhr",
+    "category": "intention",
+    "name": "Niyyah for Dhuhr",
+    "arabic": "أُصَلِّي أَرْبَعَ رَكَعَاتٍ فَرْضَ الظُّهْرِ لِلَّهِ تَعَالَى مُتَوَجِّهًا إِلَى جِهَةِ الْكَعْبَةِ الشَّرِيفَةِ",
+    "english_transliteration": "Usalli arba'a raka'atin fardad-dhuhri lillahi ta'ala mutawajjihan ila jihatil-ka'batish-sharifah",
+    "malayalam_transliteration": "ഉസല്ലി അർബഅ റകആതിൻ ഫർദള്ളുഹ്‌രി ലില്ലാഹി തആലാ മുതവജ്ജിഹൻ ഇലാ ജിഹതിൽ കഅ്ബതിഷ് ശരീഫഹ്",
+    "english_translation": "I pray four rak'ahs of the obligatory Dhuhr prayer for Allah the Almighty, facing towards the direction of the noble Kaaba.",
+    "malayalam_translation": "ആദരണീയമായ കഅ്ബയുടെ ദിശയിലേക്ക് തിരിഞ്ഞ്, അല്ലാഹു തആലാക്ക് വേണ്ടി ഞാൻ ഫർദ് ളുഹ്‌റ് നാല് റക്അത്ത് നമസ്കരിക്കുന്നു."
+  },
+  {
+    "id": "niyyah_asr",
+    "category": "intention",
+    "name": "Niyyah for Asr",
+    "arabic": "أُصَلِّي أَرْبَعَ رَكَعَاتٍ فَرْضَ الْعَصْرِ لِلَّهِ تَعَالَى مُتَوَجِّهًا إِلَى جِهَةِ الْكَعْبَةِ الشَّرِيفَةِ",
+    "english_transliteration": "Usalli arba'a raka'atin fardal-'asri lillahi ta'ala mutawajjihan ila jihatil-ka'batish-sharifah",
+    "malayalam_transliteration": "ഉസല്ലി അർബഅ റകആതിൻ ഫർദൽ അസ്‌രി ലില്ലാഹി തആലാ മുതവജ്ജിഹൻ ഇലാ ജിഹതിൽ കഅ്ബതിഷ് ശരീഫഹ്",
+    "english_translation": "I pray four rak'ahs of the obligatory Asr prayer for Allah the Almighty, facing towards the direction of the noble Kaaba.",
+    "malayalam_translation": "ആദരണീയമായ കഅ്ബയുടെ ദിശയിലേക്ക് തിരിഞ്ഞ്, അല്ലാഹു തആലാക്ക് വേണ്ടി ഞാൻ ഫർദ് അസർ നാല് റക്അത്ത് നമസ്കരിക്കുന്നു."
+  },
+  {
+    "id": "niyyah_maghrib",
+    "category": "intention",
+    "name": "Niyyah for Maghrib",
+    "arabic": "أُصَلِّي ثَلَاثَ رَكَعَاتٍ فَرْضَ الْمَغْرِبِ لِلَّهِ تَعَالَى مُتَوَجِّهًا إِلَى جِهَةِ الْكَعْبَةِ الشَّرِيفَةِ",
+    "english_transliteration": "Usalli thalatha raka'atin fardal-maghribi lillahi ta'ala mutawajjihan ila jihatil-ka'batish-sharifah",
+    "malayalam_transliteration": "ഉസല്ലി ഥലാഥ റകആതിൻ ഫർദൽ മഗ്‌രിബി ലില്ലാഹി തആലാ മുതവജ്ജിഹൻ ഇലാ ജിഹതിൽ കഅ്ബതിഷ് ശരീഫഹ്",
+    "english_translation": "I pray three rak'ahs of the obligatory Maghrib prayer for Allah the Almighty, facing towards the direction of the noble Kaaba.",
+    "malayalam_translation": "ആദരണീയമായ കഅ്ബയുടെ ദിശയിലേക്ക് തിരിഞ്ഞ്, അല്ലാഹു തആലാക്ക് വേണ്ടി ഞാൻ ഫർദ് മഗ്‌രിബ് മൂന്ന് റക്അത്ത് നമസ്കരിക്കുന്നു."
+  },
+  {
+    "id": "niyyah_isha",
+    "category": "intention",
+    "name": "Niyyah for Isha",
+    "arabic": "أُصَلِّي أَرْبَعَ رَكَعَاتٍ فَرْضَ الْعِشَاءِ لِلَّهِ تَعَالَى مُتَوَجِّهًا إِلَى جِهَةِ الْكَعْبَةِ الشَّرِيفَةِ",
+    "english_transliteration": "Usalli arba'a raka'atin fardal-'isha'i lillahi ta'ala mutawajjihan ila jihatil-ka'batish-sharifah",
+    "malayalam_transliteration": "ഉസല്ലി അർബഅ റകആതിൻ ഫർദൽ ഇശാഇ ലില്ലാഹി തആലാ മുതവജ്ജിഹൻ ഇലാ ജിഹതിൽ കഅ്ബതിഷ് ശരീഫഹ്",
+    "english_translation": "I pray four rak'ahs of the obligatory Isha prayer for Allah the Almighty, facing towards the direction of the noble Kaaba.",
+    "malayalam_translation": "ആദരണീയമായ കഅ്ബയുടെ ദിശയിലേക്ക് തിരിഞ്ഞ്, അല്ലാഹു തആലാക്ക് വേണ്ടി ഞാൻ ഫർദ് ഇശാ നാല് റക്അത്ത് നമസ്കരിക്കുന്നു."
+  },
+  {
+    "id": "takbiratul_ihram",
+    "category": "opening",
+    "name": "Takbiratul Ihram",
+    "arabic": "اللَّهُ أَكْبَرُ",
+    "english_transliteration": "Allahu Akbar",
+    "malayalam_transliteration": "അല്ലാഹു അക്ബർ",
+    "english_translation": "Allah is the Greatest",
+    "malayalam_translation": "അല്ലാഹു ഏറ്റവും വലിയവനാകുന്നു."
+  },
+  {
+    "id": "thana",
+    "category": "opening",
+    "name": "Thana (Dua al-Iftitah)",
+    "arabic": "وَجَّهْتُ وَجْهِيَ لِلَّذِي فَطَرَ السَّمَاوَاتِ وَالأَرْضَ حَنِيفًا مُسْلِمًا وَمَا أَنَا مِنَ الْمُشْرِكِينَ، إِنَّ صَلاَتِي وَنُسُكِي وَمَحْيَايَ وَمَمَاتِي لِلَّهِ رَبِّ الْعَالَمِينَ، لاَ شَرِيكَ لَهُ وَبِذَلِكَ أُمِرْتُ وَأَنَا مِنَ الْمُسْلِمِينَ",
+    "english_transliteration": "Wajjahtu wajhiya lilladhi fataras-samawati wal-arda hanifan musliman wa ma ana minal-mushrikin. Inna salati wa nusuki wa mahyaya wa mamati lillahi Rabbil-'alamin. La sharika lahu wa bidhalika umirtu wa ana minal-muslimin.",
+    "malayalam_transliteration": "വജ്ജഹ്തു വജ്ഹിയ ലില്ലദീ ഫത്വറസ്സമാവാതി വൽ അർള ഹനീഫമ്മുസ്‌ലിമവ് വമാ അന മിനൽ മുശ്രികീൻ. ഇന്നാ സ്വലാത്തീ വനുസുകീ വമഹ്‌യാ യ വമമാതീ ലില്ലാഹി റബ്ബിൽ ആലമീൻ. ലാ ശരീക്ക ലഹു വബിദാലിക ഉമിർതു വഅന മിനൽ മുസ്‌ലിമീൻ.",
+    "english_translation": "I have turned my face sincerely towards He who created the heavens and the earth, a Muslim, and I am not of the polytheists. Verily, my prayer, my sacrifice, my living, and my dying are for Allah, the Lord of the worlds. He has no partner, and with this I have been commanded, and I am of the Muslims.",
+    "malayalam_translation": "ആകാശങ്ങളെയും ഭൂമിയെയും പടച്ചവനിലേക്ക് യഥാർത്ഥ മുസ്ലിമായിക്കൊണ്ട് എന്റെ മുഖത്തെ ഞാൻ തിരിച്ചു. ഞാൻ ബഹുദൈവാരാധകരിൽ പെട്ടവനല്ല. തീർച്ചയായും എന്റെ പ്രാർത്ഥനയും എന്റെ ആരാധന കർമ്മങ്ങളും എന്റെ ജീവിതവും എന്റെ മരണവും ലോകരക്ഷിതാവായ അല്ലാഹുവിന്നുള്ളതാകുന്നു. അവന് പങ്കുകാരില്ല. അത് കൊണ്ടാണ് ഞാൻ കൽപ്പിക്കപ്പെട്ടിട്ടുള്ളത്. ഞാൻ മുസ്ലിങ്ങളിൽ പെട്ടവനാകുന്നു."
+  },
+  {
+    "id": "taawwudh",
+    "category": "recitation",
+    "name": "Ta'awwudh",
+    "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+    "english_transliteration": "A'udhu billahi minash-shaitanir-rajim",
+    "malayalam_transliteration": "അഊദു ബില്ലാഹി മിനശ്ശൈത്വാനിർ റജീം",
+    "english_translation": "I seek refuge in Allah from Satan, the outcast",
+    "malayalam_translation": "ശപിക്കപ്പെട്ട പിശാചിൽ നിന്ന് ഞാൻ അല്ലാഹുവോട് കാവൽ ചോദിക്കുന്നു."
+  },
+  {
+    "id": "basmala",
+    "category": "recitation",
+    "name": "Basmala",
+    "arabic": "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ",
+    "english_transliteration": "Bismillahir-Rahmanir-Rahim",
+    "malayalam_transliteration": "ബിസ്മില്ലാഹിർ റഹ്മാനിർ റഹീം",
+    "english_translation": "In the name of Allah, the Most Gracious, the Most Merciful",
+    "malayalam_translation": "പരമകാരുണികനും കരുണാനിധിയുമായ അല്ലാഹുവിന്റെ നാമത്തിൽ."
+  },
+  {
+    "id": "surah_fatiha",
+    "category": "recitation",
+    "name": "Surah Al-Fatiha",
+    "arabic": "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ (١) الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ (٢) الرَّحْمَنِ الرَّحِيمِ (٣) مَالِكِ يَوْمِ الدِّينِ (٤) إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ (٥) اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ (٦) صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ (٧)",
+    "english_transliteration": "Bismillahir-Rahmanir-Rahim. Alhamdu lillahi Rabbil-'alamin. Ar-Rahmanir-Rahim. Maliki yawmid-din. Iyyaka na'budu wa iyyaka nasta'in. Ihdinas-siratal-mustaqim. Siratalladhina an'amta 'alayhim ghayril-maghdubi 'alayhim walad-dallin.",
+    "malayalam_transliteration": "ബിസ്മില്ലാഹിർ റഹ്മാനിർ റഹീം. അൽഹംദുലില്ലാഹി റബ്ബിൽ ആലമീൻ. അർറഹ്മാനിർ റഹീം. മാലികി യൗമിദ്ദീൻ. ഇയ്യാക്ക നഅ്ബുദു വഇയ്യാക്ക നസ്തഈൻ. ഇഹ്ദിനസ്സ്വിറത്വൽ മുസ്തഖീം. സ്വിറത്വല്ലദീന അൻഅംത അലൈഹിം ഗൈരിൽ മഗ്ളൂബി അലൈഹിം വലള്ളാല്ലീൻ.",
+    "english_translation": "In the name of Allah, the Most Gracious, the Most Merciful. All praise is due to Allah, Lord of the worlds. The Most Gracious, the Most Merciful. Master of the Day of Judgment. You alone we worship, and You alone we ask for help. Guide us to the straight path. The path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or of those who are astray.",
+    "malayalam_translation": "പരമകാരുണികനും കരുണാനിധിയുമായ അല്ലാഹുവിന്റെ നാമത്തിൽ. സർവ്വസ്തുതിയും ലോകരക്ഷിതാവായ അല്ലാഹുവിന്നാണ്. അവൻ പരമകാരുണികനും കരുണാനിധിയുമാകുന്നു. പ്രതിഫല ദിവസത്തിന്റെ ഉടമസ്ഥനാകുന്നു. നിന്നെ മാത്രം ഞങ്ങൾ ആരാധിക്കുന്നു, നിന്നോട് മാത്രം ഞങ്ങൾ സഹായം തേടുന്നു. ഞങ്ങളെ നീ നേർവഴിയിലാക്കേണമേ. നീ അനുഗ്രഹിച്ചവരുടെ മാർഗ്ഗത്തിൽ; കോപത്തിനിരയായവരുടെയോ വഴിപിഴച്ചവരുടെയോ മാർഗ്ഗത്തിലല്ല."
+  },
+  {
+    "id": "ameen",
+    "category": "recitation",
+    "name": "Ameen",
+    "arabic": "آَمِينَ",
+    "english_transliteration": "Ameen",
+    "malayalam_transliteration": "ആമീൻ",
+    "english_translation": "O Allah, respond to our prayer",
+    "malayalam_translation": "അല്ലാഹുവേ, നീ ഞങ്ങളുടെ പ്രാർത്ഥന ഉത്തരം നൽകേണമേ."
+  },
+  {
+    "id": "additional_surah",
+    "category": "quran",
+    "name": "Additional Surah",
+    "arabic": "",
+    "english_transliteration": "",
+    "malayalam_transliteration": "",
+    "english_translation": "Recite any complete Surah or a portion of the Quran.",
+    "malayalam_translation": "ഖുർആനിൽ നിന്ന് ഏതെങ്കിലും ഒരു സൂറത്തോ ഏതാനും ആയത്തുകളോ പാരായണം ചെയ്യുക."
+  },
+  {
+    "id": "ruku_dhikr",
+    "category": "bowing",
+    "name": "Ruku Dhikr",
+    "arabic": "سُبْحَانَ رَبِّيَ الْعَظِيمِ وَبِحَمْدِهِ",
+    "english_transliteration": "Subhana Rabbiyal-'Azhiimi wa bihamdih",
+    "malayalam_transliteration": "സുബ്ഹാന റബ്ബിയൽ അളീമി വബിഹംദിഹ്",
+    "english_translation": "Glory be to my Lord the Supreme, and praise be to Him",
+    "malayalam_translation": "എന്റെ മഹാനായ രക്ഷിതാവ് എത്രയോ പരിശുദ്ധൻ, അവനെ ഞാൻ സ്തുതിക്കുന്നു."
+  },
+  {
+    "id": "sami_allahu_liman_hamidah",
+    "category": "standing",
+    "name": "Sami' Allahu Liman Hamidah",
+    "arabic": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ",
+    "english_transliteration": "Sami' Allahu liman hamidah",
+    "malayalam_transliteration": "സമിഅല്ലാഹു ലിമൻ ഹമിദഹ്",
+    "english_translation": "Allah hears whoever praises Him",
+    "malayalam_translation": "തന്നെ സ്തുതിച്ചവന്റെ സ്തുതി അല്ലാഹു കേട്ടിരിക്കുന്നു."
+  },
+  {
+    "id": "rabbana_lakal_hamd",
+    "category": "standing",
+    "name": "Rabbana Lakal Hamd",
+    "arabic": "رَبَّنَا لَكَ الْحَمْدُ مِلْءَ السَّمَاوَاتِ وَمِلْءَ الأَرْضِ وَمِلْءَ مَا شِئْتَ مِنْ شَيْءٍ بَعْدُ",
+    "english_transliteration": "Rabbana lakal-hamdu mil'as-samawati wa mil'al-ardi wa mil'a ma shi'ta min shay'in ba'du",
+    "malayalam_transliteration": "റബ്ബനാ ലക്കൽ ഹംദ് മിൽഉസ്സമാവാതി വമിൽഉൽ അർളി വമിൽഉ മാ ശിഅ്ത മിൻ ശൈഇൻ ബഅ്ദ്",
+    "english_translation": "Our Lord, to You be praise, filling the heavens, filling the earth, and filling whatever else You wish thereafter",
+    "malayalam_translation": "ഞങ്ങളുടെ രക്ഷിതാവേ, നിനക്കാകുന്നു സർവ്വ സ്തുതിയും; ആകാശങ്ങൾ നിറഞ്ഞതും ഭൂമി നിറഞ്ഞതും അതിനു പുറമെ നീ ഉദ്ദേശിക്കുന്ന മറ്റെല്ലാ വസ്തുക്കളും നിറഞ്ഞതുമായ സ്തുതി."
+  },
+  {
+    "id": "sujud_dhikr",
+    "category": "prostration",
+    "name": "Sujud Dhikr",
+    "arabic": "سُبْحَانَ رَبِّيَ الأَعْلَى وَبِحَمْدِهِ",
+    "english_transliteration": "Subhana Rabbiyal-'A'la wa bihamdih",
+    "malayalam_transliteration": "സുബ്ഹാന റബ്ബിയൽ അഅ്ലാ വബിഹംദിഹ്",
+    "english_translation": "Glory be to my Lord the Most High, and praise be to Him",
+    "malayalam_translation": "എന്റെ പരമോന്നതനായ രക്ഷിതാവ് എത്രയോ പരിശുദ്ധൻ, അവനെ ഞാൻ സ്തുതിക്കുന്നു."
+  },
+  {
+    "id": "rabbighfirli",
+    "category": "sitting",
+    "name": "Sitting Between Sujud Dua",
+    "arabic": "رَبِّ اغْفِرْ لِي وَارْحَمْنِي وَاجْبُرْنِي وَارْفَعْنِي وَارْزُقْنِي وَاهْدِنِي وَعَافِنِي وَاعْفُ عَنِّي",
+    "english_transliteration": "Rabbighfir li warhamni wajburni warfa'ni warzuqni wahdini wa 'afini wa'fu 'anni",
+    "malayalam_transliteration": "റബ്ബിഗ്ഫിർലീ വർഹംനീ വജ്ബുർനീ വർഫഅ്നീ വർസുഖ്നീ വഹ്ദിനീ വആഫിനീ വഅ്ഫു അന്നീ",
+    "english_translation": "O my Lord, forgive me, have mercy on me, mend my shortcomings, elevate my status, provide for me, guide me, grant me health, and pardon me",
+    "malayalam_translation": "എന്റെ നാഥാ, എനിക്ക് നീ പൊറുത്തുതരേണമേ, എന്നോട് കരുണ കാണിക്കേണമേ, എന്റെ കുറവുകൾ പരിഹരിക്കേണമേ, എന്റെ പദവി ഉയർത്തേണമേ, എനിക്ക് ഭക്ഷണം നൽകേണമേ, എന്നെ നേർവഴിയിലാക്കേണമേ, എനിക്ക് സൗഖ്യം നൽകേണമേ, എന്നോട് മാപ്പ് ചെയ്യേണമേ."
+  },
+  {
+    "id": "attahiyyath",
+    "category": "testimony",
+    "name": "Attahiyyath",
+    "arabic": "التَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ لِلَّهِ، السَّلاَمُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلاَمُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لاَ إِلَهَ إِلاَّ اللَّهُ وَأَشْهَدُ أَنْ مُحَمَّدًا رَسُولُ اللَّهِ",
+    "english_transliteration": "Attahiyyatul-mubarakatush-salawatuth-thayyibatu lillah. Assalamu 'alayka ayyuhan-nabiyyu wa rahmatullahi wa barakatuh. Assalamu 'alayna wa 'ala 'ibadillahis-salihin. Ashhadu an la ilaha illallahu wa ashhadu anna Muhammadan rasulullah.",
+    "malayalam_transliteration": "അത്തഹിയ്യാത്തുൽ മുബാറകാത്തുസ്സ്വലവാത്തുത്ത്വയ്യിബാത്തു ലില്ലാഹ്. അസ്സലാമു അലൈക്ക അയ്യുഹന്നബിയ്യു വറഹ്മത്തുല്ലാഹി വബറകാതുഹ്. അസ്സലാമു അലൈനാ വഅലാ ഇബാദില്ലാഹിസ്സ്വാലിഹീൻ. അശ്ഹദു അൻ ലാ ഇലാഹ ഇല്ലല്ലാഹു വഅശ്ഹദു അന്ന മുഹമ്മദൻ റസൂലുള്ളാഹ്.",
+    "english_translation": "All blessed greetings, prayers, and pure goodness belong to Allah. Peace be upon you, O Prophet, and the mercy of Allah and His blessings. Peace be upon us and upon the righteous servants of Allah. I bear witness that there is no deity worthy of worship except Allah, and I bear witness that Muhammad is the Messenger of Allah.",
+    "malayalam_translation": "ബഹുമാനപുരസ്സരമുള്ള അഭിവാദനങ്ങളും അനുഗ്രഹങ്ങളും പ്രാർത്ഥനകളും പവിത്രമായ കാര്യങ്ങളും അല്ലാഹുവിന്നുള്ളതാകുന്നു. ഹേ നബിയേ, അങ്ങയുടെ മേൽ അല്ലാഹുവിന്റെ രക്ഷയും കാരുണ്യവും അനുഗ്രഹങ്ങളും ഉണ്ടാകട്ടെ. ഞങ്ങളുടെ മേലും അല്ലാഹുവിന്റെ സദ്‌വൃത്തരായ ദാസന്മാരുടെ മേലും രക്ഷയുണ്ടാകട്ടെ. അല്ലാഹുവല്ലാതെ യാതൊരു ദൈവവുമില്ലെന്ന് ഞാൻ സാക്ഷ്യം വഹിക്കുന്നു, മുഹമ്മദ് നബി അല്ലാഹുവിന്റെ റസൂലാണെന്നും ഞാൻ സാക്ഷ്യം വഹിക്കുന്നു."
+  },
+  {
+    "id": "salath_ibrahimiyyah",
+    "category": "testimony",
+    "name": "Salath Ibrahimiyyah",
+    "arabic": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ وَبَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ فِي الْعَالَمِينَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+    "english_transliteration": "Allahumma shalli 'ala Muhammadin wa 'ala ali Muhammadin kama shallaita 'ala Ibrahima wa 'ala ali Ibrahima, wa barik 'ala Muhammadin wa 'ala ali Muhammadin kama barakta 'ala Ibrahima wa 'ala ali Ibrahima, fil-'alamina innaka Hamidun Majid.",
+    "malayalam_transliteration": "അല്ലാഹുമ്മ സ്വല്ലി അലാ മുഹമ്മദിവ് വഅലാ ആലി മുഹമ്മദ്, കമാ സ്വല്ലൈത അലാ ഇബ്രാഹീമ വഅലാ ആലി ഇബ്രാഹീം, വബാരിക് അലാ മുഹമ്മദിവ് വഅലാ ആലി മുഹമ്മദ്, കമാ ബാരക്ത അലാ ഇബ്രാഹീമ വഅലാ ആലി ഇബ്രാഹീം, ഫിൽ ആലമീന ഇന്നക്ക ഹമീദും മജീദ്.",
+    "english_translation": "O Allah, bestow Your favor upon Muhammad and upon the family of Muhammad as You bestowed favor upon Ibrahim and upon the family of Ibrahim. And bless Muhammad and the family of Muhammad as You blessed Ibrahim and the family of Ibrahim, in the worlds, for You are Praiseworthy, Full of Glory.",
+    "malayalam_translation": "അല്ലാഹുവേ, ഇബ്രാഹീം നബിയുടെ മേലും ഇബ്രാഹീം നബിയുടെ കുടുംബത്തിന്റെ മേലും നീ സ്വലാത്ത് വർഷിച്ചതുപോലെ മുഹമ്മദ് നബിയുടെ മേലും മുഹമ്മദ് നബിയുടെ കുടുംബത്തിന്റെ മേലും നീ സ്വലാത്ത് വർഷിക്കേണമേ. ഇബ്രാഹീം നബിയുടെ മേലും ഇബ്രാഹീം നബിയുടെ കുടുംബത്തിന്റെ മേലും നീ ബറകത്ത് ചൊരിഞ്ഞതുപോലെ ലോകരിൽ വെച്ച് മുഹമ്മദ് നബിയുടെ മേലും മുഹമ്മദ് നബിയുടെ കുടുംബത്തിന്റെ മേലും നീ ബറകത്ത് ചൊരിയേണമേ. തീർച്ചയായും നീ സ്തുത്യർഹനും മഹത്വമുള്ളവനുമാകുന്നു."
+  },
+  {
+    "id": "dua_before_salam",
+    "category": "conclusion",
+    "name": "Dua Before Salam",
+    "arabic": "اللَّهمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ جَهَنَّمَ وَمِنْ عَذَابِ الْقَبْرِ وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ وَمِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ",
+    "english_transliteration": "Allahumma inni a'udhu bika min 'adhabi jahannam, wa min 'adhabil-qabr, wa min fitnatil-mahya wal-mamat, wa min sharri fitnatil-masihid-dajjal.",
+    "malayalam_transliteration": "അല്ലാഹുമ്മ ഇന്നീ അഊദു ബിക മിൻ അദാബി ജഹന്നം, വമിൻ അദാബിൽ ഖബർ, വമിൻ ഫിത്നതിൽ മഹ്‌യാ വൽ മമാത്, വമിൻ ശർരി ഫിത്നതിൽ മസീഹിദ്ദജ്ജാൽ.",
+    "english_translation": "O Allah, I seek refuge in You from the punishment of Hellfire, from the punishment of the grave, from the trials of life and death, and from the evil of the trial of the False Messiah.",
+    "malayalam_translation": "അല്ലാഹുവേ, നരകശിക്ഷയിൽ നിന്നും ഖബർ ശിക്ഷയിൽ നിന്നും ജീവിതമരണ വേളകളിലെ പരീക്ഷണങ്ങളിൽ നിന്നും മസീഹുദ്ദജ്ജാലിന്റെ പരീക്ഷണങ്ങളുടെ തിന്മയിൽ നിന്നും ഞാൻ നിന്നോട് കാവൽ ചോദിക്കുന്നു."
+  },
+  {
+    "id": "tasleem",
+    "category": "conclusion",
+    "name": "Tasleem",
+    "arabic": "السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
+    "english_transliteration": "Assalamu 'alaykum wa rahmatullah",
+    "malayalam_transliteration": "അസ്സലാമു അലൈകും വറഹ്മത്തുല്ലാഹ്",
+    "english_translation": "May the peace and mercy of Allah be upon you",
+    "malayalam_translation": "നിങ്ങൾക്ക് അല്ലാഹുവിന്റെ രക്ഷയും കാരുണ്യവും ഉണ്ടാകട്ടെ."
+  },
+  {
+    "id": "dua_qunoot",
+    "category": "special",
+    "name": "Dua al-Qunoot (Fajr)",
+    "arabic": "اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ، وَعَافِنِي فِيمَنْ عَافَيْتَ، وَتَوَلَّنِي فِيمَنْ تَوَلَّيتَ، وَبَارِكْ لِي فِيمَا أَعْطَيْتَ، وَقِنِي شَرَّ مَا قَضَيْتَ، فَإِنَّكَ تَقْضِي وَلَا يُقْضَىٰ عَلَيْكَ، وَإِنَّهُ لَا يَذِلُّ مَنْ وَالَيْتَ، وَلَا يَعِزُّ مَنْ عَادَيْتَ، تَبَارَكْتَ رَبَّنَا وَتَعَالَيْتَ، فَلَكَ الْحَمْدُ عَلَىٰ مَا قَضَيْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ، وَصَلَّى اللَّهُ عَلَىٰ سَيِّدِنَا مُحَمَّدٍ وَعَلَىٰ آلِهِ وَصَحْبِهِ وَسَلَّمَ",
+    "english_transliteration": "Allahummahdini fiman hadayt, wa 'afini fiman 'afayt, wa tawallani fiman tawallayt, wa barik li fima a'tayt, wa qini sharra ma qadayt, fa'innaka taqdi wa la yuqda 'alayk, wa innahu la yadillu man walayt, wa la ya'izzu man 'adayt, tabarakta Rabbana wa ta'alayt, falakal-hamdu 'ala ma qadayt, astaghfiruka wa atubu ilayk, wa sallallahu 'ala Sayyidina Muhammadin wa 'ala alihi wa sahbihi wa sallam.",
+    "malayalam_transliteration": "അല്ലാഹുമ്മഹ്ദിനീ ഫീമൻ ഹദൈത്, വആഫിനീ ഫീമൻ ആഫൈത്, വതവല്ലനീ ഫീമൻ തവല്ലൈത്, വബാരിക് ലീ ഫീമാ അഅ്ത്വൈത്, വഖിനീ ശർറ മാ ഖളൈത്, ഫഇന്നക്ക തഖ്ളീ വലാ യുഖ്ളാ അലൈക്, വഇന്നഹൂ ലാ യദില്ലു മൻ വാലൈത്, വലാ യഇസ്സു മൻ ആദൈത്, തബാറക്ത റബ്ബനാ വതആലൈത്, ഫലക്കൽ ഹംദു അലാ മാ ഖളൈത്, അസ്തഗ്ഫിറുക വഅതൂബു ഇലൈക്, വസ്വല്ലല്ലാഹു അലാ സയ്യിദിനാ മുഹമ്മദിവ് വഅലാ ആലിഹീ വസ്വഹ്ബിഹീ വസല്ലം.",
+    "english_translation": "O Allah, guide me among those You have guided, grant me health among those You have granted health, take me into Your charge among those You have taken into Your charge, bless me in what You have given, and protect me from the evil of what You have decreed. For verily You decree and none can decree over You. And verily, he whom You show allegiance to is never abased, and he whom You take as an enemy is never mighty. Blessed are You, our Lord, and Exalted. To You be praise for what You have decreed. I seek Your forgiveness and turn to You in repentance. And may Allah shower blessings and peace upon our master Muhammad, and upon his family and companions.",
+    "malayalam_translation": "അല്ലാഹുവേ, നീ നേർവഴിയിലാക്കിയവരിൽ എന്നെയും നീ നേർവഴിയിലാക്കേണമേ, നീ സൗഖ്യം നൽകിയവരിൽ എനിക്കും നീ സൗഖ്യം നൽകേണമേ, നീ ഏറ്റെടുത്തവരിൽ എന്നെയും നീ ഏറ്റെടുക്കേണമേ, നീ എനിക്ക് നൽകിയതിൽ എനിക്ക് നീ ബറകത്ത് നൽകേണമേ, നീ വിധിച്ച് വെച്ച തിന്മകളിൽ നിന്ന് എന്നെ നീ കാത്തുരക്ഷിക്കേണമേ. തീർച്ചയായും നീ വിധിക്കുന്നു, നിനക്കെതിരായി ഒന്നും വിധിക്കപ്പെടുകയില്ല. നീ സഹായിച്ചവൻ ഒരിക്കലും അപമാനിതനാവുകയില്ല, നീ ശത്രുത വെച്ചവൻ പ്രതാപവാനാകുകയുമില്ല. ഞങ്ങളുടെ രക്ഷിതാവേ, നീ അനുഗ്രഹപൂർണ്ണനും പരമോന്നതനുമായിരിക്കുന്നു. നീ വിധിച്ച കാര്യങ്ങളിൽ നിനക്കാകുന്നു സർവ്വ സ്തുതിയും. ഞാൻ നിന്നോട് പാപമോചനം തേടുകയും നിന്നിലേക്ക് ഖേദിച്ചുമടങ്ങുകയും ചെയ്യുന്നു. അല്ലാഹു ഞങ്ങളുടെ നേതാവായ മുഹമ്മദ് നബിയുടെ മേലും അവിടുത്തെ കുടുംബത്തിന്റെ മേലും അനുചരന്മാരുടെ മേലും സ്വലാത്തും സലാമും വർഷിക്കുമാറാകട്ടെ."
+  },
+  {
+      "id": "janaza_recitation_salat_alan_nabi",
+      "category": "janaza_namaz",
+      "name": "Second Takbir Recitation (Salat al-Ibrahimiyyah)",
+      "arabic": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ اللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ",
+      "english_transliteration": "Allahumma salli 'ala Muhammadin wa 'ala ali Muhammad, kama sallayta 'ala Ibrahima wa 'ala ali Ibrahism, innaka Hamidun Majid. Allahumma barik 'ala Muhammadin wa 'ala ali Muhammad, kama barakta 'ala Ibrahima wa 'ala ali Ibrahima, innaka Hamidun Majid",
+      "malayalam_transliteration": "അല്ലാഹുമ്മ സ്വല്ലി അലാ മുഹമ്മദിൻ വഅലാ ആലി മുഹമ്മദ്, കമാ സ്വല്ലൈത അലാ ഇബ്രാഹീമ വഅലാ ആലി ഇബ്രാഹീം, ഇന്നക ഹമീദുൻ മജീദ്. അല്ലാഹുമ്മ ബാരിക് അലാ മുഹമ്മദിൻ വഅലാ ആലി മുഹമ്മദ്, കമാ ബാരക്ത അലാ ഇബ്രാഹീമ വഅലാ ആലി ഇബ്രാഹീം, ഇന്നക ഹമീദുൻ മജീദ്",
+      "english_translation": "O Allah, send prayers upon Muhammad and upon the family of Muhammad, as You sent prayers upon Abraham and upon the family of Abraham; You are indeed Praiseworthy, Most Glorious. O Allah, bless Muhammad and the family of Muhammad, as You blessed Abraham and the family of Abraham; You are indeed Praiseworthy, Most Glorious.",
+      "malayalam_translation": "അല്ലാഹുവേ, ഇബ്രാഹീം നബിക്കും കുടുംബത്തിനും നീ അനുഗ്രഹം ചെയ്തതുപോലെ മുഹമ്മദ് നബിക്കും കുടുംബത്തിനും നീ അനുഗ്രഹം ചെയ്യേണമേ. തീർച്ചയായും നീ ഏറെ സ്തുതിക്കപ്പെട്ടവനും മഹത്വമേറിയവനുമാണ്. അല്ലാഹുവേ, ഇബ്രാഹീം നബിയെയും കുടുംബത്തെയും നീ അനുഗ്രഹിച്ചതുപോലെ മുഹമ്മദ് നബിയെയും കുടുംബത്തെയും നീ അനുഗ്രഹിക്കേണമേ. തീർച്ചയായും നീ ഏറെ സ്തുതിക്കപ്പെട്ടവനും മഹത്വമേറിയവനുമാണ്."
+  },
+  {
+      "id": "janaza_dua_complete_male",
+      "category": "janaza_namaz",
+      "name": "Complete Third Takbir Dua (For a Deceased Male)",
+      "arabic": "اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ، وَعَافِهِ وَاعْفُ عَنْهُ، وَأَكْرِمْ نُزُلَهُ، وَوَسِّعْ مُدْخَلَهُ، وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَقِّهِ مِنَ الْخَطَايَا كَمَا نَقَّيْتَ الثَّوْبَ الأَبْيَضَ مِنَ الدَّنَسِ، وَأَبْدِلْهُ دَارًا خَيْرًا مِنْ دَارِهِ، وَأَهْلاً خَيْرًا مِنْ أَهْلِهِ، وَزَوْجًا خَيْرًا مِنْ زَوْجِهِ، وَأَدْخِلْهُ الْجَنَّةَ، وَأَعِذْهُ مِنْ عَذَابِ الْقَبْرِ وَمِنْ عَذَابِ النَّارِ",
+      "english_transliteration": "Allahummagh-fir lahu war-hamhu, wa 'afihi wa'fu 'anhu, wa akrim nuzulahu, wa wassi' mudkhalahu, waghsilhu bil-ma'i wath-thalji wal-barad, wa naqqihi minal-khataya kama naqqaytath-thawbal-abyada minad-danas, wa abdilhu daran khayran min darihi, wa ahlan khayran min ahlihi, wa zawjan khayran min zawjihi, wa adkhilhul-Jannata, wa a'idhhu min 'adhabil-qabri wa min 'adhabin-nar",
+      "malayalam_transliteration": "അല്ലാഹുമ്മഗ്ഫിർ ലഹു വർഹംഹു, വആഫിഹി വഅ്ഫു അൻഹു, വഅക്രിം നുസുലഹു, വവസ്സിഅ് മുദ്ഖലഹു, വഗ്സിൽഹു ബിൽമാഇ വഥ്ഥൽജി വൽബരദ്, വനഖ്ഖിഹി മിനൽ ഖതായ കമാ നഖ്ഖൈതഥ്ഥൗബൽ അബ്‌യള മിനദ്ദലസ്, വഅബ്ദിൽഹു ദാരൻ ഖൈരൻ മിൻ ദാരിഹി, വഅഹ്‌ലൻ ഖൈരൻ മിൻ അഹ്‌ലിഹി, വസൗജൻ ഖൈരൻ മിൻ സൗജിഹി, വഅദ്ഖിൽഹുൽ ജന്നത, വഅഇദ്ഹു മിൻ അദാബിൽ ഖബ്രി വമിൻ അദാബിന്നാർ",
+      "english_translation": "O Allah, forgive him and have mercy on him, grant him wellbeing and pardon him. Make his resting place honorable and expand his place of entry. Wash him with water, snow, and hail, and purify him from sins as a white garment is purified from dirt. Replace his home with a better home, his family with a better family, and his spouse with a better spouse. Admit him into Paradise, and protect him from the torment of the grave and the torment of the Fire.",
+      "malayalam_translation": "അല്ലാഹുവേ, ഇദ്ദേഹത്തിന് നീ പൊറുത്തുകൊടുക്കുകയും കരുണ ചെയ്യുകയും ചെയ്യേണമേ. ഇദ്ദേഹത്തിന് നീ സൗഖ്യവും മാപ്പും നൽകേണമേ. ഇദ്ദേഹത്തിന്റെ സൽക്കാരം (സ്വീകരണം) നീ ബഹുമാനമുള്ളതാക്കേണമേ. പ്രവേശന സ്ഥലം വിശാലമാക്കിക്കൊടുക്കേണമേ. വെള്ളം, മഞ്ഞ്, ആലിപ്പഴം എന്നിവകൊണ്ട് ഇദ്ദേഹത്തെ നീ കഴുകി വെടിപ്പാക്കേണമേ. വെള്ളവസ്ത്രം അഴുക്കിൽ നിന്ന് വൃത്തിയാക്കുന്നതുപോലെ ഇദ്ദേഹത്തെ പാപങ്ങളിൽ നിന്ന് നീ ശുദ്ധീകരിക്കേണമേ. ഇദ്ദേഹത്തിന്റെ വീടിനേക്കാൾ ഉത്തമമായ വീടും, കുടുംബത്തേക്കാൾ ഉത്തമമായ കുടുംബവും, ഇണയേക്കാൾ ഉത്തമമായ ഇണയും നീ പകരം നൽകേണമേ. ഇദ്ദേഹത്തെ നീ സ്വർഗ്ഗത്തിൽ പ്രവേശിപ്പിക്കുകയും ഖബറിലെ ശിക്ഷയിൽ നിന്നും നരകശിക്ഷയിൽ നിന്നും കാത്തുരക്ഷിക്കുകയും ചെയ്യേണമേ."
+  },
+  {
+      "id": "janaza_dua_complete_female",
+      "category": "janaza_namaz",
+      "name": "Complete Third Takbir Dua (For a Deceased Female)",
+      "arabic": "اللَّهُمَّ اغْفِرْ لَهَا وَارْحَمْهَا، وَعَافِهَا وَاعْفُ عَنْهَا، وَأَكْرِمْ نُزُلَهَا، وَوَسِّعْ مُدْخَلَهَا، وَاغْسِلْهَا بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَقِّهَا مِنَ الْخَطَايَا كَمَا نَقَّيْتَ الثَّوْبَ الأَبْيَضَ مِنَ الدَّنَسِ، وَأَبْدِلْهَا دَارًا خَيْرًا مِنْ دَارِهَا، وَأَهْلاً خَيْرًا مِنْ أَهْلِهَا، وَزَوْجًا خَيْرًا مِنْ زَوْجِهَا، وَأَدْخِلْهَا الْجَنَّةَ، وَأَعِذْهَا مِنْ عَذَابِ الْقَبْرِ وَمِنْ عَذَابِ النَّارِ",
+      "english_transliteration": "Allahummagh-fir laha war-hamha, wa 'afiha wa'fu 'anha, wa akrim nuzulaha, wa wassi' mudkhalaha, waghsilha bil-ma'i wath-thalji wal-barad, wa naqqiha minal-khataya kama naqqaytath-thawbal-abyada minad-danas, wa abdilha daran khayran min dariha, wa ahlan khayran min ahliha, wa zawjan khayran min zawjiha, wa adkhilhul-Jannata, wa a'idhha min 'adhabil-qabri wa min 'adhabin-nar",
+      "malayalam_transliteration": "അല്ലാഹുമ്മഗ്ഫിർ ലഹാ വർഹംഹാ, വആഫിഹാ വഅ്ഫു അൻഹാ, വഅക്രിം നുസുലഹാ, വവസ്സിഅ് മുദ്ഖലഹാ, വഗ്സിൽഹാ ബിൽമാഇ വഥ്ഥൽജി വൽബരദ്, വനഖ്ഖിഹാ മിനൽ ഖതായ കമാ നഖ്ഖൈതഥ്ഥൗബൽ അബ്‌യള മിനദ്ദലസ്, വഅബ്ദിൽഹാ ദാരൻ ഖൈരൻ മിൻ ദാരിഹാ, വഅഹ്‌ലൻ ഖൈരൻ മിൻ അഹ്‌ലിഹാ, വസൗജൻ ഖൈരൻ മിൻ സൗജിഹാ, വഅദ്ഖിൽഹൽ ജന്നത, വഅഇദ്ഹാ മിൻ അദാബിൽ ഖബ്രി വമിൻ അദാബിന്നാർ",
+      "english_translation": "O Allah, forgive her and have mercy on her, grant her wellbeing and pardon her. Make her resting place honorable and expand her place of entry. Wash her with water, snow, and hail, and purify her from sins as a white garment is purified from dirt. Replace her home with a better home, her family with a better family, and her spouse with a better spouse. Admit her into Paradise, and protect her from the torment of the grave and the torment of the Fire.",
+      "malayalam_translation": "അല്ലാഹുവേ, ഇവർക്ക് നീ പൊറുത്തുകൊടുക്കുകയും കരുണ ചെയ്യുകയും ചെയ്യേണമേ. ഇവർക്ക് നീ സൗഖ്യവും മാപ്പും നൽകേണമേ. ഇവരുടെ സൽക്കാരം (സ്വീകരണം) നീ ബഹുമാനമുള്ളതാക്കേണമേ. പ്രവേശന സ്ഥലം വിശാലമാക്കിക്കൊടുക്കേണമേ. വെള്ളം, മഞ്ഞ്, ആലിപ്പഴം എന്നിവകൊണ്ട് ഇവരെ നീ കഴുകി വെടിപ്പാക്കേണമേ. വെള്ളവസ്ത്രം അഴുക്കിൽ നിന്ന് വൃത്തിയാക്കുന്നതുപോലെ ഇവരെ പാപങ്ങളിൽ നിന്ന് നീ ശുദ്ധീകരിക്കേണമേ. ഇവരുടെ വീടിനേക്കാൾ ഉത്തമമായ വീടും, കുടുംബത്തേക്കാൾ ഉത്തമമായ കുടുംബവും, ഇണയേക്കാൾ ഉത്തമമായ ഇണയും നീ പകരം നൽകേണമേ. ഇവരെ നീ സ്വർഗ്ഗത്തിൽ പ്രവേശിപ്പിക്കുകയും ഖബറിലെ ശിക്ഷയിൽ നിന്നും നരകശിക്ഷയിൽ നിന്നും കാത്തുരക്ഷിക്കുകയും ചെയ്യേണമേ."
+  },
+  {
+    "id": "janaza_dua_complete_plural",
+    "category": "janaza_namaz",
+    "name": "Complete Third Takbir Dua (For Multiple Deceased)",
+    "arabic": "اللَّهُمَّ اغْفِرْ لَهُمْ وَارْحَمْهُمْ، وَعَافِهِمْ وَاعْفُ عَنْهُمْ، وَأَكْرِمْ نُزُلَهُمْ، وَوَسِّعْ مُدْخَلَهُمْ، وَاغْسِلْهُمْ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَقِّهِمْ مِنَ الْخَطَايَا كَمَا نَقَّيْتَ الثَّوْبَ الأَبْيَضَ مِنَ الدَّنَسِ، وَأَبْدِلْهُمْ دَارًا خَيْرًا مِنْ دَارِهِمْ، وَأَهْلاً خَيْرًا مِنْ أَهْلِهِمْ، وَزَوْجًا خَيْرًا مِنْ زَوْجِهِمْ، وَأَدْخِلْهُمُ الْجَنَّةَ، وَأَعِذْهُمْ مِنْ عَذَابِ الْقَبْرِ وَمِنْ عَذَابِ النَّارِ",
+    "english_transliteration": "Allahummagh-fir lahum war-hamhum, wa 'afihim wa'fu 'anhum, wa akrim nuzulahum, wa wassi' mudkhalahum, waghsilhum bil-ma'i wath-thalji wal-barad, wa naqqihim minal-khataya kama naqqaytath-thawbal-abyada minad-danas, wa abdilham daran khayran min darihim, wa ahlan khayran min ahlihim, wa zawjan khayran min zawjihim, wa adkhilhumul-Jannata, wa a'idhhum min 'adhabil-qabri wa min 'adhabin-nar",
+    "malayalam_transliteration": "അല്ലാഹുമ്മഗ്ഫിർ ലഹും വർഹംഹും, വആഫിഹിം വഅ്ഫു അൻഹും, വഅക്രിം നുസുലഹും, വവസ്സിഅ് മുദ്ഖലഹും, വഗ്സിൽഹും ബിൽമാഇ വഥ്ഥൽജി വൽബരദ്, വനഖ്ഖിഹിം മിനൽ ഖതായ കമാ നഖ്ഖൈതഥ്ഥൗബൽ അബ്‌യള മിനദ്ദലസ്, വഅബ്ദിൽഹും ദാരൻ ഖൈരൻ മിൻ ദാരിഹിം, വഅഹ്‌ലൻ ഖൈരൻ മിൻ അഹ്‌ലിഹിം, വസൗജൻ ഖൈരൻ മിൻ സൗജിഹിം, വഅദ്ഖിൽഹുമുൽ ജന്നത, വഅഇദ്ഹും മിൻ അദാബിൽ ഖബ്രി വമിൻ അദാബിന്നാർ",
+    "english_translation": "O Allah, forgive them and have mercy on them, grant them wellbeing and pardon them. Make their resting places honorable and expand their places of entry. Wash them with water, snow, and hail, and purify them from sins as a white garment is purified from dirt. Replace their homes with better homes, their families with better families, and their spouses with better spouses. Admit them into Paradise, and protect them from the torment of the grave and the torment of the Fire.",
+    "malayalam_translation": "അല്ലാഹുവേ, ഇവർക്ക് നീ പൊറുത്തുകൊടുക്കുകയും കരുണ ചെയ്യുകയും ചെയ്യേണമേ. ഇവർക്ക് നീ സൗഖ്യവും മാപ്പും നൽകേണമേ. ഇവരുടെ സൽക്കാരം (സ്വീകരണം) നീ ബഹുമാനമുള്ളതാക്കേണമേ. പ്രവേശന സ്ഥലം വിശാലമാക്കിക്കൊടുക്കേണമേ. വെള്ളം, മഞ്ഞ്, ആലിപ്പഴം എന്നിവകൊണ്ട് ഇവരെ നീ കഴുകി വെടിപ്പാക്കേണമേ. വെള്ളവസ്ത്രം അഴുക്കിൽ നിന്ന് വൃത്തിയാക്കുന്നതുപോലെ ഇവരെ പാപങ്ങളിൽ നിന്ന് നീ ശുദ്ധീകരിക്കേണമേ. ഇവരുടെ വീടിനേക്കാൾ ഉത്തമമായ വീടും, കുടുംബത്തേക്കാൾ ഉത്തമമായ കുടുംബവും, ഇണയേക്കാൾ ഉത്തമമായ ഇണയും നീ പകരം നൽകേണമേ. ഇവരെ നീ സ്വർഗ്ഗത്തിൽ പ്രവേശിപ്പിക്കുകയും ഖബറിലെ ശിക്ഷയിൽ നിന്നും നരകശിക്ഷയിൽ നിന്നും കാത്തുരക്ഷിക്കുകയും ചെയ്യേണമേ."
+  },
+  {
+    "id": "janaza_dua_fourth_takbir",
+    "category": "janaza_namaz",
+    "name": "Fourth Takbir Recitation (Dua Before Salaam)",
+    "arabic": "اللَّهُمَّ لَا تَحْرِمْنَا أَجْرَهُ وَلَا تَفْتِنَّا بَعْدَهُ وَاغْفِرْ لَنَا وَلَهُ",
+    "english_transliteration": "Allahumma la tahrimna ajrahu wa la taftinna ba'dahu waghfir lana wa lahu",
+    "malayalam_transliteration": "അല്ലാഹുമ്മ ലാ തഹ്‌രിംനാ അജ്‌രഹു വലാ തഫ്‌തിന്നാ ബഅ്ദഹു വഗ്ഫിർ ലനാ വലഹു",
+    "english_translation": "O Allah, do not deprive us of his reward, do not put us to trial after him, and forgive us and him.",
+    "malayalam_translation": "അല്ലാഹുവേ, ഇദ്ദേഹത്തിന് (ഈ മയ്യിത്തിന്) നൽകിയ പ്രതിഫലത്തിൽ നിന്ന് ഞങ്ങളെ നീ തടയരുതേ. ഇദ്ദേഹത്തിന് ശേഷം ഞങ്ങളെ നീ പരീക്ഷണത്തിലാക്കരുതേ. ഞങ്ങൾക്കും ഇദ്ദേഹത്തിനും നീ പൊറുത്തുതരേണമേ. (സ്ത്രീയാണെങ്കിൽ 'അജ്‌രഹാ, ബഅ്ദഹാ, ലഹാ' എന്ന് മാറ്റുക)"
+  },
+  {
+    "id": "janaza_tasleem",
+    "category": "janaza_namaz",
+    "name": "Tasleem (Concluding Salaam)",
+    "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ",
+    "english_transliteration": "As-salamu 'alaykum wa rahmatullahi wa barakatuh",
+    "malayalam_transliteration": "അസ്സലാമു അലൈക്കും വറഹ്മത്തുല്ലാഹി വബറകാതുഹ്",
+    "english_translation": "May the peace, mercy, and blessings of Allah be upon you.",
+    "malayalam_translation": "നിങ്ങളുടെ മേൽ അല്ലാഹുവിന്റെ സമാധാനവും കാരുണ്യവും അനുഗ്രഹങ്ങളും ഉണ്ടാകട്ടെ."
+  },
+  {
+      "id": "eid_takbir_dhikr",
+      "category": "eid_namaz",
+      "name": "Dhikr Between Eid Takbirs",
+      "arabic": "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
+      "english_transliteration": "Subhanallahi wal-hamdulillahi wa la ilaha illallahu wallahu akbar",
+      "malayalam_transliteration": "സുബ്ഹാനല്ലാഹി വൽഹംദുലില്ലാഹി വലാ ഇലാഹ ഇല്ലല്ലാഹു വല്ലാഹു അക്ബർ",
+      "english_translation": "Glory be to Allah, all praise belongs to Allah, there is no god but Allah, and Allah is the Greatest.",
+      "malayalam_translation": "അല്ലാഹു എത്രയോ പരിശുദ്ധൻ, സർവ്വസ്തുതിയും അല്ലാഹുവിനാണ്, അല്ലാഹുവല്ലാതെ മറ്റൊരു ഇലാഹുമില്ല, അല്ലാഹുവാണ് ഏറ്റവും വലിയവൻ."
+  },
+  {
+      "id": "niyyah_jumuah",
+      "category": "niyyah",
+      "name": "Niyyah for Jumu'ah Prayer (as Follower)",
+      "arabic": "أُصَلِّي فَرْضَ الْجُمُعَةِ رَكْعَتَيْنِ مَأْمُومًا لِلَّهِ تَعَالَى",
+      "english_transliteration": "Usalli fardal-Jumu'ati rak'atayni ma'muman lillahi Ta'ala",
+      "malayalam_transliteration": "ഉസ്വല്ലി ഫർദൽ ജുമുഅത്തി റക്അതൈനി മഅ്മൂമൻ ലില്ലാഹി തആലാ",
+      "english_translation": "I intend to pray the two Rak'ahs of the obligatory Jumu'ah prayer, as a follower, for the sake of Allah the Almighty.",
+      "malayalam_translation": "അല്ലാഹു തആലാക്ക് വേണ്ടി ജുമുഅയെന്ന ഫർള് നിസ്കാരം രണ്ട് റക്അത് മഅ്മൂമായിക്കൊണ്ട് ഞാൻ ഖിബ്‌ലക്ക് മുന്നിട്ട് നിസ്കരിക്കുന്നു."
+  },
+  {
+      "id": "niyyah_eid_ul_fitr",
+      "category": "niyyah",
+      "name": "Niyyah for Eid-ul-Fitr Prayer (as Follower)",
+      "arabic": "أُصَلِّي سُنَّةَ عِيدِ الْفِطْرِ رَكْعَتَيْنِ مَأْمُومًا لِلَّهِ تَعَالَى",
+      "english_transliteration": "Usalli sunnata 'Eidil-Fitri rak'atayni ma'muman lillahi Ta'ala",
+      "malayalam_transliteration": "ഉസ്വല്ലി സുന്നത ഈദിൽ ഫിത്വ്‌രി റക്അതൈനി മഅ്മൂമൻ ലില്ലാഹി തആലാ",
+      "english_translation": "I intend to pray the two Rak'ahs of the Sunnah Eid-ul-Fitr prayer, as a follower, for the sake of Allah the Almighty.",
+      "malayalam_translation": "അല്ലാഹു തആലാക്ക് വേണ്ടി ഈദുൽ ഫിത്വ്‌ർ എന്ന സുന്നത്ത് നിസ്കാരം രണ്ട് റക്അത് മഅ്മൂമായിക്കൊണ്ട് ഞാൻ നിസ്കരിക്കുന്നു."
+  },
+  {
+      "id": "niyyah_eid_ul_adha",
+      "category": "niyyah",
+      "name": "Niyyah for Eid-ul-Adha Prayer (as Follower)",
+      "arabic": "أُصَلِّي سُنَّةَ عِيدِ الْأَضْحَى رَكْعَتَيْنِ مَأْمُومًا لِلَّهِ تَعَالَى",
+      "english_transliteration": "Usalli sunnata 'Eidil-Adha rak'atayni ma'muman lillahi Ta'ala",
+      "malayalam_transliteration": "ഉസ്വല്ലി സുന്നത ഈദിൽ അദ്ഹാ റക്അതൈനി മഅ്മൂമൻ ലില്ലാഹി തആലാ",
+      "english_translation": "I intend to pray the two Rak'ahs of the Sunnah Eid-ul-Adha prayer, as a follower, for the sake of Allah the Almighty.",
+      "malayalam_translation": "അല്ലാഹു തആലാക്ക് വേണ്ടി ഈദുൽ അദ്ഹാ എന്ന സുന്നത്ത് നിസ്കാരം രണ്ട് റക്അത് മഅ്മൂമായിക്കൊണ്ട് ഞാൻ നിസ്കരിക്കുന്നു."
+  },
+  {
+      "id": "niyyah_janaza",
+      "category": "niyyah",
+      "name": "Niyyah for Janaza Prayer (as Follower)",
+      "arabic": "أُصَلِّي فَرْضَ الْكِفَايَةِ عَلَى هَذَا الْمَيِّتِ أَرْبَعَ تَكْبِيرَاتٍ مَأْمُومًا لِلَّهِ تَعَالَى",
+      "english_transliteration": "Usalli fardal-kifayati 'ala hadhal-mayyiti arba'a takbiratin ma'muman lillahi Ta'ala",
+      "malayalam_transliteration": "ഉസ്വല്ലി ഫർദൽ കിഫായതി അലാ ഹാദൽ മയ്യിതി അർബഅ തക്ബീറാതിൻ മഅ്മൂമൻ ലില്ലാഹി തആലാ",
+      "english_translation": "I intend to pray the communal obligation (Fard al-Kifayah) over this deceased person with four Takbirs, as a follower, for the sake of Allah the Almighty.",
+      "malayalam_translation": "ഈ കാണപ്പെടുന്ന മയ്യിത്തിന്മേൽ ഫർള് കിഫായയായ ജനാസ നിസ്കാരം നാല് തക്ബീറുകളോടെ മഅ്മൂമായിക്കൊണ്ട് അല്ലാഹു തആലാക്ക് വേണ്ടി ഞാൻ നിസ്കരിക്കുന്നു."
+  }
+]
