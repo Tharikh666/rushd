@@ -6,6 +6,7 @@ import 'package:rushd/features/yaseen/presentation/screens/yaseen_screen.dart';
 
 import '../../features/duas/presentation/screens/dua_category_screen.dart';
 import '../../features/duas/presentation/screens/dua_detail_scrren.dart';
+import '../../features/duas/presentation/screens/dua_search_screen.dart';
 import '../../features/duas/presentation/screens/duas_screen.dart';
 import '../../features/home/presentation/home_page.dart';
 import '../../features/prayer/presentation/pages/prayer_times_page.dart';
@@ -122,6 +123,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 
           return DuaDetailScreen(duaId: duaId);
         },
+      ),
+      GoRoute(
+        path: '/duas/search',
+        name: 'dua-search',
+        builder: (context, state) => const DuaSearchScreen(),
       ),
 
       // TASBEEH

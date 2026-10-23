@@ -7,6 +7,7 @@ import '../../../../core/storage/shared_preferences_storage.dart';
 import '../../../../core/theme/rushd_colors.dart';
 import '../data/repositories/dhikr_journey_repository.dart';
 import '../domain/models/dhikr_journey.dart';
+import '../../duas/data/repositories/dua_repository.dart';
 
 final dhikrJourneyRepositoryProvider = FutureProvider<DhikrJourneyRepository>((
   ref,
@@ -23,7 +24,7 @@ final dhikrJourneysProvider = FutureProvider<List<DhikrJourney>>((ref) async {
 class DhikrJourneysScreen extends ConsumerWidget {
   const DhikrJourneysScreen({super.key});
 
-  Future<void> _createJourney(BuildContext context, WidgetRef ref) async {
+  Future<void> _openCreateJourneySheet(BuildContext context, WidgetRef ref) async {
     final created = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
@@ -35,6 +36,45 @@ class DhikrJourneysScreen extends ConsumerWidget {
 
     if (created == true && context.mounted) {
       ref.invalidate(dhikrJourneysProvider);
+    }
+  }
+
+  Future<void> _createJourney(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final choice = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        icon: const Icon(Icons.auto_awesome_rounded, size: 32),
+        title: const Text('Begin a Dhikr Journey'),
+        content: const Text(
+          'Would you like to choose a Dua or Dhikr from the collection, '
+          'or create your own recitation journey?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop('manual'),
+            child: const Text('Create Manually'),
+          ),
+          FilledButton.icon(
+            onPressed: () => Navigator.of(dialogContext).pop('browse'),
+            icon: const Icon(Icons.menu_book_rounded),
+            label: const Text('Browse Duas & Dhikr'),
+          ),
+        ],
+      ),
+    );
+
+    if (!context.mounted || choice == null) return;
+
+    if (choice == 'browse') {
+      context.push('/duas');
+      return;
+    }
+
+    if (choice == 'manual') {
+      await _openCreateJourneySheet(context, ref);
     }
   }
 
@@ -95,7 +135,7 @@ class DhikrJourneysScreen extends ConsumerWidget {
             if (context.canPop()) {
               context.pop();
             } else {
-              context.go('/home');
+              context.go('/');
             }
           },
         ),
