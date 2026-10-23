@@ -13,12 +13,13 @@ import '../../features/quran/presentation/quran_home_screen.dart';
 import '../../features/quran/presentation/quran_reader_screen.dart';
 import '../../features/quran/presentation/quran_verse_screen.dart';
 import '../../features/salah/presentation/screens/salah_prayer_detail_screen.dart';
+import '../../features/tasbeeh/screens/dhikr_counter_screen.dart';
+import '../../features/tasbeeh/screens/dhikr_journeys_screen.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     routes: [
-
       // HOME
       GoRoute(
         path: '/',
@@ -111,9 +112,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final categoryId = state.pathParameters['categoryId']!;
 
-          return DuaCategoryScreen(
-            categoryId: categoryId,
-          );
+          return DuaCategoryScreen(categoryId: categoryId);
         },
       ),
       GoRoute(
@@ -122,6 +121,21 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           final duaId = state.pathParameters['duaId']!;
 
           return DuaDetailScreen(duaId: duaId);
+        },
+      ),
+
+      // TASBEEH
+      GoRoute(
+        path: '/tasbeeh',
+        name: 'dhikr-journeys',
+        builder: (context, state) => const DhikrJourneysScreen(),
+      ),
+      GoRoute(
+        path: '/tasbeeh/counter/:journeyId',
+        name: 'dhikr-counter',
+        builder: (context, state) {
+          final journeyId = state.pathParameters['journeyId']!;
+          return DhikrCounterScreen(journeyId: journeyId);
         },
       ),
     ],

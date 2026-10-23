@@ -158,7 +158,7 @@ class _DuasScreenState extends State<DuasScreen> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               const Text(
-                                'Daily Supplications',
+                                'Duas and Dhikrs',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 26,

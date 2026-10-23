@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../core/storage/shared_preferences_storage.dart';
+import '../../../tasbeeh/screens/dhikr_journeys_screen.dart';
+import '../../../tasbeeh/data/repositories/dhikr_journey_repository.dart';
+import '../../../tasbeeh/domain/models/dhikr_journey.dart';
+
 import '../../data/repositories/dua_repository.dart';
 
 class DuaDetailScreen extends StatefulWidget {
@@ -100,6 +109,77 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
       shareBuffer.toString(),
       subject: title.isEmpty ? 'Dua' : title,
     );
+  }
+
+  Future<void> _createRecitationJourney(Map<String, dynamic> dua) async {
+    final name = _value(dua, 'title');
+
+    final formKey = GlobalKey<FormState>();
+    var saving = false;
+    String? createdJourneyId;
+
+    final targetCount = await showModalBottomSheet<int>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      showDragHandle: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      builder: (sheetContext) {
+        // The controller belongs to this bottom sheet's widget subtree.
+        return _CreateRecitationJourneySheet(
+          name: name,
+          formKey: formKey,
+          onCreate: (target) async {
+            if (saving) return;
+
+            saving = true;
+
+            try {
+              final preferences = await SharedPreferences.getInstance();
+
+              final repository = DhikrJourneyRepository(
+                SharedPreferencesStorage(preferences),
+              );
+
+              final journeyId = DateTime.now().microsecondsSinceEpoch
+                  .toString();
+
+              final journey = DhikrJourney(
+                id: journeyId,
+                name: name,
+                currentCount: 0,
+                targetCount: target,
+                createdAt: DateTime.now(),
+                duaId: widget.duaId,
+              );
+
+              await repository.createJourney(journey);
+              createdJourneyId = journeyId;
+
+              if (!sheetContext.mounted) return;
+
+              Navigator.of(sheetContext).pop(target);
+            } catch (error) {
+              saving = false;
+
+              if (!sheetContext.mounted) return;
+
+              ScaffoldMessenger.of(sheetContext).showSnackBar(
+                SnackBar(content: Text('Could not create journey: $error')),
+              );
+            }
+          },
+        );
+      },
+    );
+
+    if (!mounted || targetCount == null || createdJourneyId == null) {
+      return;
+    }
+
+    ProviderScope.containerOf(context).invalidate(dhikrJourneysProvider);
+
+    context.push('/tasbeeh/counter/$createdJourneyId');
   }
 
   @override
@@ -370,6 +450,31 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                   ),
                 ),
 
+              // Create a linked Tasbeeh recitation journey.
+              Container(
+                margin: const EdgeInsets.only(bottom: 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => _createRecitationJourney(dua),
+                    icon: const Icon(Icons.repeat_rounded),
+                    label: const Text(
+                      'Create recitation journey',
+                      style: TextStyle(fontWeight: FontWeight.w800),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF1E3A8A),
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 17),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
               // 5. Action Buttons (Copy Arabic & Share Dua)
               Row(
                 children: [
@@ -480,6 +585,134 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// The text controller is owned and disposed by this widget.
+class _CreateRecitationJourneySheet extends StatefulWidget {
+  const _CreateRecitationJourneySheet({
+    required this.name,
+    required this.formKey,
+    required this.onCreate,
+  });
+
+  final String name;
+  final GlobalKey<FormState> formKey;
+  final Future<void> Function(int target) onCreate;
+
+  @override
+  State<_CreateRecitationJourneySheet> createState() =>
+      _CreateRecitationJourneySheetState();
+}
+
+class _CreateRecitationJourneySheetState
+    extends State<_CreateRecitationJourneySheet> {
+  late final TextEditingController _targetController;
+  bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _targetController = TextEditingController(text: '100');
+  }
+
+  @override
+  void dispose() {
+    _targetController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    if (_saving || !widget.formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() => _saving = true);
+
+    final target = int.parse(_targetController.text.trim());
+
+    try {
+      await widget.onCreate(target);
+    } finally {
+      if (mounted) {
+        setState(() => _saving = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedPadding(
+      duration: const Duration(milliseconds: 180),
+      curve: Curves.easeOut,
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+        child: Form(
+          key: widget.formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Create a recitation journey',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+              ),
+              const SizedBox(height: 8),
+              Text(widget.name, style: Theme.of(context).textTheme.bodyMedium),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _targetController,
+                autofocus: true,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                decoration: InputDecoration(
+                  labelText: 'Target recitation count',
+                  hintText: 'e.g. 100',
+                  prefixIcon: const Icon(Icons.flag_rounded),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                validator: (value) {
+                  final count = int.tryParse(value?.trim() ?? '');
+
+                  if (count == null || count < 1) {
+                    return 'Enter a count greater than zero';
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: _saving ? null : _submit,
+                  icon: _saving
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.play_arrow_rounded),
+                  label: Text(
+                    _saving ? 'Creating journey...' : 'Create journey',
+                  ),
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: const Color(0xFF1E3A8A),
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

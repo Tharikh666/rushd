@@ -9,7 +9,12 @@
     "english_translation": "I seek the forgiveness of Allah.",
     "malayalam_translation": "ഞാൻ അല്ലാഹുവിനോട് പാപമോചനം തേടുന്നു.",
     "source": "Sahih Muslim 591",
-    "tags": ["salah", "forgiveness", "dhikr", "after_fard"],
+    "tags": [
+      "salah",
+      "forgiveness",
+      "dhikr",
+      "after_fard"
+    ],
     "type": "dikr",
     "icon": "mosque"
   },
@@ -23,7 +28,11 @@
     "english_translation": "O Allah, You are Peace and from You comes peace. Blessed are You, O Owner of majesty and honor.",
     "malayalam_translation": "അല്ലാഹുവേ, നീയാണ് ശാന്തി. നിന്നിൽ നിന്നാണ് ശാന്തി ഉണ്ടാകുന്നത്. പ്രതാപവും ആദരവുമുള്ളവനേ, നീ അനുഗ്രഹപൂർണ്ണനാണ്.",
     "source": "Sahih Muslim 591",
-    "tags": ["salah", "peace", "dhikr"],
+    "tags": [
+      "salah",
+      "peace",
+      "dhikr"
+    ],
     "type": "dua",
     "icon": "clean_hands"
   },
@@ -37,7 +46,11 @@
     "english_translation": "Allah! There is no god but He – the Living, The Self-subsisting, Eternal. No slumber can seize Him nor sleep. His are all things in the heavens and on earth. Who is there can intercede in His presence except as He permitteth? He knoweth what (appeareth to His creatures as) Before or After or Behind them. Nor shall they compass aught of His knowledge except as He willeth. His throne doth extend over the heavens and on earth, and He feeleth no fatigue in guarding and preserving them, For He is the Most High, The Supreme (in glory).",
     "malayalam_translation": "അല്ലാഹു - അവനല്ലാതെ ആരാധനക്കർഹനായി മറ്റാരുമില്ല. എന്നെന്നും ജീവിച്ചിരിക്കുന്നവൻ, എല്ലാം നിയന്ത്രിക്കുന്നവൻ. മയക്കമോ ഉറക്കമോ അവനെ ബാധിക്കുകയില്ല. ആകാശഭൂമികളിലുള്ളതെല്ലാം അവന്റേതാണ്. അവന്റെ അനുവാദപ്രകാരമല്ലാതെ അവന്റെയടുക്കൽ ശുപാർശ നടത്താനാരുണ്ട്? അവരുടെ മുമ്പിലുള്ളതും അവർക്ക് പിന്നിലുള്ളതും അവൻ അറിയുന്നു. അവന്റെ അറിവിൽനിന്ന് അവൻ ഉദ്ദേശിക്കുന്നതല്ലാതെ യാതൊന്നും അവർക്ക് ഗ്രഹിക്കാനാവില്ല. അവന്റെ കുർസിയ്യ് (പീഠം) ആകാശഭൂമികളോളം വിശാലമായിരിക്കുന്നു. അവ രണ്ടിനെയും സംരക്ഷിക്കുന്നത് അവന് ഒട്ടും ഭാരമല്ല. അവൻ ഉന്നതനും മഹാനുമാകുന്നു.",
     "source": "Sunan An-Nasa'i",
-    "tags": ["salah", "quran", "protection"],
+    "tags": [
+      "salah",
+      "quran",
+      "protection"
+    ],
     "type": "quran",
     "icon": "shield"
   },
@@ -51,7 +64,11 @@
     "english_translation": "Glory be to Allah (33 times), Praise be to Allah (33 times), Allah is the Greatest (34 times).",
     "malayalam_translation": "അല്ലാഹു എത്ര പരിശുദ്ധൻ (33), സർവ്വ സ്തുതിയും അല്ലാഹുവിന് (33), അല്ലാഹു ഏറ്റവും വലിയവൻ (34).",
     "source": "Sahih al-Bukhari 3113",
-    "tags": ["salah", "tasbih", "dhikr"],
+    "tags": [
+      "salah",
+      "tasbih",
+      "dhikr"
+    ],
     "type": "dikr",
     "icon": "prayer_beads"
   },
@@ -65,7 +82,11 @@
     "english_translation": "There is no deity but Allah alone, He has no partner. His is the dominion and His is the praise, and He is Able to do all things.",
     "malayalam_translation": "അല്ലാഹുവല്ലാതെ മറ്റൊരു ആരാധ്യനില്ല. അവൻ ഏകനാണ്, അവന് പങ്കുകാരില്ല. ആധിപത്യവും സർവ്വ സ്തുതിയും അവനാണ്, അവൻ എല്ലാറ്റിനും കഴിവുള്ളവനാണ്.",
     "source": "Sahih Muslim 593",
-    "tags": ["salah", "tahlil", "dhikr"],
+    "tags": [
+      "salah",
+      "tahlil",
+      "dhikr"
+    ],
     "type": "dikr",
     "icon": "star_border"
   },
@@ -79,7 +100,11 @@
     "english_translation": "O Allah, I ask You for beneficial knowledge, goodly provision and acceptable deeds.",
     "malayalam_translation": "അല്ലാഹുവേ, উপകാരപ്രദമായ അറിവും, അനുവദനീയമായ ഉപജീവനവും, സ്വീകരിക്കപ്പെടുന്ന കർമ്മങ്ങളും ഞാൻ നിന്നോട് ചോദിക്കുന്നു.",
     "source": "Sunan Ibn Majah 925",
-    "tags": ["salah", "fajr", "morning"],
+    "tags": [
+      "salah",
+      "fajr",
+      "morning"
+    ],
     "type": "dua",
     "icon": "light_mode"
   },
@@ -93,7 +118,11 @@
     "english_translation": "We have reached the morning and at this very time unto Allah belongs all sovereignty, and all praise is for Allah.",
     "malayalam_translation": "നാമും ലോകത്തിന്റെ ആധിപത്യവും അല്ലാഹുവിനായി പ്രഭാതത്തിൽ പ്രവേശിച്ചു. സർവ്വ സ്തുതിയും അല്ലാഹുവിനാണ്.",
     "source": "Sahih Muslim 2723",
-    "tags": ["morning", "adhkar", "reminder"],
+    "tags": [
+      "morning",
+      "adhkar",
+      "reminder"
+    ],
     "type": "dikr",
     "icon": "wb_sunny"
   },
@@ -107,7 +136,11 @@
     "english_translation": "I seek the forgiveness of Allah the Mighty, Whom there is none worthy of worship except Him, the Living, the Eternal, and I repent unto Him.",
     "malayalam_translation": "മഹാനായ അല്ലാഹുവിനോട് ഞാൻ പാപമോചനം തേടുകയും അവനിലേക്ക് മടങ്ങുകയും ചെയ്യുന്നു, അവനല്ലാതെ ആരാധ്യനില്ല, അവൻ എന്നെന്നും ജീവിക്കുന്നവനും എല്ലാം നിയന്ത്രിക്കുന്നവനുമാണ്.",
     "source": "Sunan At-Tirmidhi 3577",
-    "tags": ["salah", "asr", "forgiveness"],
+    "tags": [
+      "salah",
+      "asr",
+      "forgiveness"
+    ],
     "type": "dua",
     "icon": "wb_twilight"
   },
@@ -121,7 +154,11 @@
     "english_translation": "We have reached the evening and at this very time unto Allah belongs all sovereignty, and all praise is for Allah.",
     "malayalam_translation": "നാമും ലോകത്തിന്റെ ആധിപത്യവും അല്ലാഹുവിനായി സായാഹ്നത്തിൽ പ്രവേശിച്ചു. സർവ്വ സ്തുതിയും അല്ലാഹുവിനാണ്.",
     "source": "Sahih Muslim 2723",
-    "tags": ["evening", "adhkar", "reminder"],
+    "tags": [
+      "evening",
+      "adhkar",
+      "reminder"
+    ],
     "type": "dikr",
     "icon": "dark_mode"
   },
@@ -135,7 +172,11 @@
     "english_translation": "None has the right to be worshipped but Allah alone, Who has no partner. His is the dominion and His is the praise. He brings life and He causes death, and He is Able to do all things. (10 times)",
     "malayalam_translation": "അല്ലാഹുവല്ലാതെ മറ്റൊരു ആരാധ്യനില്ല. അവൻ ഏകനാണ്, അവന് പങ്കുകാരില്ല. ആധിപത്യവും സർവ്വ സ്തുതിയും അവനാണ്. അവൻ ജീവിപ്പിക്കുകയും മരിപ്പിക്കുകയും ചെയ്യുന്നു, അവൻ എല്ലാറ്റിനും കഴിവുള്ളവനാണ്. (10 തവണ)",
     "source": "Sunan At-Tirmidhi 3534",
-    "tags": ["maghrib", "salah", "protection"],
+    "tags": [
+      "maghrib",
+      "salah",
+      "protection"
+    ],
     "type": "dikr",
     "icon": "sunset"
   },
@@ -149,7 +190,11 @@
     "english_translation": "In Your name, O Allah, I die and I live.",
     "malayalam_translation": "അല്ലാഹുവേ, നിൻ്റെ നാമത്തിൽ ഞാൻ മരിക്കുകയും ജീവിക്കുകയും ചെയ്യുന്നു.",
     "source": "Sahih al-Bukhari 6312",
-    "tags": ["isha", "sleep", "night"],
+    "tags": [
+      "isha",
+      "sleep",
+      "night"
+    ],
     "type": "dua",
     "icon": "bedtime"
   },
@@ -163,7 +208,11 @@
     "english_translation": "O Allah, Lord of this perfect call and established prayer. Grant Muhammad the intercession and favor, and raise him to the honored station You have promised him.",
     "malayalam_translation": "ഈ പൂർണ്ണമായ വിളിയുടെയും നിലനിൽക്കുന്ന നമസ്കാരത്തിന്റെയും രക്ഷിതാവായ അല്ലാഹുവേ, മുഹമ്മദ് നബി(സ)ക്ക് നീ ഇടതേട്ടവും ശ്രേഷ്ഠതയും നൽകേണമേ. നീ വാഗ്ദാനം ചെയ്ത സ്തുത്യർഹമായ സ്ഥാനത്ത് അദ്ദേഹത്തെ നീ എത്തിക്കേണമേ.",
     "source": "Sahih al-Bukhari 614",
-    "tags": ["adhan", "prophet", "salah"],
+    "tags": [
+      "adhan",
+      "prophet",
+      "salah"
+    ],
     "type": "dua",
     "icon": "volume_up"
   },
@@ -177,7 +226,11 @@
     "english_translation": "I bear witness that none has the right to be worshipped but Allah alone, Who has no partner; and I bear witness that Muhammad is His slave and His Messenger. O Allah, make me among those who turn to You in repentance, and make me among those who are purified.",
     "malayalam_translation": "അല്ലാഹുവല്ലാതെ മറ്റൊരു ആരാധ്യനില്ലെന്നും അവന് പങ്കുകാരില്ലെന്നും ഞാൻ സാക്ഷ്യം വഹിക്കുന്നു. മുഹമ്മദ് നബി(സ) അവന്റെ ദാസനും ദൂതനുമാണെന്നും ഞാൻ സാക്ഷ്യം വഹിക്കുന്നു. അല്ലാഹുവേ, എന്നെ പശ്ചാത്തപിക്കുന്നവരിലും ശുദ്ധി കൈവരിക്കുന്നവരിലും ഉൾപ്പെടുത്തേണമേ.",
     "source": "Sunan At-Tirmidhi 55",
-    "tags": ["wudu", "purification", "shahadah"],
+    "tags": [
+      "wudu",
+      "purification",
+      "shahadah"
+    ],
     "type": "dua",
     "icon": "water_drop"
   },
@@ -191,7 +244,12 @@
     "english_translation": "O Allah, guide me with those whom You have guided, and strengthen me with those whom You have given strength, and take me to Your care with those whom You have taken to Your care, and bless me in what You have given me, and protect me from the evil You have ordained. Surely You command and are not commanded, and none whom You have committed to Your care shall be humiliated, and none whom You have taken as an enemy shall taste glory. You are Blessed, our Lord, and Exalted.",
     "malayalam_translation": "അല്ലാഹുവേ, നീ സന്മാർഗ്ഗത്തിലാക്കിയവരുടെ കൂടെ എന്നെയും നീ സന്മാർഗ്ഗത്തിലാക്കേണമേ. നീ കാരുണ്യം നൽകിയവരുടെ കൂടെ എനിക്കും നീ കാരുണ്യം നൽകേണമേ. നീ സംരക്ഷണം നൽകിയവരുടെ കൂടെ എനിക്കും നീ സംരക്ഷണം നൽകേണമേ. നീ എനിക്ക് നൽകിയതിൽ ബറക്കത്ത് ചൊരിയേണമേ. നീ വിധിച്ചതിലെ തിന്മകളിൽ നിന്ന് എന്നെ കാക്കണേ. നീയാണ് വിധിക്കുന്നത്, നിനക്കെതിരായി ആർക്കും വിധിക്കാനാവില്ല. നീ മിത്രമാക്കിയവൻ നിന്ദ്യനാവില്ല, നീ ശത്രുവാക്കിയവൻ പ്രതാപിയാവുകയുമില്ല. ഞങ്ങളുടെ രക്ഷിതാവേ, നീ അനുഗ്രഹപൂർണ്ണനും അത്യുന്നതനുമാണ്.",
     "source": "Sunan Abi Dawud 1425",
-    "tags": ["salah", "fajr", "qunoot", "shafii"],
+    "tags": [
+      "salah",
+      "fajr",
+      "qunoot",
+      "shafii"
+    ],
     "type": "dua",
     "icon": "accessibility_new"
   },
@@ -205,7 +263,11 @@
     "english_translation": "O Allah, let Your mercy come upon Muhammad and the family of Muhammad, as You let it come upon Ibrahim and the family of Ibrahim. Truly, You are Praiseworthy and Glorious. O Allah, bless Muhammad and the family of Muhammad, as You blessed Ibrahim and the family of Ibrahim. Truly, You are Praiseworthy and Glorious.",
     "malayalam_translation": "അല്ലാഹുവേ, ഇബ്രാഹിം നബിക്കും കുടുംബത്തിനും നീ സലവാത്ത് ചൊരിഞ്ഞതുപോലെ മുഹമ്മദ് നബിക്കും കുടുംബത്തിനും നീ സലവാത്ത് ചൊരിയേണമേ. നിശ്ചയമായും നീ സ്തുത്യർഹനും മഹത്വമുള്ളവനുമാണ്. അല്ലാഹുവേ, ഇബ്രാഹിം നബിക്കും കുടുംബത്തിനും നീ അനുഗ്രഹം ചൊരിഞ്ഞതുപോലെ മുഹമ്മദ് നബിക്കും കുടുംബത്തിനും നീ അനുഗ്രഹം ചൊരിയേണമേ.",
     "source": "Sahih al-Bukhari 3370",
-    "tags": ["salah", "salawat", "tashahhud"],
+    "tags": [
+      "salah",
+      "salawat",
+      "tashahhud"
+    ],
     "type": "dikr",
     "icon": "favorite"
   },
@@ -219,7 +281,11 @@
     "english_translation": "O Allah, I seek Your guidance [in making a choice] by virtue of Your knowledge, and I seek ability by virtue of Your power, and I ask You of Your great bounty...",
     "malayalam_translation": "അല്ലാഹുവേ, നിൻ്റെ അറിവ് കൊണ്ട് ഞാൻ നിന്നോട് നന്മ തേടുന്നു, നിൻ്റെ കഴിവ് കൊണ്ട് ഞാൻ നിന്നോട് കഴിവ് തേടുന്നു, നിൻ്റെ മഹത്തായ ഔദാര്യത്തിൽ നിന്ന് ഞാൻ ചോദിക്കുന്നു...",
     "source": "Sahih al-Bukhari 1162",
-    "tags": ["salah", "guidance", "istikhara"],
+    "tags": [
+      "salah",
+      "guidance",
+      "istikhara"
+    ],
     "type": "dua",
     "icon": "help_outline"
   },
@@ -233,7 +299,11 @@
     "english_translation": "In the name of Allah, and prayers and peace be upon the Messenger of Allah. O Allah, open the doors of Your mercy for me.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ, അല്ലാഹുവിൻ്റെ ദൂതൻ്റെ മേൽ സ്വലാത്തും സലാമും ഉണ്ടാകട്ടെ. അല്ലാഹുവേ, നിൻ്റെ കാരുണ്യത്തിൻ്റെ കവാടങ്ങൾ എനിക്കായി തുറന്നുതരേണമേ.",
     "source": "Sahih Muslim 713",
-    "tags": ["mosque", "masjid", "entering"],
+    "tags": [
+      "mosque",
+      "masjid",
+      "entering"
+    ],
     "type": "dua",
     "icon": "login"
   },
@@ -247,7 +317,11 @@
     "english_translation": "In the name of Allah, and prayers and peace be upon the Messenger of Allah. O Allah, I ask You from Your favor.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ, അല്ലാഹുവിൻ്റെ ദൂതൻ്റെ മേൽ സ്വലാത്തും സലാമും ഉണ്ടാകട്ടെ. അല്ലാഹുവേ, നിൻ്റെ ഔദാര്യത്തിൽ നിന്ന് ഞാൻ നിന്നോട് ചോദിക്കുന്നു.",
     "source": "Sahih Muslim 713",
-    "tags": ["mosque", "masjid", "leaving"],
+    "tags": [
+      "mosque",
+      "masjid",
+      "leaving"
+    ],
     "type": "dua",
     "icon": "logout"
   },
@@ -261,7 +335,11 @@
     "english_translation": "I seek refuge in Allah from the accursed devil.",
     "malayalam_translation": "ശപിക്കപ്പെട്ട പിശാചിൽ നിന്ന് ഞാൻ അല്ലാഹുവിനോട് ശരണം തേടുന്നു.",
     "source": "Quran 16:98",
-    "tags": ["quran", "recitation", "protection"],
+    "tags": [
+      "quran",
+      "recitation",
+      "protection"
+    ],
     "type": "dua",
     "icon": "menu_book"
   },
@@ -275,7 +353,11 @@
     "english_translation": "Allah the Almighty has spoken the truth.",
     "malayalam_translation": "മഹാനായ അല്ലാഹു സത്യം പറഞ്ഞിരിക്കുന്നു.",
     "source": "Traditional",
-    "tags": ["quran", "recitation", "closing"],
+    "tags": [
+      "quran",
+      "recitation",
+      "closing"
+    ],
     "type": "dua",
     "icon": "bookmark_border"
   },
@@ -289,7 +371,11 @@
     "english_translation": "O Allah, I ask You by the right of Surah Yaseen, by the One who revealed it, by the one who brought it down, and by the one upon whom it was revealed, that You place Your healing in every illness, Your kindness in every trial, Your blessing in every life, Your wellness in every sickness, Your mercy upon every deceased, Your light in every darkness, and Your ease in every difficulty.",
     "malayalam_translation": "അല്ലാഹുവേ, സൂറത്ത് യാസീന്റെ ഹക്ക് കൊണ്ടും, അത് അവതരിപ്പിച്ചവൻ്റെയും അത് കൊണ്ടുവന്നവൻ്റെയും അത് അവതരിപ്പിക്കപ്പെട്ടവൻ്റെയും ഹക്ക് കൊണ്ടും ഞാൻ നിന്നോട് ചോദിക്കുന്നു; എല്ലാ രോഗങ്ങളിലും നിന്റെ ശമനത്തെയും, എല്ലാ പരീക്ഷണങ്ങളിലും നിന്റെ കാരുണ്യത്തെയും, എല്ലാ ആയുസ്സിലും നിന്റെ ബറകത്തിനെയും, എല്ലാ അസുഖങ്ങളിലും നിന്റെ സുഖത്തെയും, എല്ലാ മരിച്ചവരിലും നിന്റെ റഹ്‌മത്തിനെയും, എല്ലാ ഇരുട്ടുകളിലും നിന്റെ പ്രകാശത്തെയും, എല്ലാ പ്രയാസങ്ങളിലും നിന്റെ എളുപ്പത്തെയും നീ ഉൾപ്പെടുത്തേണമേ.",
     "source": "Traditional Shafi'i Practice",
-    "tags": ["quran", "yaseen", "dua"],
+    "tags": [
+      "quran",
+      "yaseen",
+      "dua"
+    ],
     "type": "dua",
     "icon": "menu_book"
   },
@@ -303,7 +389,11 @@
     "english_translation": "O Allah, have mercy on me by the Quran, and make it a leader, a light, a guide, and a mercy for me.",
     "malayalam_translation": "അല്ലാഹുവേ, ഖുർആൻ മുഖേന നീ എന്നോട് കരുണ കാണിക്കേണമേ. അതിനെ എനിക്ക് വഴികാട്ടിയും പ്രകാശവും സന്മാർഗ്ഗവും കാരുണ്യവും ആക്കേണമേ.",
     "source": "Traditional",
-    "tags": ["quran", "khatm", "mercy"],
+    "tags": [
+      "quran",
+      "khatm",
+      "mercy"
+    ],
     "type": "dua",
     "icon": "auto_stories"
   },
@@ -317,7 +407,11 @@
     "english_translation": "Allah! There is no god but He – the Living, The Self-subsisting, Eternal. No slumber can seize Him nor sleep. His are all things in the heavens and on earth. Who is there can intercede in His presence except as He permitteth? He knoweth what (appeareth to His creatures as) Before or After or Behind them. Nor shall they compass aught of His knowledge except as He willeth. His throne doth extend over the heavens and on earth, and He feeleth no fatigue in guarding and preserving them, For He is the Most High, The Supreme (in glory).",
     "malayalam_translation": "അല്ലാഹു - അവനല്ലാതെ ആരാധനക്കർഹനായി മറ്റാരുമില്ല. എന്നെന്നും ജീവിച്ചിരിക്കുന്നവൻ, എല്ലാം നിയന്ത്രിക്കുന്നവൻ. മയക്കമോ ഉറക്കമോ അവനെ ബാധിക്കുകയില്ല. ആകാശഭൂമികളിലുള്ളതെല്ലാം അവന്റേതാണ്. അവന്റെ അനുവാദപ്രകാരമല്ലാതെ അവന്റെയടുക്കൽ ശുപാർശ നടത്താനാരുണ്ട്? അവരുടെ മുമ്പിലുള്ളതും അവർക്ക് പിന്നിലുള്ളതും അവൻ അറിയുന്നു. അവന്റെ അറിവിൽനിന്ന് അവൻ ഉദ്ദേശിക്കുന്നതല്ലാതെ യാതൊന്നും അവർക്ക് ഗ്രഹിക്കാനാവില്ല. അവന്റെ കുർസിയ്യ് (പീഠം) ആകാശഭൂമികളോളം വിശാലമായിരിക്കുന്നു. അവ രണ്ടിനെയും സംരക്ഷിക്കുന്നത് അവന് ഒട്ടും ഭാരമല്ല. അവൻ ഉന്നതനും മഹാനുമാകുന്നു.",
     "source": "Quran 2:255",
-    "tags": ["quran", "ayatul_kursi", "protection"],
+    "tags": [
+      "quran",
+      "ayatul_kursi",
+      "protection"
+    ],
     "type": "quran",
     "icon": "admin_panel_settings"
   },
@@ -331,7 +425,11 @@
     "english_translation": "Say, 'He is Allah, [who is] One. Allah, the Eternal Refuge. He neither begets nor is born. Nor is there to Him any equivalent.'",
     "malayalam_translation": "നബിയേ പറയുക: അല്ലാഹു ഏകനാണ്. അല്ലാഹു ആരെയും ആശ്രയിക്കാത്തവനും എല്ലാവരാലും ആശ്രയിക്കപ്പെടുന്നവനുമാണ്. അവൻ ആർക്കും ജന്മം നൽകിയിട്ടില്ല, ആരുടെയും സന്തതിയുമല്ല. അവന് തുല്യനായി ആരുമില്ല.",
     "source": "Quran 112",
-    "tags": ["quran", "ikhlas", "surah"],
+    "tags": [
+      "quran",
+      "ikhlas",
+      "surah"
+    ],
     "type": "quran",
     "icon": "menu_book"
   },
@@ -345,7 +443,11 @@
     "english_translation": "Say, 'I seek refuge in the Lord of daybreak. From the evil of that which He created. And from the evil of darkness when it settles. And from the evil of the blowers in knots. And from the evil of an envier when he envies.'",
     "malayalam_translation": "നബിയേ പറയുക: പുലരിയുടെ രക്ഷിതാവിനോട് ഞാൻ ശരണം തേടുന്നു. അവൻ സൃഷ്ടിച്ചവയുടെ തിന്മകളിൽ നിന്ന്. ഇരുളടയുമ്പോഴുള്ള രാത്രിയുടെ തിന്മയിൽ നിന്ന്. കെട്ടുകളിൽ ഊതുന്നവ(മന്ത്രവാദിനിക)ളുടെ തിന്മയിൽ നിന്ന്. അസൂയാലു അസൂയപ്പെടുമ്പോൾ അവൻ്റെ തിന്മയിൽ നിന്നും.",
     "source": "Quran 113",
-    "tags": ["quran", "falaq", "protection"],
+    "tags": [
+      "quran",
+      "falaq",
+      "protection"
+    ],
     "type": "quran",
     "icon": "gpp_good"
   },
@@ -359,7 +461,11 @@
     "english_translation": "Say, 'I seek refuge in the Lord of mankind. The Sovereign of mankind. The God of mankind. From the evil of the retreating whisperer. Who whispers [evil] into the breasts of mankind. From among the jinn and mankind.'",
     "malayalam_translation": "നബിയേ പറയുക: human മനുഷ്യരുടെ രക്ഷിതാവിനോട് ഞാൻ ശരണം തേടുന്നു. മനുഷ്യരുടെ രാജാവിനോട്. മനുഷ്യരുടെ ദൈവത്തോട്. പിന്മാറിപ്പോകുന്ന ദുർബോധകന്റെ തിന്മയിൽ നിന്ന്. മനുഷ്യരുടെ ഹൃദയങ്ങളിൽ ദുർബോധനം നടത്തുന്നവൻ. ജിന്നുകളിലും മനുഷ്യരിലും പെട്ടവർ.",
     "source": "Quran 114",
-    "tags": ["quran", "nas", "protection"],
+    "tags": [
+      "quran",
+      "nas",
+      "protection"
+    ],
     "type": "quran",
     "icon": "shield_with_heart"
   },
@@ -373,7 +479,11 @@
     "english_translation": "I intend to keep the fast for tomorrow in the month of Ramadan this year for Allah the Most High.",
     "malayalam_translation": "ഈ വർഷത്തെ റമദാൻ മാസത്തിലെ ഫർളായ നോമ്പ് നാളെ നോൽക്കാൻ അല്ലാഹുവിന് വേണ്ടി ഞാൻ കരുതി.",
     "source": "Traditional Shafi'i Niyyah",
-    "tags": ["ramadan", "niyyah", "fasting"],
+    "tags": [
+      "ramadan",
+      "niyyah",
+      "fasting"
+    ],
     "type": "dua",
     "icon": "calendar_today"
   },
@@ -387,7 +497,11 @@
     "english_translation": "In the name of Allah.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ.",
     "source": "Sahih Muslim 2017",
-    "tags": ["ramadan", "suhoor", "food"],
+    "tags": [
+      "ramadan",
+      "suhoor",
+      "food"
+    ],
     "type": "dua",
     "icon": "free_breakfast"
   },
@@ -401,7 +515,11 @@
     "english_translation": "O Allah, for You I have fasted, and with Your provision I break my fast.",
     "malayalam_translation": "അല്ലാഹുവേ, നിനക്ക് വേണ്ടി ഞാൻ നോമ്പനുഷ്ഠിച്ചു, നീ നൽകിയ ഉപജീവനം കൊണ്ട് ഞാൻ നോമ്പ് തുറക്കുന്നു.",
     "source": "Sunan Abi Dawud 2358",
-    "tags": ["ramadan", "iftar", "fasting"],
+    "tags": [
+      "ramadan",
+      "iftar",
+      "fasting"
+    ],
     "type": "dua",
     "icon": "restaurant"
   },
@@ -415,7 +533,11 @@
     "english_translation": "The thirst is gone, the veins are moistened, and the reward is confirmed, if Allah wills.",
     "malayalam_translation": "ദാഹം ശമിച്ചു, ഞരമ്പുകൾ നനഞ്ഞു, അല്ലാഹു ഉദ്ദേശിച്ചാൽ പ്രതിഫലം സ്ഥിരപ്പെടുകയും ചെയ്തു.",
     "source": "Sunan Abi Dawud 2357",
-    "tags": ["ramadan", "iftar", "gratitude"],
+    "tags": [
+      "ramadan",
+      "iftar",
+      "gratitude"
+    ],
     "type": "dua",
     "icon": "water_drop"
   },
@@ -429,7 +551,11 @@
     "english_translation": "O Allah, You are forgiving and love forgiveness, so forgive me.",
     "malayalam_translation": "അല്ലാഹുവേ, നിശ്ചയമായും നീ മാപ്പ് നൽകുന്നവനാണ്, മാപ്പ് നൽകാൻ നീ ഇഷ്ടപ്പെടുന്നു, അതിനാൽ എനിക്ക് നീ മാപ്പ് നൽകേണമേ.",
     "source": "Sunan At-Tirmidhi 3513",
-    "tags": ["ramadan", "laylatul_qadr", "forgiveness"],
+    "tags": [
+      "ramadan",
+      "laylatul_qadr",
+      "forgiveness"
+    ],
     "type": "dua",
     "icon": "auto_awesome"
   },
@@ -443,7 +569,11 @@
     "english_translation": "I seek the forgiveness of Allah the Almighty and I repent to Him.",
     "malayalam_translation": "മഹാനായ അല്ലാഹുവിനോട് ഞാൻ പാപമോചനം തേടുകയും അവനിലേക്ക് ഖേദിച്ചുമടങ്ങുകയും ചെയ്യുന്നു.",
     "source": "Sahih Muslim",
-    "tags": ["ramadan", "forgiveness", "istighfar"],
+    "tags": [
+      "ramadan",
+      "forgiveness",
+      "istighfar"
+    ],
     "type": "dikr",
     "icon": "refresh"
   },
@@ -457,7 +587,11 @@
     "english_translation": "My Lord, forgive and have mercy, and You are the best of the merciful.",
     "malayalam_translation": "എൻ്റെ രക്ഷിതാവേ, നീ പൊറുത്തുതരികയും കരുണ കാണിക്കുകയും ചെയ്യേണമേ, കരുണ കാണിക്കുന്നവരിൽ ഏറ്റവും ഉത്തമൻ നീയാണല്ലോ.",
     "source": "Quran 23:118",
-    "tags": ["ramadan", "mercy", "dua"],
+    "tags": [
+      "ramadan",
+      "mercy",
+      "dua"
+    ],
     "type": "quran",
     "icon": "favorite_border"
   },
@@ -471,7 +605,11 @@
     "english_translation": "In the name of Allah.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ.",
     "source": "Sunan Abi Dawud 3767",
-    "tags": ["food", "eating", "bismillah"],
+    "tags": [
+      "food",
+      "eating",
+      "bismillah"
+    ],
     "type": "dua",
     "icon": "restaurant_menu"
   },
@@ -485,7 +623,11 @@
     "english_translation": "Praise be to Allah Who has fed me this and provided it for me without any might or power on my part.",
     "malayalam_translation": "എൻ്റെ ഭാഗത്ത് നിന്നുള്ള യാതൊരു കഴിവോ ശക്തിയോ ഇല്ലാതെ എനിക്കിത് ആഹാരമായി നൽകുകയും ഉപജീവനമാക്കുകയും ചെയ്ത അല്ലാഹുവിന് സർവ്വ സ്തുതിയും.",
     "source": "Sunan At-Tirmidhi 3458",
-    "tags": ["food", "eating", "gratitude"],
+    "tags": [
+      "food",
+      "eating",
+      "gratitude"
+    ],
     "type": "dua",
     "icon": "thumb_up"
   },
@@ -499,7 +641,11 @@
     "english_translation": "In the name of Allah.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ.",
     "source": "Sunan At-Tirmidhi 1885",
-    "tags": ["drink", "water", "bismillah"],
+    "tags": [
+      "drink",
+      "water",
+      "bismillah"
+    ],
     "type": "dua",
     "icon": "local_drink"
   },
@@ -513,7 +659,11 @@
     "english_translation": "Praise be to Allah.",
     "malayalam_translation": "അല്ലാഹുവിന് സർവ്വ സ്തുതിയും.",
     "source": "Sunan At-Tirmidhi 1885",
-    "tags": ["drink", "water", "gratitude"],
+    "tags": [
+      "drink",
+      "water",
+      "gratitude"
+    ],
     "type": "dikr",
     "icon": "done"
   },
@@ -527,7 +677,11 @@
     "english_translation": "O Allah, bless them in what You have provided for them, and forgive them and have mercy on them.",
     "malayalam_translation": "അല്ലാഹുവേ, നീ അവർക്ക് നൽകിയ ഉപജീവനത്തിൽ ബറക്കത്ത് നൽകേണമേ, അവർക്ക് നീ പൊറുത്തുകൊടുക്കുകയും കരുണ കാണിക്കുകയും ചെയ്യേണമേ.",
     "source": "Sahih Muslim 2042",
-    "tags": ["food", "guest", "blessing"],
+    "tags": [
+      "food",
+      "guest",
+      "blessing"
+    ],
     "type": "dua",
     "icon": "people"
   },
@@ -541,7 +695,11 @@
     "english_translation": "May the fasting break their fast with you, and the pious eat your food, and the angels pray for you.",
     "malayalam_translation": "നോമ്പുകാർ നിങ്ങളുടെ അടുക്കൽ നിന്ന് നോമ്പ് തുറക്കട്ടെ, പുണ്യവാന്മാർ നിങ്ങളുടെ ഭക്ഷണം കഴിക്കട്ടെ, മലക്കുകൾ നിങ്ങൾക്ക് വേണ്ടി പ്രാർത്ഥിക്കട്ടെ.",
     "source": "Sunan Abi Dawud 3854",
-    "tags": ["food", "host", "dua"],
+    "tags": [
+      "food",
+      "host",
+      "dua"
+    ],
     "type": "dua",
     "icon": "celebration"
   },
@@ -555,7 +713,11 @@
     "english_translation": "In Your name, O Allah, I die and I live.",
     "malayalam_translation": "അല്ലാഹുവേ, നിൻ നാമത്തിൽ ഞാൻ മരിക്കുകയും ജീവിക്കുകയും ചെയ്യുന്നു.",
     "source": "Sahih al-Bukhari 6312",
-    "tags": ["sleep", "night", "dua"],
+    "tags": [
+      "sleep",
+      "night",
+      "dua"
+    ],
     "type": "dua",
     "icon": "bedtime"
   },
@@ -569,7 +731,11 @@
     "english_translation": "Praise is to Allah Who gives us life after He has caused us to die, and to Him is the return.",
     "malayalam_translation": "ഞങ്ങളെ മриപ്പിച്ചതിന് ശേഷം ജീവിപ്പിച്ച അല്ലാഹുവിന് സർവ്വ സ്തുതിയും, അവനിലേക്കാണ് മടക്കം.",
     "source": "Sahih al-Bukhari 6312",
-    "tags": ["sleep", "morning", "waking"],
+    "tags": [
+      "sleep",
+      "morning",
+      "waking"
+    ],
     "type": "dua",
     "icon": "wb_sunny"
   },
@@ -583,7 +749,11 @@
     "english_translation": "There is no deity but Allah, the One, the Victorious, Lord of the heavens and the earth and all that is between them, the All-Mighty, the All-Forgiving.",
     "malayalam_translation": "ഏകനും സർവ്വാധികാരിയുമായ അല്ലാഹുവല്ലാതെ മറ്റൊരു ആരാധ്യനില്ല. ആകാശ ഭൂമികളുടെയും അവക്കിടയിലുള്ളതിൻ്റെയും രക്ഷിതാവും, പ്രതാപിയും ഏറെ പൊറുക്കുന്നവനുമാണവൻ.",
     "source": "Sunan An-Nasa'i",
-    "tags": ["sleep", "night", "dhikr"],
+    "tags": [
+      "sleep",
+      "night",
+      "dhikr"
+    ],
     "type": "dikr",
     "icon": "nights_stay"
   },
@@ -597,7 +767,11 @@
     "english_translation": "Recite Surah Al-Ikhlas, Al-Falaq, and An-Nas, blow into the palms and wipe over the body (three times).",
     "malayalam_translation": "സൂറത്ത് അൽ-ഇഖ്ലാസ്, അൽ-ഫലഖ്, അൻ-നാസ് എന്നിവ ഓതി കൈകളിൽ ഊതി ശരീരത്തിൽ തടവുക (മൂന്ന് തവണ).",
     "source": "Sahih al-Bukhari 5017",
-    "tags": ["sleep", "protection", "quran"],
+    "tags": [
+      "sleep",
+      "protection",
+      "quran"
+    ],
     "type": "quran",
     "icon": "security"
   },
@@ -611,7 +785,11 @@
     "english_translation": "Glory to Him who has subjected this to us, and we could not have otherwise subdued it. And indeed we, to our Lord, will return.",
     "malayalam_translation": "ഇതിനെ ഞങ്ങൾക്ക് അധീനമാക്കിത്തന്നവൻ എത്ര പരിശുദ്ധൻ! ഞങ്ങൾക്ക് ഇതിനെ അധീനമാക്കാൻ കഴിയുമായിരുന്നില്ല. നിശ്ചയമായും ഞങ്ങൾ ഞങ്ങളുടെ രക്ഷിതാവിലേക്ക് മടങ്ങുന്നവരാണ്.",
     "source": "Quran 43:13-14",
-    "tags": ["travel", "journey", "vehicle"],
+    "tags": [
+      "travel",
+      "journey",
+      "vehicle"
+    ],
     "type": "quran",
     "icon": "directions_car"
   },
@@ -625,7 +803,11 @@
     "english_translation": "In the name of Allah. Praise be to Allah.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ. അല്ലാഹുവിന് സർവ്വ സ്തുതിയും.",
     "source": "Sunan At-Tirmidhi 3446",
-    "tags": ["travel", "boarding", "vehicle"],
+    "tags": [
+      "travel",
+      "boarding",
+      "vehicle"
+    ],
     "type": "dua",
     "icon": "commute"
   },
@@ -639,7 +821,11 @@
     "english_translation": "We return, repentant, worshipping, and praising our Lord.",
     "malayalam_translation": "പശ്ചാത്തപിക്കുന്നവരായും, ആരാധിക്കുന്നവരായും, ഞങ്ങളുടെ രക്ഷിതാവിനെ സ്തുതിക്കുന്നവരായും ഞങ്ങൾ മടങ്ങുന്നു.",
     "source": "Sahih Muslim 1345",
-    "tags": ["travel", "home", "returning"],
+    "tags": [
+      "travel",
+      "home",
+      "returning"
+    ],
     "type": "dua",
     "icon": "home"
   },
@@ -653,7 +839,11 @@
     "english_translation": "In the name of Allah.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ.",
     "source": "Sunan Abi Dawud 101",
-    "tags": ["wudu", "purification", "bismillah"],
+    "tags": [
+      "wudu",
+      "purification",
+      "bismillah"
+    ],
     "type": "dua",
     "icon": "opacity"
   },
@@ -667,7 +857,11 @@
     "english_translation": "I bear witness that none has the right to be worshipped but Allah alone, Who has no partner; and I bear witness that Muhammad is His slave and His Messenger.",
     "malayalam_translation": "അല്ലാഹുവല്ലാതെ മറ്റൊരു ആരാധ്യനില്ലെന്നും അവന് പങ്കുകാരില്ലെന്നും ഞാൻ സാക്ഷ്യം വഹിക്കുന്നു. മുഹമ്മദ് നബി(സ) അവന്റെ ദാസനും ദൂതനുമാണെന്നും ഞാൻ സാക്ഷ്യം വഹിക്കുന്നു.",
     "source": "Sahih Muslim 234",
-    "tags": ["wudu", "purification", "shahadah"],
+    "tags": [
+      "wudu",
+      "purification",
+      "shahadah"
+    ],
     "type": "dua",
     "icon": "done_all"
   },
@@ -681,7 +875,11 @@
     "english_translation": "In the name of Allah. O Allah, I seek refuge in You from the male and female evil spirits.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ. അല്ലാഹുവേ, ആൺ പിശാചുക്കളിൽ നിന്നും പെൺ പിശാചുക്കളിൽ നിന്നും ഞാൻ നിന്നോട് ശരണം തേടുന്നു.",
     "source": "Sahih al-Bukhari 142",
-    "tags": ["toilet", "protection", "entering"],
+    "tags": [
+      "toilet",
+      "protection",
+      "entering"
+    ],
     "type": "dua",
     "icon": "meeting_room"
   },
@@ -695,7 +893,11 @@
     "english_translation": "I ask Your forgiveness.",
     "malayalam_translation": "നിന്നോട് ഞാൻ പാപമോചനം തേടുന്നു.",
     "source": "Sunan Abi Dawud 30",
-    "tags": ["toilet", "forgiveness", "leaving"],
+    "tags": [
+      "toilet",
+      "forgiveness",
+      "leaving"
+    ],
     "type": "dua",
     "icon": "disabled_by_default"
   },
@@ -709,7 +911,11 @@
     "english_translation": "I intend to lift the major impurity for the sake of Allah the Most High.",
     "malayalam_translation": "വലിയ അശുദ്ധി നീക്കാൻ അല്ലാഹുവിന് വേണ്ടി ഞാൻ കരുതി.",
     "source": "Traditional Shafi'i Niyyah",
-    "tags": ["ghusl", "purification", "niyyah"],
+    "tags": [
+      "ghusl",
+      "purification",
+      "niyyah"
+    ],
     "type": "dua",
     "icon": "water"
   },
@@ -723,7 +929,11 @@
     "english_translation": "I seek refuge in the perfect words of Allah, from every devil and every poisonous reptile, and from every evil eye.",
     "malayalam_translation": "എല്ലാ പിശാചുക്കളിൽ നിന്നും വിഷജന്തുക്കളിൽ നിന്നും കുഴപ്പമുണ്ടാക്കുന്ന കണ്ണേറിൽ നിന്നും അല്ലാഹുവിൻ്റെ പൂർണ്ണമായ വചനങ്ങളെക്കൊണ്ട് ഞാൻ ശരണം തേടുന്നു.",
     "source": "Sahih al-Bukhari 3371",
-    "tags": ["protection", "evil_eye", "dua"],
+    "tags": [
+      "protection",
+      "evil_eye",
+      "dua"
+    ],
     "type": "dua",
     "icon": "visibility_off"
   },
@@ -737,7 +947,11 @@
     "english_translation": "O Allah, I seek refuge in You from anxiety and sorrow, weakness and laziness, miserliness and cowardice, the burden of debts and from being overpowered by men.",
     "malayalam_translation": "അല്ലാഹുവേ, ഉത്കണ്ഠ, ദുഃഖം, ബലഹീനത, മടി, പിശുക്ക്, ഭീരുത്വം, കടബാധ്യത, ആളുകളുടെ അതിക്രമം എന്നിവയിൽ നിന്ന് ഞാൻ നിന്നോട് ശരണം തേടുന്നു.",
     "source": "Sahih al-Bukhari 2893",
-    "tags": ["protection", "anxiety", "sadness"],
+    "tags": [
+      "protection",
+      "anxiety",
+      "sadness"
+    ],
     "type": "dua",
     "icon": "psychology"
   },
@@ -751,7 +965,11 @@
     "english_translation": "O Allah, suffice me with what You have allowed instead of what You have forbidden, and make me independent of all others besides You.",
     "malayalam_translation": "അല്ലാഹുവേ, നീ അനുവദിച്ച കാര്യങ്ങൾ കൊണ്ട് നിഷിദ്ധമാക്കിയവയിൽ നിന്നും എനിക്ക് നീ മതിയാക്കേണമേ. നിൻ്റെ ഔദാര്യം കൊണ്ട് നീ ഒഴികെയുള്ളവരിൽ നിന്ന് എന്നെ നീ ഐശ്വര്യവാനാക്കേണമേ.",
     "source": "Sunan At-Tirmidhi 3563",
-    "tags": ["protection", "debt", "wealth"],
+    "tags": [
+      "protection",
+      "debt",
+      "wealth"
+    ],
     "type": "dua",
     "icon": "payments"
   },
@@ -765,7 +983,11 @@
     "english_translation": "I ask Allah the Almighty, Lord of the Magnificent Throne, to heal you. (Recite 7 times)",
     "malayalam_translation": "മഹാനായ അല്ലാഹുവിനോട്, മഹത്തായ സിംഹാസനത്തിൻ്റെ രക്ഷിതാവിനോട്, നിനക്ക് രോഗശമനം നൽകാൻ ഞാൻ പ്രാർത്ഥിക്കുന്നു. (7 തവണ)",
     "source": "Sunan At-Tirmidhi 2083",
-    "tags": ["protection", "illness", "health"],
+    "tags": [
+      "protection",
+      "illness",
+      "health"
+    ],
     "type": "dua",
     "icon": "healing"
   },
@@ -779,7 +1001,11 @@
     "english_translation": "I seek refuge for you both in the Perfect Words of Allah, from every devil and every poisonous reptile, and from every evil eye.",
     "malayalam_translation": "എല്ലാ പിശാചുക്കളിൽ നിന്നും വിഷജന്തുക്കളിൽ നിന്നും കുഴപ്പമുണ്ടാക്കുന്ന കണ്ണേറിൽ നിന്നും അല്ലാഹുവിൻ്റെ പൂർണ്ണമായ വചനങ്ങളെക്കൊണ്ട് നിങ്ങൾക്കിരുവർക്കും ഞാൻ ശരണം തേടുന്നു.",
     "source": "Sahih al-Bukhari 3371",
-    "tags": ["protection", "children", "evil_eye"],
+    "tags": [
+      "protection",
+      "children",
+      "evil_eye"
+    ],
     "type": "dua",
     "icon": "child_care"
   },
@@ -793,7 +1019,13 @@
     "english_translation": "O Allah, You are my Lord, there is no deity but You. You created me and I am Your slave. I am keeping my promise and covenant to You as much as I can. I seek refuge in You from the evil of what I have done. I acknowledge Your blessings upon me, and I acknowledge my sin. So forgive me, for there is none who can forgive sins except You.",
     "malayalam_translation": "അല്ലാഹുവേ, നീയാണ് എൻ്റെ രക്ഷിതാവ്. നിന്നെയല്ലാതെ ആരാധിക്കാൻ അർഹനായി മറ്റാരുമില്ല. നീ എന്നെ സൃഷ്ടിച്ചു, ഞാൻ നിൻ്റെ ദാസനാണ്. എനിക്ക് കഴിയുന്നത്ര നിൻ്റെ കരാറിലും വാഗ്ദാനത്തിലും ഞാൻ നിലകൊള്ളുന്നു. ഞാൻ ചെയ്ത തിന്മകളിൽ നിന്ന് ഞാൻ നിന്നോട് ശരണം തേടുന്നു. നീ എനിക്ക് നൽകിയ അനുഗ്രഹങ്ങൾ ഞാൻ സമ്മതിക്കുന്നു, എൻ്റെ പാപങ്ങളും ഞാൻ സമ്മതിക്കുന്നു. അതിനാൽ എനിക്ക് നീ പൊറുത്തുതരേണമേ, പാപങ്ങൾ പൊറുക്കാൻ നിന്നെയല്ലാതെ മറ്റാർക്കും കഴിയില്ല.",
     "source": "Sahih al-Bukhari 6306",
-    "tags": ["daily", "istighfar", "forgiveness", "morning", "evening"],
+    "tags": [
+      "daily",
+      "istighfar",
+      "forgiveness",
+      "morning",
+      "evening"
+    ],
     "type": "dikr",
     "icon": "star"
   },
@@ -807,7 +1039,12 @@
     "english_translation": "Glory be to Allah and all praise is due to Him.",
     "malayalam_translation": "അല്ലാഹു എത്ര പരിശുദ്ധൻ, അവന് സർവ്വ സ്തുതിയും.",
     "source": "Sahih al-Bukhari 6405",
-    "tags": ["daily", "tasbih", "dhikr", "praise"],
+    "tags": [
+      "daily",
+      "tasbih",
+      "dhikr",
+      "praise"
+    ],
     "type": "dikr",
     "icon": "auto_awesome"
   },
@@ -821,7 +1058,11 @@
     "english_translation": "There is no might and no power except with Allah.",
     "malayalam_translation": "അല്ലാഹുവിനെക്കൊണ്ടല്ലാതെ യാതൊരു കഴിവും ശക്തിയുമില്ല.",
     "source": "Sahih al-Bukhari 6384",
-    "tags": ["daily", "dhikr", "reliance"],
+    "tags": [
+      "daily",
+      "dhikr",
+      "reliance"
+    ],
     "type": "dikr",
     "icon": "vpn_key"
   },
@@ -835,7 +1076,12 @@
     "english_translation": "Sufficient for us is Allah, and [He is] the best Disposer of affairs.",
     "malayalam_translation": "ഞങ്ങൾക്ക് അല്ലാഹു മതി, ഭരമേൽപ്പിക്കാൻ ഏറ്റവും നല്ലവൻ അവനാണ്.",
     "source": "Quran 3:173",
-    "tags": ["daily", "quran", "trust", "protection"],
+    "tags": [
+      "daily",
+      "quran",
+      "trust",
+      "protection"
+    ],
     "type": "quran",
     "icon": "shield"
   },
@@ -849,7 +1095,11 @@
     "english_translation": "In the name of Allah, I place my trust in Allah, and there is no might nor power except with Allah.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ, ഞാൻ അല്ലാഹുവിൽ ഭരമേൽപിച്ചിരിക്കുന്നു, അല്ലാഹുവിനെക്കൊണ്ടല്ലാതെ യാതൊരു കഴിവും ശക്തിയുമില്ല.",
     "source": "Sunan Abi Dawud 5095",
-    "tags": ["home", "leaving", "protection"],
+    "tags": [
+      "home",
+      "leaving",
+      "protection"
+    ],
     "type": "dua",
     "icon": "directions_walk"
   },
@@ -863,7 +1113,11 @@
     "english_translation": "In the name of Allah we enter, and in the name of Allah we leave, and upon our Lord we place our trust.",
     "malayalam_translation": "അല്ലാഹുവിൻ്റെ നാമത്തിൽ ഞങ്ങൾ പ്രവേശിച്ചു, അല്ലാഹുവിൻ്റെ നാമത്തിൽ ഞങ്ങൾ പുറപ്പെട്ടു, ഞങ്ങളുടെ രക്ഷിതാവിൽ ഞങ്ങൾ ഭരമേൽപിച്ചിരിക്കുന്നു.",
     "source": "Sunan Abi Dawud 5096",
-    "tags": ["home", "entering", "trust"],
+    "tags": [
+      "home",
+      "entering",
+      "trust"
+    ],
     "type": "dua",
     "icon": "home"
   },
@@ -877,7 +1131,11 @@
     "english_translation": "Peace be upon you, O inhabitants of the dwellings, believers and Muslims. If Allah wills, we shall join you.",
     "malayalam_translation": "സത്യവിശ്വാസികളും മുസ്ലിംകളുമായ ഖബർവാസികളേ, നിങ്ങൾക്ക് അല്ലാഹുവിൻ്റെ രക്ഷയുണ്ടാകട്ടെ. അല്ലാഹു ഉദ്ദേശിച്ചാൽ തീർച്ചയായും ഞങ്ങളും നിങ്ങളോടൊപ്പം ചേരുന്നതാണ്.",
     "source": "Sahih Muslim 975",
-    "tags": ["janaza", "grave", "death"],
+    "tags": [
+      "janaza",
+      "grave",
+      "death"
+    ],
     "type": "dua",
     "icon": "location_on"
   },
@@ -891,8 +1149,282 @@
     "english_translation": "O Allah, forgive him, have mercy on him, give him peace and absolve him.",
     "malayalam_translation": "അല്ലാഹുവേ, ഇദ്ദേഹത്തിന് നീ പൊറുത്തുകൊടുക്കുകയും കരുണ കാണിക്കുകയും ചെയ്യേണമേ. ഇദ്ദേഹത്തിന് നീ ശാന്തി നൽകുകയും മാപ്പ് നൽകുകയും ചെയ്യേണമേ.",
     "source": "Sahih Muslim 963",
-    "tags": ["janaza", "funeral", "forgiveness"],
+    "tags": [
+      "janaza",
+      "funeral",
+      "forgiveness"
+    ],
     "type": "dua",
     "icon": "favorite"
+  },
+  {
+    "id": "goal_1",
+    "category": "goal_achievement",
+    "title": "Nariyathussalath (Salatun Nariyah)",
+    "arabic": "اللَّهُمَّ صَلِّ صَلَاةً كَامِلَةً وَسَلِّمْ سَلَامًا تَامًّا عَلَى سَيِّدِنَا مُحَمَّدٍ الَّذِي تَنْحَلُّ بِهِ الْعُقَدُ وَتَنْفَرِجُ بِهِ الْكُرَبُ وَتُقْضَى بِهِ الْحَوَائِجُ وَتُنَالُ بِهِ الرَّغَائِبُ وَحُسْنُ الْخَوَاتِمِ وَيُسْتَسْقَى الْغَمَامُ بِوَجْهِهِ الْكَرِيمِ وَعَلَى آلِهِ وَصَحْبِهِ فِي كُلِّ لَمْحَةٍ وَنَفَسٍ بِعَدَدِ كُلِّ مَعْلُومٍ لَكَ",
+    "english_transliteration": "Allahumma salli salatan kamilatan wa sallim salaman tammatan 'ala sayyidina Muhammadinil-ladhi tanhallu bihil-'uqad, wa tanfariju bihil-kurab, wa tuqda bihil-hawa'ij, wa tunalu bihir-raghaib, wa husnul-khawatim, wa yustasqal-ghamamu bi-wajhihil-karim, wa 'ala alihi wa sahbihi fi kulli lamhatin wa nafasin bi-'adadi kulli ma'lumin lak",
+    "malayalam_transliteration": "അല്ലാഹുമ്മ സ്വല്ലി സ്വലാതൻ കാമിലതൻ വസല്ലിം സലാമൻ തമ്മതൻ അലാ സയ്യിദിനാ മുഹമ്മദിനില്ലദീ തൻഹല്ലു ബിഹിൽ ഉഖദ്, വതൻഫരിജു ബിഹിൽ കുറബ്, വതുഖ്ദാ ബിഹിൽ ഹവാഇജ്, വതുനാലു ബിഹിർ റഗാഇബ്, വഹുസ്നുൽ ഖവാതിം, വയുസ്തസ്ഖൽ ഗമാമു ബിവജ്ഹിഹിൽ കരീം, വഅലാ ആലിഹീ വസഹ്ബിഹീ ഫീ കുല്ലി ലംഹതിൻ വനഫസിൻ ബിഅദദി കുല്ലി മഅ്ലൂമിൻ ലക്",
+    "english_translation": "O Allah, send complete blessings and perfect peace upon our master Muhammad, through whom knots are untied, distress is relieved, needs are fulfilled, and desires and a good ending are attained, and by whose noble face the clouds are asked for rain; and upon his family and companions, in every glance and breath, as many times as the number of everything known to You.",
+    "malayalam_translation": "അല്ലാഹുവേ, നമ്മുടെ നേതാവായ മുഹമ്മദ് നബി ﷺ യുടെ മേൽ പൂർണ്ണമായ സ്വലാത്തും പരിപൂർണ്ണമായ സലാമും നീ ചൊരിയേണമേ. അവിടുന്ന് മുഖേന കുരുക്കുകൾ അഴിയുകയും ദുരിതങ്ങൾ നീങ്ങുകയും ആവശ്യങ്ങൾ നിറവേറ്റപ്പെടുകയും ആഗ്രഹങ്ങളും നല്ല പര്യവസാനവും ലഭിക്കുകയും ചെയ്യുന്നു; അവിടുത്തെ മുഖം മുൻനിർത്തി മഴ തേടപ്പെടുകയും ചെയ്യുന്നു. അവിടുത്തെ കുടുംബത്തിന്മേലും അനുചരന്മാരുടെ മേലും, ഓരോ നോട്ടത്തിലും ശ്വാസത്തിലും, നിനക്കറിയാവുന്ന എല്ലാറ്റിന്റെയും എണ്ണത്തോളം.",
+    "source": "Traditional Salawat (not a hadith text)",
+    "tags": [
+      "goal",
+      "salawat",
+      "needs",
+      "hardship",
+      "traditional"
+    ],
+    "type": "dikr",
+    "icon": "emoji_events"
+  },
+  {
+    "id": "goal_2",
+    "category": "goal_achievement",
+    "title": "Salatut Tunjina",
+    "arabic": "اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ صَلَاةً تُنْجِينَا بِهَا مِنْ جَمِيعِ الْأَهْوَالِ وَالْآفَاتِ، وَتَقْضِي لَنَا بِهَا جَمِيعَ الْحَاجَاتِ، وَتُطَهِّرُنَا بِهَا مِنْ جَمِيعِ السَّيِّئَاتِ، وَتَرْفَعُنَا بِهَا عِنْدَكَ أَعْلَى الدَّرَجَاتِ، وَتُبَلِّغُنَا بِهَا أَقْصَى الْغَايَاتِ مِنْ جَمِيعِ الْخَيْرَاتِ فِي الْحَيَاةِ وَبَعْدَ الْمَمَاتِ",
+    "english_transliteration": "Allahumma salli 'ala sayyidina Muhammadin salatan tunjina biha min jami'il-ahwali wal-afat, wa taqdi lana biha jami'al-hajat, wa tutahhiruna biha min jami'is-sayyi'at, wa tarfa'una biha 'indaka a'lad-darajat, wa tuballighuna biha aqsal-ghayati min jami'il-khayrat, fil-hayati wa ba'dal-mamat",
+    "malayalam_transliteration": "അല്ലാഹുമ്മ സ്വല്ലി അലാ സയ്യിദിനാ മുഹമ്മദിൻ സ്വലാതൻ തുൻജീനാ ബിഹാ മിൻ ജമീഇൽ അഹ്വാലി വൽ ആഫാത്, വതഖ്ദീ ലനാ ബിഹാ ജമീഅൽ ഹാജാത്, വതുത്വഹ്ഹിറുനാ ബിഹാ മിൻ ജമീഇസ്സയ്യിആത്, വതർഫഉനാ ബിഹാ ഇൻദക അഅ്ലദ്ദറജാത്, വതുബല്ലിഗുനാ ബിഹാ അഖ്സ്വൽ ഗായാതി മിൻ ജമീഇൽ ഖൈറാത്, ഫിൽ ഹയാതി വബഅ്ദൽ മമാത്",
+    "english_translation": "O Allah, bless our master Muhammad with a blessing through which You save us from all terrors and calamities, fulfil all our needs, purify us from all evil deeds, raise us to the highest ranks with You, and let us reach the furthest goals of all good, in this life and after death.",
+    "malayalam_translation": "അല്ലാഹുവേ, നമ്മുടെ നേതാവായ മുഹമ്മദ് നബി ﷺ യുടെ മേൽ ഒരു സ്വലാത്ത് നീ ചൊരിയേണമേ; അതുമൂലം എല്ലാ ഭയാനക അവസ്ഥകളിൽ നിന്നും ആപത്തുകളിൽ നിന്നും ഞങ്ങളെ രക്ഷിക്കുകയും, ഞങ്ങളുടെ എല്ലാ ആവശ്യങ്ങളും നിറവേറ്റുകയും, എല്ലാ തിന്മകളിൽ നിന്നും ഞങ്ങളെ ശുദ്ധീകരിക്കുകയും, നിന്റെ അടുക്കൽ ഏറ്റവും ഉയർന്ന പദവികളിലേക്ക് ഉയർത്തുകയും, ജീവിതത്തിലും മരണാനന്തരവും എല്ലാ നന്മകളുടെയും ഉന്നത ലക്ഷ്യങ്ങളിൽ ഞങ്ങളെ എത്തിക്കുകയും ചെയ്യേണമേ.",
+    "source": "Traditional Salawat (not a hadith text)",
+    "tags": [
+      "goal",
+      "salawat",
+      "needs",
+      "success",
+      "traditional"
+    ],
+    "type": "dikr",
+    "icon": "flag"
+  },
+  {
+    "id": "goal_3",
+    "category": "goal_achievement",
+    "title": "Rabbish-rah Li Sadri (Dua of Musa ﷺ)",
+    "arabic": "رَبِّ اشْرَحْ لِي صَدْرِي، وَيَسِّرْ لِي أَمْرِي، وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي، يَفْقَهُوا قَوْلِي",
+    "english_transliteration": "Rabbish-rah li sadri, wa yassir li amri, wahlul 'uqdatam-min lisani, yafqahu qawli",
+    "malayalam_transliteration": "റബ്ബിശ്റഹ് ലീ സദ്രീ, വയസ്സിർ ലീ അംരീ, വഹ്ലുൽ ഉഖ്ദതം മിൻ ലിസാനീ, യഫ്ഖഹൂ ഖൗലീ",
+    "english_translation": "My Lord, expand my chest for me, ease my task for me, and untie the knot from my tongue so that they may understand my speech.",
+    "malayalam_translation": "എന്റെ രക്ഷിതാവേ, എന്റെ നെഞ്ച് നീ വിശാലമാക്കിത്തരേണമേ. എന്റെ കാര്യം എനിക്ക് എളുപ്പമാക്കിത്തരേണമേ. എന്റെ നാവിലെ കെട്ട് നീ അഴിച്ചുതരേണമേ; അവർ എന്റെ വാക്ക് മനസ്സിലാക്കുന്നതിനായി.",
+    "source": "Quran 20:25-28",
+    "tags": [
+      "goal",
+      "ease",
+      "exam",
+      "confidence",
+      "speech"
+    ],
+    "type": "quran",
+    "icon": "lightbulb"
+  },
+  {
+    "id": "goal_4",
+    "category": "goal_achievement",
+    "title": "Allahumma La Sahla (Making Hardship Easy)",
+    "arabic": "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا",
+    "english_transliteration": "Allahumma la sahla illa ma ja'altahu sahla, wa anta taj'alul-hazna idha shi'ta sahla",
+    "malayalam_transliteration": "അല്ലാഹുമ്മ ലാ സഹ്ല ഇല്ലാ മാ ജഅൽതഹു സഹ്ലാ, വഅൻത തജ്അലുൽ ഹസ്ന ഇദാ ശിഅ്ത സഹ്ലാ",
+    "english_translation": "O Allah, nothing is easy except what You make easy, and You can make the difficult easy if You wish.",
+    "malayalam_translation": "അല്ലാഹുവേ, നീ എളുപ്പമാക്കിയതല്ലാതെ യാതൊന്നും എളുപ്പമല്ല. നീ ഉദ്ദേശിച്ചാൽ പ്രയാസമേറിയതിനെ നീ എളുപ്പമാക്കും.",
+    "source": "Sahih Ibn Hibban 974",
+    "tags": [
+      "goal",
+      "ease",
+      "difficulty",
+      "tasks"
+    ],
+    "type": "dua",
+    "icon": "trending_up"
+  },
+  {
+    "id": "goal_5",
+    "category": "goal_achievement",
+    "title": "Ya Hayyu Ya Qayyum",
+    "arabic": "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ",
+    "english_transliteration": "Ya Hayyu ya Qayyum, bi-rahmatika astaghith",
+    "malayalam_transliteration": "യാ ഹയ്യു യാ ഖയ്യൂം, ബിറഹ്മതിക അസ്തഗീഥ്",
+    "english_translation": "O Ever-Living, O Self-Sustaining, in Your mercy I seek relief.",
+    "malayalam_translation": "ഹേ എന്നെന്നും ജീവിക്കുന്നവനേ, എല്ലാറ്റിനെയും നിലനിർത്തുന്നവനേ, നിന്റെ കാരുണ്യത്തിന്റെ പേരിൽ ഞാൻ സഹായം തേടുന്നു.",
+    "source": "Sunan At-Tirmidhi 3524",
+    "tags": [
+      "goal",
+      "help",
+      "needs",
+      "distress"
+    ],
+    "type": "dua",
+    "icon": "volunteer_activism"
+  },
+  {
+    "id": "goal_6",
+    "category": "goal_achievement",
+    "title": "Allahumma Rahmataka Arju",
+    "arabic": "اللَّهُمَّ رَحْمَتَكَ أَرْجُو، فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، لَا إِلَهَ إِلَّا أَنْتَ",
+    "english_transliteration": "Allahumma rahmataka arju, fala takilni ila nafsi tarfata 'ayn, wa aslih li sha'ni kullahu, la ilaha illa ant",
+    "malayalam_transliteration": "അല്ലാഹുമ്മ റഹ്മതക അർജൂ, ഫലാ തകിൽനീ ഇലാ നഫ്സീ ത്വർഫത്ത അയ്ൻ, വഅസ്ലിഹ് ലീ ശഅ്നീ കുല്ലഹു, ലാ ഇലാഹ ഇല്ലാ അൻത",
+    "english_translation": "O Allah, it is Your mercy that I hope for, so do not leave me to myself even for the blink of an eye, and set right all my affairs. There is no god but You.",
+    "malayalam_translation": "അല്ലാഹുവേ, നിന്റെ കാരുണ്യമാണ് ഞാൻ പ്രതീക്ഷിക്കുന്നത്. അതിനാൽ കണ്ണ് ചിമ്മുന്ന നേരത്തേക്കു പോലും എന്നെ എന്നിലേക്ക് ഏൽപ്പിക്കരുതേ. എന്റെ എല്ലാ കാര്യങ്ങളും നന്നാക്കിത്തരേണമേ. നീയല്ലാതെ ആരാധ്യനില്ല.",
+    "source": "Sunan Abi Dawud 5090",
+    "tags": [
+      "goal",
+      "affairs",
+      "hope",
+      "reliance"
+    ],
+    "type": "dua",
+    "icon": "track_changes"
+  },
+  {
+    "id": "goal_7",
+    "category": "goal_achievement",
+    "title": "Rabbana Atina Min Ladunka Rahmah",
+    "arabic": "رَبَّنَا آتِنَا مِنْ لَدُنْكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا",
+    "english_transliteration": "Rabbana atina min ladunka rahmatan wa hayyi' lana min amrina rashada",
+    "malayalam_transliteration": "റബ്ബനാ ആതിനാ മിൻ ലദുൻക റഹ്മതൻ വഹയ്യിഅ് ലനാ മിൻ അംരിനാ റശദാ",
+    "english_translation": "Our Lord, grant us mercy from Yourself and prepare for us right guidance in our affair.",
+    "malayalam_translation": "ഞങ്ങളുടെ രക്ഷിതാവേ, നിന്റെ പക്കൽ നിന്ന് ഞങ്ങൾക്ക് കാരുണ്യം നൽകേണമേ; ഞങ്ങളുടെ കാര്യത്തിൽ സന്മാർഗ്ഗം ഒരുക്കിത്തരികയും ചെയ്യേണമേ.",
+    "source": "Quran 18:10",
+    "tags": [
+      "goal",
+      "guidance",
+      "decisions",
+      "affairs"
+    ],
+    "type": "quran",
+    "icon": "rocket_launch"
+  },
+  {
+    "id": "goal_8",
+    "category": "goal_achievement",
+    "title": "Rabbi Inni Lima Anzalta (Dua of Musa ﷺ for Good)",
+    "arabic": "رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ",
+    "english_transliteration": "Rabbi inni lima anzalta ilayya min khayrin faqir",
+    "malayalam_transliteration": "റബ്ബി ഇന്നീ ലിമാ അൻസൽത ഇലയ്യ മിൻ ഖൈറിൻ ഫഖീർ",
+    "english_translation": "My Lord, I am in need of whatever good You send down to me.",
+    "malayalam_translation": "എന്റെ രക്ഷിതാവേ, നീ എനിക്ക് ഇറക്കിത്തരുന്ന ഏതൊരു നന്മയ്ക്കും ഞാൻ ആവശ്യക്കാരനാണ്.",
+    "source": "Quran 28:24",
+    "tags": [
+      "goal",
+      "rizq",
+      "need",
+      "job",
+      "good"
+    ],
+    "type": "quran",
+    "icon": "workspace_premium"
+  },
+  {
+    "id": "goal_9",
+    "category": "goal_achievement",
+    "title": "Hasbiyallahu La Ilaha Illa Huwa",
+    "arabic": "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
+    "english_transliteration": "Hasbiyallahu la ilaha illa huwa, 'alayhi tawakkaltu wa huwa rabbul-'arshil-'azim",
+    "malayalam_transliteration": "ഹസ്ബിയല്ലാഹു ലാ ഇലാഹ ഇല്ലാ ഹുവ, അലൈഹി തവക്കൽതു വഹുവ റബ്ബുൽ അർശിൽ അളീം",
+    "english_translation": "Allah is sufficient for me. There is no god but Him. In Him I place my trust, and He is the Lord of the Mighty Throne.",
+    "malayalam_translation": "അല്ലാഹു എനിക്ക് മതി. അവനല്ലാതെ ആരാധ്യനില്ല. അവനിലാണ് ഞാൻ ഭരമേൽപ്പിച്ചിരിക്കുന്നത്. അവൻ മഹത്തായ സിംഹാസനത്തിന്റെ നാഥനാണ്.",
+    "source": "Quran 9:129",
+    "tags": [
+      "goal",
+      "tawakkul",
+      "trust",
+      "reliance"
+    ],
+    "type": "quran",
+    "icon": "self_improvement"
+  },
+  {
+    "id": "goal_10",
+    "category": "goal_achievement",
+    "title": "Dua of Yunus ﷺ (La Ilaha Illa Anta)",
+    "arabic": "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+    "english_transliteration": "La ilaha illa anta subhanaka inni kuntu minaz-zalimin",
+    "malayalam_transliteration": "ലാ ഇലാഹ ഇല്ലാ അൻത സുബ്ഹാനക ഇന്നീ കുൻതു മിനദ്ദാലിമീൻ",
+    "english_translation": "There is no god but You; glory be to You. Indeed, I have been among the wrongdoers.",
+    "malayalam_translation": "നീയല്ലാതെ ആരാധ്യനില്ല; നീ എത്രയോ പരിശുദ്ധൻ. തീർച്ചയായും ഞാൻ അക്രമികളുടെ കൂട്ടത്തിലായിപ്പോയി.",
+    "source": "Quran 21:87; Sunan At-Tirmidhi 3505",
+    "tags": [
+      "goal",
+      "needs",
+      "distress",
+      "repentance"
+    ],
+    "type": "quran",
+    "icon": "lock_open"
+  },
+  {
+    "id": "goal_11",
+    "category": "goal_achievement",
+    "title": "Allahumma A'inni 'ala Dhikrika",
+    "arabic": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+    "english_transliteration": "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik",
+    "malayalam_transliteration": "അല്ലാഹുമ്മ അഇന്നീ അലാ ദിക്രിക വശുക്രിക വഹുസ്നി ഇബാദതിക",
+    "english_translation": "O Allah, help me to remember You, to thank You, and to worship You in the best manner.",
+    "malayalam_translation": "അല്ലാഹുവേ, നിന്നെ സ്മരിക്കാനും നിന്നോട് നന്ദി കാണിക്കാനും നിന്നെ ഏറ്റവും നല്ല രീതിയിൽ ആരാധിക്കാനും എന്നെ സഹായിക്കേണമേ.",
+    "source": "Sunan Abi Dawud 1522; Sunan An-Nasa'i 1303",
+    "tags": [
+      "goal",
+      "help",
+      "worship",
+      "consistency"
+    ],
+    "type": "dua",
+    "icon": "handshake"
+  },
+  {
+    "id": "goal_12",
+    "category": "goal_achievement",
+    "title": "Rabbi Zidni Ilma (Increase in Knowledge)",
+    "arabic": "رَبِّ زِدْنِي عِلْمًا",
+    "english_transliteration": "Rabbi zidni 'ilma",
+    "malayalam_transliteration": "റബ്ബി സിദ്നീ ഇൽമാ",
+    "english_translation": "My Lord, increase me in knowledge.",
+    "malayalam_translation": "എന്റെ രക്ഷിതാവേ, എനിക്ക് അറിവ് വർദ്ധിപ്പിച്ചു തരേണമേ.",
+    "source": "Quran 20:114",
+    "tags": [
+      "goal",
+      "knowledge",
+      "study",
+      "exam"
+    ],
+    "type": "quran",
+    "icon": "school"
+  },
+  {
+    "id": "goal_13",
+    "category": "goal_achievement",
+    "title": "Rabbana Afrigh 'Alayna Sabra (Patience & Steadfastness)",
+    "arabic": "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا",
+    "english_transliteration": "Rabbana afrigh 'alayna sabran wa thabbit aqdamana",
+    "malayalam_transliteration": "റബ്ബനാ അഫ്രിഗ് അലൈനാ സബ്റൻ വതബ്ബിത് അഖ്ദാമനാ",
+    "english_translation": "Our Lord, pour patience upon us and make our steps firm.",
+    "malayalam_translation": "ഞങ്ങളുടെ രക്ഷിതാവേ, ഞങ്ങളുടെ മേൽ ക്ഷമ ചൊരിഞ്ഞു തരേണമേ; ഞങ്ങളുടെ പാദങ്ങളെ ഉറപ്പിച്ചു നിർത്തേണമേ.",
+    "source": "Quran 2:250 (first part)",
+    "tags": [
+      "goal",
+      "patience",
+      "steadfastness",
+      "perseverance"
+    ],
+    "type": "quran",
+    "icon": "bolt"
+  },
+  {
+    "id": "goal_14",
+    "category": "goal_achievement",
+    "title": "Rabbana Atina Fid-Dunya Hasanah",
+    "arabic": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+    "english_transliteration": "Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar",
+    "malayalam_transliteration": "റബ്ബനാ ആതിനാ ഫിദ്ദുൻയാ ഹസനതൻ വഫിൽ ആഖിറതി ഹസനതൻ വഖിനാ അദാബന്നാർ",
+    "english_translation": "Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.",
+    "malayalam_translation": "ഞങ്ങളുടെ രക്ഷിതാവേ, ഇഹലോകത്തും നന്മ നൽകേണമേ, പരലോകത്തും നന്മ നൽകേണമേ, നരകശിക്ഷയിൽ നിന്ന് ഞങ്ങളെ കാക്കേണമേ.",
+    "source": "Quran 2:201; Sahih al-Bukhari 4522",
+    "tags": [
+      "goal",
+      "dunya",
+      "akhirah",
+      "comprehensive"
+    ],
+    "type": "quran",
+    "icon": "military_tech"
   }
 ]

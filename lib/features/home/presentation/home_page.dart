@@ -320,7 +320,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
             Expanded(
               child: _WorshipCompactTile(
                 icon: Icons.favorite_outline_rounded,
-                title: 'Daily Duas',
+                title: 'Duas & Dhikrs',
                 accentColor: const Color(0xFFEC4899),
                 onTap: () {
                   context.push('/duas');
@@ -334,7 +334,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                 title: 'Tasbeeh',
                 accentColor: const Color(0xFF0EA5E9),
                 onTap: () {
-                  Navigator.pushNamed(context, '/tasbeeh');
+                  context.push('/tasbeeh');
                 },
               ),
             ),
