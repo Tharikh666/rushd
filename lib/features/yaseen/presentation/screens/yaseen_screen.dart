@@ -76,7 +76,8 @@ class _YaseenScreenState extends State<YaseenScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted || !_itemScrollController.isAttached) return;
 
-        _itemScrollController.jumpTo(index: _selectedAyah - 1, alignment: 0.0);
+        // Index 0 is the Surah header card, so ayah 1 is at index 1, ayah n is at index n
+        _itemScrollController.jumpTo(index: _selectedAyah, alignment: 0.0);
       });
     } catch (error) {
       if (!mounted) return;
@@ -141,53 +142,105 @@ class _YaseenScreenState extends State<YaseenScreen> {
     });
   }
 
-  Widget _buildDisplaySettings() {
-    return ExpansionTile(
-      leading: const Icon(Icons.tune_rounded),
-      title: const Text('Reading settings'),
-      childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      children: [
-        _buildToggle(
-          'English transliteration',
-          _showEnglishTransliteration,
-          (value) => setState(() => _showEnglishTransliteration = value),
-        ),
-        _buildToggle(
-          'Malayalam transliteration',
-          _showMalayalamTransliteration,
-          (value) => setState(() => _showMalayalamTransliteration = value),
-        ),
-        _buildToggle(
-          'English translation',
-          _showEnglishTranslation,
-          (value) => setState(() => _showEnglishTranslation = value),
-        ),
-        _buildToggle(
-          'Malayalam translation',
-          _showMalayalamTranslation,
-          (value) => setState(() => _showMalayalamTranslation = value),
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            const Icon(Icons.text_fields_rounded),
-            const SizedBox(width: 12),
-            const Text('Arabic font size'),
-            const Spacer(),
-            Text(_arabicFontSize.round().toString()),
-          ],
-        ),
-        Slider(
-          min: 24,
-          max: 48,
-          divisions: 12,
-          value: _arabicFontSize,
-          label: _arabicFontSize.round().toString(),
-          onChanged: (value) {
-            setState(() => _arabicFontSize = value);
+  void _showReadingSettingsBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return Padding(
+              padding: EdgeInsets.fromLTRB(
+                20,
+                20,
+                20,
+                MediaQuery.of(context).viewInsets.bottom + 20,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.tune_rounded),
+                      const SizedBox(width: 12),
+                      Text(
+                        'Reading Settings',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.close_rounded),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  const SizedBox(height: 8),
+                  _buildToggle(
+                    'English transliteration',
+                    _showEnglishTransliteration,
+                    (value) {
+                      setModalState(() => _showEnglishTransliteration = value);
+                      setState(() {});
+                    },
+                  ),
+                  _buildToggle(
+                    'Malayalam transliteration',
+                    _showMalayalamTransliteration,
+                    (value) {
+                      setModalState(
+                        () => _showMalayalamTransliteration = value,
+                      );
+                      setState(() {});
+                    },
+                  ),
+                  _buildToggle('English translation', _showEnglishTranslation, (
+                    value,
+                  ) {
+                    setModalState(() => _showEnglishTranslation = value);
+                    setState(() {});
+                  }),
+                  _buildToggle(
+                    'Malayalam translation',
+                    _showMalayalamTranslation,
+                    (value) {
+                      setModalState(() => _showMalayalamTranslation = value);
+                      setState(() {});
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      const Icon(Icons.text_fields_rounded),
+                      const SizedBox(width: 12),
+                      const Text('Arabic font size'),
+                      const Spacer(),
+                      Text(_arabicFontSize.round().toString()),
+                    ],
+                  ),
+                  Slider(
+                    min: 24,
+                    max: 48,
+                    divisions: 12,
+                    value: _arabicFontSize,
+                    label: _arabicFontSize.round().toString(),
+                    onChanged: (value) {
+                      setModalState(() => _arabicFontSize = value);
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
+            );
           },
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -210,6 +263,11 @@ class _YaseenScreenState extends State<YaseenScreen> {
         title: const Text('Surah Yaseen'),
         actions: [
           IconButton(
+            tooltip: 'Reading settings',
+            onPressed: _showReadingSettingsBottomSheet,
+            icon: const Icon(Icons.tune_rounded),
+          ),
+          IconButton(
             tooltip: 'Bookmarks',
             onPressed: _openBookmarks,
             icon: const Icon(Icons.bookmarks_outlined),
@@ -220,13 +278,7 @@ class _YaseenScreenState extends State<YaseenScreen> {
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage != null
           ? _buildErrorState()
-          : Column(
-              children: [
-                _buildSurahHeader(context),
-                _buildDisplaySettings(),
-                Expanded(child: _buildAyahList()),
-              ],
-            ),
+          : _buildUnifiedScrollableList(),
       bottomNavigationBar: !_isLoading && _errorMessage == null
           ? SafeArea(
               child: Container(
@@ -255,7 +307,7 @@ class _YaseenScreenState extends State<YaseenScreen> {
                         if (!_itemScrollController.isAttached) return;
 
                         _itemScrollController.scrollTo(
-                          index: _selectedAyah - 1,
+                          index: _selectedAyah,
                           alignment: 0.0,
                           duration: const Duration(milliseconds: 350),
                           curve: Curves.easeInOut,
@@ -280,12 +332,19 @@ class _YaseenScreenState extends State<YaseenScreen> {
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colorScheme.primary, colorScheme.tertiary],
+        gradient: const LinearGradient(
+          colors: [Color(0xFF443BED), Color(0xFF6169BD)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF6366F1).withOpacity(0.35),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -310,7 +369,7 @@ class _YaseenScreenState extends State<YaseenScreen> {
           Text(
             '83 Ayahs  •  Makki Surah',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onPrimary.withValues(alpha: 0.85),
+              color: colorScheme.onPrimary.withOpacity(0.85),
             ),
           ),
         ],
@@ -318,15 +377,19 @@ class _YaseenScreenState extends State<YaseenScreen> {
     );
   }
 
-  Widget _buildAyahList() {
+  Widget _buildUnifiedScrollableList() {
     return ScrollablePositionedList.builder(
       itemScrollController: _itemScrollController,
       itemPositionsListener: _itemPositionsListener,
-      initialScrollIndex: _selectedAyah - 1,
+      initialScrollIndex: _selectedAyah,
       padding: const EdgeInsets.only(bottom: 20),
-      itemCount: _ayahs.length,
+      itemCount: _ayahs.length + 1, // +1 for the Surah header at index 0
       itemBuilder: (context, index) {
-        final ayah = _ayahs[index];
+        if (index == 0) {
+          return _buildSurahHeader(context);
+        }
+
+        final ayah = _ayahs[index - 1];
 
         return YaseenAyahCard(
           key: ValueKey(ayah.ayahNumber),
@@ -354,16 +417,20 @@ class _YaseenScreenState extends State<YaseenScreen> {
         positions
             .where(
               (position) =>
-                  position.itemTrailingEdge > 0 && position.itemLeadingEdge < 1,
+                  position.itemTrailingEdge > 0 &&
+                  position.itemLeadingEdge < 1 &&
+                  position.index > 0, // Ignore index 0 (Surah header card)
             )
             .toList()
           ..sort((a, b) => a.itemLeadingEdge.compareTo(b.itemLeadingEdge));
 
     if (visiblePositions.isEmpty) return;
 
-    final ayahNumber = visiblePositions.first.index + 1;
+    final ayahNumber = visiblePositions.first.index;
 
-    if (ayahNumber != _selectedAyah) {
+    if (ayahNumber != _selectedAyah &&
+        ayahNumber >= 1 &&
+        ayahNumber <= _ayahs.length) {
       setState(() => _selectedAyah = ayahNumber);
       _progressService.saveProgress(ayahNumber);
     }

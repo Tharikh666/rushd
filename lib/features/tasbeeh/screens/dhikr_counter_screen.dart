@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +7,10 @@ import '../../../../core/theme/rushd_colors.dart';
 import '../../duas/data/repositories/dua_repository.dart';
 import '../domain/models/dhikr_journey.dart';
 import 'dhikr_journeys_screen.dart';
+
+const Color _kRosePrimary = Color(0xFFCF376A);
+const Color _kRoseLight = Color(0xFFF472B6);
+const Color _kRoseDark = Color(0xFF9D174D);
 
 class DhikrCounterScreen extends ConsumerStatefulWidget {
   const DhikrCounterScreen({required this.journeyId, super.key});
@@ -105,7 +108,6 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
     } catch (error) {
       if (!mounted) return;
 
-      // Restore the previous in-memory value if persistence failed.
       setState(() => _journey = journey);
       _showMessage('Could not save your count. Please try again.');
     } finally {
@@ -155,7 +157,6 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
   Future<void> _decrement() async {
     if (_journey == null || _count == 0 || _saving) return;
 
-    // Allow undoing a completed target as well.
     _completionShown = false;
     await _persistCount(_count - 1);
   }
@@ -176,6 +177,7 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
             child: const Text('Cancel'),
           ),
           FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: _kRosePrimary),
             onPressed: () => Navigator.pop(dialogContext, true),
             child: const Text('Reset'),
           ),
@@ -206,6 +208,7 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
             child: const Text('Cancel'),
           ),
           FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
             onPressed: () => Navigator.pop(dialogContext, true),
             child: const Text('Delete'),
           ),
@@ -249,6 +252,7 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
         actionsAlignment: MainAxisAlignment.center,
         actions: [
           FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: _kRosePrimary),
             onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Continue'),
           ),
@@ -285,7 +289,10 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.restart_alt_rounded),
+              leading: const Icon(
+                Icons.restart_alt_rounded,
+                color: _kRosePrimary,
+              ),
               title: const Text('Reset Count'),
               subtitle: const Text('Start this journey again from zero'),
               onTap: () {
@@ -317,7 +324,9 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
     final isDark = theme.brightness == Brightness.dark;
 
     if (_loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator(color: _kRosePrimary)),
+      );
     }
 
     final journey = _journey;
@@ -336,6 +345,7 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
                 const Text('Journey not found'),
                 const SizedBox(height: 12),
                 FilledButton(
+                  style: FilledButton.styleFrom(backgroundColor: _kRosePrimary),
                   onPressed: () => context.go('/tasbeeh'),
                   child: const Text('Back to Journeys'),
                 ),
@@ -382,157 +392,169 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
           builder: (context, constraints) {
             final availableHeight = constraints.maxHeight;
             final ringSize = math.min(
-              310.0,
-              math.max(185.0, availableHeight * 0.36),
+              330.0,
+              math.max(200.0, availableHeight * 0.38),
             );
 
-            return SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: availableHeight),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 18),
-                  child: Column(
-                    children: [
-                      // Journey name
-                      Container(
-                        constraints: const BoxConstraints(maxWidth: 280),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 9,
-                        ),
-                        decoration: BoxDecoration(
-                          color: RushdColors.primary.withValues(
-                            alpha: isDark ? 0.22 : 0.09,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(
-                            color: RushdColors.primary.withValues(alpha: 0.20),
-                          ),
-                        ),
-                        child: Text(
-                          journey.name.toUpperCase(),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.labelMedium?.copyWith(
-                            color: isDark
-                                ? RushdColors.primaryLight
-                                : RushdColors.primaryDark,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1.2,
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // Persistent reading panel
-                      if (journey.duaId?.trim().isNotEmpty == true) ...[
-                        _InlineDuaReadingPanel(duaId: journey.duaId),
-                        const SizedBox(height: 12),
-                      ],
-
-                      // Only this area increments or undoes the count.
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: _increment,
-                        onLongPress: _decrement,
-                        child: SizedBox(
-                          width: ringSize,
-                          height: ringSize,
-                          child: ScaleTransition(
-                            scale: _tapScale,
-                            child: TasbeehRing(
-                              current: _count,
-                              target: _target,
-                              isDark: isDark,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 9,
-                        ),
-                        decoration: BoxDecoration(
-                          color: RushdColors.primary.withValues(
-                            alpha: isDark ? 0.20 : 0.08,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Text(
-                          '${(progress * 100).round()}% COMPLETED',
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: isDark
-                                ? RushdColors.primaryLight
-                                : RushdColors.primaryDark,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1.1,
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      Text(
-                        journey.isCompleted
-                            ? 'Alhamdulillah — target reached'
-                            : '$remaining repetitions remaining',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.textTheme.bodyMedium?.color?.withValues(
-                            alpha: 0.75,
-                          ),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-
-                      const SizedBox(height: 14),
-
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 18,
-                          vertical: 13,
-                        ),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.surface,
-                          borderRadius: BorderRadius.circular(18),
-                          border: Border.all(
-                            color: theme.dividerColor.withValues(alpha: 0.65),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+            return GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: _increment,
+              onLongPress: _decrement,
+              child: SingleChildScrollView(
+                physics: const ClampingScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: availableHeight),
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 18),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
                           children: [
-                            const Icon(
-                              Icons.touch_app_rounded,
-                              color: RushdColors.primaryLight,
-                              size: 21,
-                            ),
-                            const SizedBox(width: 10),
-                            Flexible(
-                              child: Text(
-                                'Tap to Count  ·  Hold to Undo',
-                                textAlign: TextAlign.center,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  fontWeight: FontWeight.w700,
+                            // Journey name
+                            Container(
+                              constraints: const BoxConstraints(maxWidth: 280),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 18,
+                                vertical: 9,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _kRosePrimary.withValues(
+                                  alpha: isDark ? 0.22 : 0.09,
                                 ),
+                                borderRadius: BorderRadius.circular(30),
+                                border: Border.all(
+                                  color: _kRosePrimary.withValues(alpha: 0.20),
+                                ),
+                              ),
+                              child: Text(
+                                journey.name.toUpperCase(),
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.labelMedium?.copyWith(
+                                  color: isDark ? _kRoseLight : _kRoseDark,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 1.2,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 12),
+
+                            // Persistent reading panel
+                            if (journey.duaId?.trim().isNotEmpty == true) ...[
+                              _InlineDuaReadingPanel(duaId: journey.duaId),
+                            ],
+                          ],
+                        ),
+
+                        // Center Focus: Tasbeeh Ring & Progress
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: ringSize,
+                              height: ringSize,
+                              child: ScaleTransition(
+                                scale: _tapScale,
+                                child: TasbeehRing(
+                                  current: _count,
+                                  target: _target,
+                                  isDark: isDark,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 14),
+
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 18,
+                                vertical: 9,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _kRosePrimary.withValues(
+                                  alpha: isDark ? 0.20 : 0.08,
+                                ),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Text(
+                                '${(progress * 100).round()}% COMPLETED',
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: isDark ? _kRoseLight : _kRoseDark,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 1.1,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 8),
+
+                            Text(
+                              journey.isCompleted
+                                  ? 'Alhamdulillah — target reached'
+                                  : '$remaining repetitions remaining',
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.textTheme.bodyMedium?.color
+                                    ?.withValues(alpha: 0.75),
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
                         ),
-                      ),
 
-                      if (_saving) ...[
-                        const SizedBox(height: 10),
-                        const LinearProgressIndicator(minHeight: 2),
+                        // Bottom instruction widget & progress
+                        Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 18,
+                                vertical: 13,
+                              ),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.surface,
+                                borderRadius: BorderRadius.circular(18),
+                                border: Border.all(
+                                  color: theme.dividerColor.withValues(
+                                    alpha: 0.65,
+                                  ),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.touch_app_rounded,
+                                    color: _kRoseLight,
+                                    size: 21,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Flexible(
+                                    child: Text(
+                                      'Tap anywhere to Count  ·  Hold to Undo',
+                                      textAlign: TextAlign.center,
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            if (_saving) ...[
+                              const SizedBox(height: 10),
+                              const LinearProgressIndicator(
+                                minHeight: 2,
+                                color: _kRosePrimary,
+                              ),
+                            ],
+                          ],
+                        ),
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -561,27 +583,27 @@ class _InlineDuaReadingPanelState extends State<_InlineDuaReadingPanel> {
   bool _panelOpen = false;
   int _currentPage = 0;
 
-  static const List<Map<String, String>> _sections = [
-    {'key': 'arabic', 'title': 'Arabic', 'subtitle': 'Original Arabic text'},
+  static const List<Map<String, dynamic>> _sections = [
+    {'key': 'arabic', 'title': 'Arabic', 'subtitle': 'Original text'},
     {
       'key': 'english_transliteration',
       'title': 'English Transliteration',
-      'subtitle': 'Pronunciation in English letters',
+      'subtitle': 'English pronunciation',
     },
     {
       'key': 'malayalam_transliteration',
       'title': 'Malayalam Transliteration',
-      'subtitle': 'Pronunciation in Malayalam letters',
+      'subtitle': 'Malayalam pronunciation',
     },
     {
       'key': 'english_translation',
-      'title': 'English Translation',
-      'subtitle': 'Meaning in English',
+      'title': 'English Meaning',
+      'subtitle': 'English translation',
     },
     {
       'key': 'malayalam_translation',
-      'title': 'Malayalam Translation',
-      'subtitle': 'Meaning in Malayalam',
+      'title': 'Malayalam Meaning',
+      'subtitle': 'Malayalam translation',
     },
   ];
 
@@ -614,10 +636,14 @@ class _InlineDuaReadingPanelState extends State<_InlineDuaReadingPanel> {
   void _changePage(int page) {
     if (page < 0 || page >= _sections.length) return;
 
+    setState(() {
+      _currentPage = page;
+    });
+
     _pageController.animateToPage(
       page,
-      duration: const Duration(milliseconds: 220),
-      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOutCubic,
     );
   }
 
@@ -627,346 +653,484 @@ class _InlineDuaReadingPanelState extends State<_InlineDuaReadingPanel> {
     final isDark = theme.brightness == Brightness.dark;
 
     return AnimatedSize(
-      duration: const Duration(milliseconds: 220),
-      curve: Curves.easeInOut,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOutCubic,
       alignment: Alignment.topCenter,
       child: !_panelOpen
           ? Align(
               alignment: Alignment.centerLeft,
-              child: Tooltip(
-                message: 'Open Dua and Dhikr reading',
-                child: Material(
-                  color: RushdColors.primary.withValues(
-                    alpha: isDark ? 0.18 : 0.08,
-                  ),
-                  borderRadius: BorderRadius.circular(14),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(14),
-                    onTap: () => setState(() => _panelOpen = true),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 10,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.menu_book_rounded,
-                            color: RushdColors.primaryLight,
-                            size: 21,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'View Recitation',
-                            style: theme.textTheme.labelMedium?.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(18),
+                  onTap: () => setState(() => _panelOpen = true),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          _kRosePrimary.withValues(alpha: isDark ? 0.28 : 0.16),
+                          _kRoseDark.withValues(alpha: isDark ? 0.15 : 0.06),
                         ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(
+                        color: _kRoseLight.withValues(alpha: 0.4),
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: _kRosePrimary.withValues(alpha: 0.2),
+                          blurRadius: 14,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [_kRosePrimary, _kRoseDark],
+                            ),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: _kRosePrimary.withValues(alpha: 0.4),
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.menu_book_rounded,
+                            color: Colors.white,
+                            size: 16,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'View Recitation Panel',
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: isDark ? _kRoseLight : _kRoseDark,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        const Icon(
+                          Icons.keyboard_arrow_right_rounded,
+                          color: _kRoseLight,
+                          size: 18,
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
             )
-          : _buildOpenPanel(context, theme, isDark),
-    );
-  }
-
-  Widget _buildOpenPanel(BuildContext context, ThemeData theme, bool isDark) {
-    final duaId = widget.duaId;
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: RushdColors.primary.withValues(alpha: 0.20)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.12 : 0.035),
-            blurRadius: 16,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Panel header
-          Row(
-            children: [
-              Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  color: RushdColors.primary.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.menu_book_rounded,
-                  color: RushdColors.primaryLight,
-                  size: 21,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'READING PANEL',
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1.1,
-                        color: isDark
-                            ? RushdColors.primaryLight
-                            : RushdColors.primaryDark,
-                      ),
+          : GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {},
+              onLongPress: () {},
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(26),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: isDark
+                          ? [
+                              theme.colorScheme.surface.withValues(alpha: 0.92),
+                              const Color(0xFF1E1B24).withValues(alpha: 0.95),
+                            ]
+                          : [
+                              Colors.white.withValues(alpha: 0.95),
+                              const Color(0xFFFFF1F5).withValues(alpha: 0.9),
+                            ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
                     ),
-                    const SizedBox(height: 3),
-                    Text(
-                      'Read while you count',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.textTheme.bodySmall?.color?.withValues(
-                          alpha: 0.70,
-                        ),
-                      ),
+                    borderRadius: BorderRadius.circular(26),
+                    border: Border.all(
+                      color: _kRoseLight.withValues(alpha: 0.35),
+                      width: 1.5,
                     ),
-                  ],
-                ),
-              ),
-              IconButton(
-                tooltip: 'Close reading panel',
-                visualDensity: VisualDensity.compact,
-                onPressed: () {
-                  setState(() {
-                    _panelOpen = false;
-                  });
-                },
-                icon: const Icon(Icons.close_rounded),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 8),
-
-          // Load the linked Dua or Dhikr
-          FutureBuilder<List<Map<String, dynamic>>>(
-            future: _duasFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox(
-                  height: 100,
-                  child: Center(
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                );
-              }
-
-              if (snapshot.hasError) {
-                return const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'Unable to load the reading text.',
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
-
-              final duas = snapshot.data ?? [];
-
-              Map<String, dynamic>? dua;
-
-              for (final item in duas) {
-                if (item['id']?.toString() == duaId) {
-                  dua = item;
-                  break;
-                }
-              }
-
-              if (dua == null) {
-                return const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'The linked Dua or Dhikr could not be found.',
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              }
-
-              final section = _sections[_currentPage];
-
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Selected language and page number
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          section['title']!,
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w800,
-                          ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: _kRosePrimary.withValues(
+                          alpha: isDark ? 0.25 : 0.12,
                         ),
-                      ),
-                      Text(
-                        '${_currentPage + 1} / ${_sections.length}',
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: RushdColors.primaryLight,
-                          fontWeight: FontWeight.w800,
-                        ),
+                        blurRadius: 24,
+                        offset: const Offset(0, 10),
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 8),
-
-                  // Scrollable reading area
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 220),
-                    curve: Curves.easeInOut,
-                    height: _expanded ? 250 : 112,
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: isDark
-                          ? RushdColors.darkSurfaceElevated
-                          : RushdColors.primary.withValues(alpha: 0.045),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: RushdColors.primary.withValues(alpha: 0.12),
-                      ),
-                    ),
-                    child: PageView.builder(
-                      controller: _pageController,
-                      itemCount: _sections.length,
-                      onPageChanged: (index) {
-                        setState(() {
-                          _currentPage = index;
-                        });
-                      },
-                      itemBuilder: (context, index) {
-                        final itemSection = _sections[index];
-                        final itemKey = itemSection['key']!;
-                        final value = dua![itemKey]?.toString().trim() ?? '';
-                        final isArabic = itemKey == 'arabic';
-
-                        return SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 4,
-                              vertical: 2,
-                            ),
-                            child: value.isEmpty
-                                ? Text(
-                                    'This text is not available.',
-                                    textAlign: TextAlign.center,
-                                    style: theme.textTheme.bodyMedium,
-                                  )
-                                : SelectableText(
-                                    value,
-                                    textAlign: TextAlign.center,
-                                    textDirection: isArabic
-                                        ? TextDirection.rtl
-                                        : TextDirection.ltr,
-                                    style: isArabic
-                                        ? theme.textTheme.headlineSmall
-                                              ?.copyWith(
-                                                fontSize: 25,
-                                                height: 1.9,
-                                                color: isDark
-                                                    ? RushdColors
-                                                          .darkTextPrimary
-                                                    : RushdColors.primaryDark,
-                                              )
-                                        : theme.textTheme.bodyMedium?.copyWith(
-                                            fontSize: 15,
-                                            height: 1.7,
-                                            color: isDark
-                                                ? RushdColors.darkTextPrimary
-                                                : RushdColors.lightTextPrimary,
-                                          ),
-                                  ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-
-                  const SizedBox(height: 4),
-
-                  // Expand/collapse the reading area's height
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton.icon(
-                      onPressed: () {
-                        setState(() {
-                          _expanded = !_expanded;
-                        });
-                      },
-                      icon: Icon(
-                        _expanded
-                            ? Icons.unfold_less_rounded
-                            : Icons.unfold_more_rounded,
-                        size: 18,
-                      ),
-                      label: Text(_expanded ? 'Show less' : 'Read more'),
-                    ),
-                  ),
-
-                  // Language page indicators and navigation
-                  Row(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(
-                        tooltip: 'Previous language',
-                        visualDensity: VisualDensity.compact,
-                        onPressed: _currentPage == 0
-                            ? null
-                            : () => _changePage(_currentPage - 1),
-                        icon: const Icon(Icons.chevron_left_rounded),
+                      Row(
+                        children: [
+                          Container(
+                            width: 42,
+                            height: 42,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [_kRosePrimary, _kRoseDark],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: _kRosePrimary.withValues(alpha: 0.4),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.menu_book_rounded,
+                              color: Colors.white,
+                              size: 22,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'RECITATION COMPANION',
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    fontWeight: FontWeight.w900,
+                                    letterSpacing: 1.3,
+                                    color: isDark ? _kRoseLight : _kRoseDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  'Swipe or use indicators to read',
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: theme.textTheme.bodySmall?.color
+                                        ?.withValues(alpha: 0.70),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: 'Close panel',
+                            style: IconButton.styleFrom(
+                              backgroundColor: _kRosePrimary.withValues(
+                                alpha: 0.12,
+                              ),
+                            ),
+                            visualDensity: VisualDensity.compact,
+                            onPressed: () {
+                              setState(() {
+                                _panelOpen = false;
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.close_rounded,
+                              color: _kRosePrimary,
+                            ),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(_sections.length, (index) {
-                            final selected = index == _currentPage;
 
-                            return AnimatedContainer(
-                              duration: const Duration(milliseconds: 180),
-                              margin: const EdgeInsets.symmetric(horizontal: 3),
-                              width: selected ? 18 : 5,
-                              height: 5,
-                              decoration: BoxDecoration(
-                                color: selected
-                                    ? RushdColors.primaryLight
-                                    : theme.dividerColor,
-                                borderRadius: BorderRadius.circular(10),
+                      const SizedBox(height: 14),
+
+                      FutureBuilder<List<Map<String, dynamic>>>(
+                        future: _duasFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const SizedBox(
+                              height: 120,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  color: _kRosePrimary,
+                                ),
                               ),
                             );
-                          }),
-                        ),
-                      ),
-                      IconButton(
-                        tooltip: 'Next language',
-                        visualDensity: VisualDensity.compact,
-                        onPressed: _currentPage == _sections.length - 1
-                            ? null
-                            : () => _changePage(_currentPage + 1),
-                        icon: const Icon(Icons.chevron_right_rounded),
+                          }
+
+                          if (snapshot.hasError) {
+                            return const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Text(
+                                'Unable to load the reading text.',
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          }
+
+                          final duas = snapshot.data ?? [];
+                          Map<String, dynamic>? dua;
+                          final duaId = widget.duaId;
+
+                          for (final item in duas) {
+                            if (item['id']?.toString() == duaId) {
+                              dua = item;
+                              break;
+                            }
+                          }
+
+                          if (dua == null) {
+                            return const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Text(
+                                'The linked Dua or Dhikr could not be found.',
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          }
+
+                          final currentSection = _sections[_currentPage];
+
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      _kRosePrimary.withValues(
+                                        alpha: isDark ? 0.2 : 0.08,
+                                      ),
+                                      _kRoseDark.withValues(
+                                        alpha: isDark ? 0.1 : 0.03,
+                                      ),
+                                    ],
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: _kRosePrimary.withValues(
+                                      alpha: 0.15,
+                                    ),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      currentSection['title']!,
+                                      style: TextStyle(
+                                        fontSize: 12.5,
+                                        fontWeight: FontWeight.w800,
+                                        color: isDark
+                                            ? _kRoseLight
+                                            : _kRoseDark,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      '• ${currentSection['subtitle']}',
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: theme.textTheme.bodySmall?.color
+                                            ?.withValues(alpha: 0.65),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeInOutCubic,
+                                height: _expanded ? 260 : 130,
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: isDark
+                                        ? [
+                                            const Color(0xFF18151D),
+                                            const Color(0xFF221E29),
+                                          ]
+                                        : [
+                                            Colors.white,
+                                            const Color(0xFFFFFAFC),
+                                          ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(18),
+                                  border: Border.all(
+                                    color: _kRosePrimary.withValues(
+                                      alpha: 0.25,
+                                    ),
+                                    width: 1.2,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(
+                                        alpha: isDark ? 0.2 : 0.04,
+                                      ),
+                                      blurRadius: 10,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: PageView.builder(
+                                  controller: _pageController,
+                                  itemCount: _sections.length,
+                                  onPageChanged: (index) {
+                                    setState(() {
+                                      _currentPage = index;
+                                    });
+                                  },
+                                  itemBuilder: (context, index) {
+                                    final itemSection = _sections[index];
+                                    final itemKey = itemSection['key']!;
+                                    final value =
+                                        dua![itemKey]?.toString().trim() ?? '';
+                                    final isArabic = itemKey == 'arabic';
+
+                                    return SingleChildScrollView(
+                                      physics: const BouncingScrollPhysics(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 4,
+                                          vertical: 2,
+                                        ),
+                                        child: value.isEmpty
+                                            ? Text(
+                                                'This text is not available.',
+                                                textAlign: TextAlign.center,
+                                                style:
+                                                    theme.textTheme.bodyMedium,
+                                              )
+                                            : SelectableText(
+                                                value,
+                                                textAlign: TextAlign.center,
+                                                textDirection: isArabic
+                                                    ? TextDirection.rtl
+                                                    : TextDirection.ltr,
+                                                style: isArabic
+                                                    ? theme
+                                                          .textTheme
+                                                          .headlineSmall
+                                                          ?.copyWith(
+                                                            fontSize: 26,
+                                                            height: 1.95,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color: isDark
+                                                                ? RushdColors
+                                                                      .darkTextPrimary
+                                                                : _kRoseDark,
+                                                          )
+                                                    : theme.textTheme.bodyMedium
+                                                          ?.copyWith(
+                                                            fontSize: 15.5,
+                                                            height: 1.7,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: isDark
+                                                                ? RushdColors
+                                                                      .darkTextPrimary
+                                                                : RushdColors
+                                                                      .lightTextPrimary,
+                                                          ),
+                                              ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: List.generate(_sections.length, (
+                                      index,
+                                    ) {
+                                      final isSelected = index == _currentPage;
+                                      return AnimatedContainer(
+                                        duration: const Duration(
+                                          milliseconds: 200,
+                                        ),
+                                        margin: const EdgeInsets.only(right: 4),
+                                        width: isSelected ? 18 : 6,
+                                        height: 6,
+                                        decoration: BoxDecoration(
+                                          gradient: isSelected
+                                              ? const LinearGradient(
+                                                  colors: [
+                                                    _kRosePrimary,
+                                                    _kRoseLight,
+                                                  ],
+                                                )
+                                              : null,
+                                          color: isSelected
+                                              ? null
+                                              : _kRosePrimary.withValues(
+                                                  alpha: 0.2,
+                                                ),
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  ),
+                                  TextButton.icon(
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: _kRosePrimary,
+                                      visualDensity: VisualDensity.compact,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _expanded = !_expanded;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      _expanded
+                                          ? Icons.unfold_less_rounded
+                                          : Icons.unfold_more_rounded,
+                                      size: 16,
+                                    ),
+                                    label: Text(
+                                      _expanded ? 'Show Less' : 'Expand View',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ],
                   ),
-                ],
-              );
-            },
-          ),
-        ],
-      ),
+                ),
+              ),
+            ),
     );
   }
 }
@@ -986,213 +1150,291 @@ class TasbeehRing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final progress = target <= 0 ? 0.0 : (current / target).clamp(0.0, 1.0);
+    const totalNodes = 33;
+    final filledNodes = (progress * totalNodes).floor().clamp(0, totalNodes);
 
-    final filledBeads = (progress * 33).floor().clamp(0, 33);
+    // Smooth clock-like rotation angle based on progress toward target
+    final double targetAngle = target <= 0 ? 0.0 : progress * 2 * math.pi;
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final size = math.min(constraints.maxWidth, constraints.maxHeight);
-
         final center = size / 2;
-        final ringRadius = size * 0.405;
+        final orbitRadius = size * 0.41;
 
-        // Reserve a clear gap around the top imam bead.
-        // The 32 regular beads occupy the remaining 330-degree arc.
-        const gapAngle = math.pi / 6; // 30 degrees
-        const regularBeadCount = 32;
+        const gapAngle = math.pi / 5;
         final arcStart = -math.pi / 2 + gapAngle / 2;
         final arcSweep = 2 * math.pi - gapAngle;
 
-        final regularBeadColor = isDark
-            ? RushdColors.darkSurfaceElevated
-            : const Color(0xFFE2E8F0);
-
-        final regularBorderColor = isDark
-            ? RushdColors.darkBorder
-            : const Color(0xFFCBD5E1);
-
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            // Outer decorative ring.
-            Container(
-              width: size * 0.86,
-              height: size * 0.86,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: RushdColors.primary.withValues(
-                    alpha: isDark ? 0.13 : 0.10,
+        return SizedBox(
+          width: size,
+          height: size,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Static Ambient Background Glow Field
+              Container(
+                width: size * 0.95,
+                height: size * 0.95,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      _kRosePrimary.withValues(alpha: isDark ? 0.3 : 0.15),
+                      _kRosePrimary.withValues(alpha: 0.0),
+                    ],
                   ),
-                  width: 1,
                 ),
               ),
-            ),
 
-            // The 32 regular beads.
-            ...List.generate(regularBeadCount, (index) {
-              final angle =
-                  arcStart + arcSweep * index / (regularBeadCount - 1);
-
-              final x = center + ringRadius * math.cos(angle);
-              final y = center + ringRadius * math.sin(angle);
-
-              // Progress is mapped onto all 33 beads.
-              // Index 0 is reserved for the imam bead.
-              final beadProgressIndex = index + 1;
-              final isFilled = beadProgressIndex < filledBeads;
-
-              // Slightly larger milestone beads, matching the original design.
-              final isMilestone = index == 9 || index == 20 || index == 31;
-
-              final beadSize = size * (isMilestone ? 0.048 : 0.031);
-
-              return Positioned(
-                left: x - beadSize / 2,
-                top: y - beadSize / 2,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 220),
-                  curve: Curves.easeOut,
-                  width: beadSize,
-                  height: beadSize,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isFilled
-                        ? RushdColors.primaryLight
-                        : regularBeadColor,
-                    border: Border.all(
-                      color: isFilled
-                          ? RushdColors.primary
-                          : regularBorderColor,
-                      width: isMilestone ? 1.5 : 0.8,
-                    ),
-                    boxShadow: isFilled
-                        ? [
-                            BoxShadow(
-                              color: RushdColors.primary.withValues(
-                                alpha: 0.20,
+              // Animated Clock-like Rotating Ring Container (Track & Beads Overlay Together)
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0.0, end: targetAngle),
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOutCubic,
+                builder: (context, rotationAngle, child) {
+                  return Transform.rotate(
+                    angle: rotationAngle,
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      width: size,
+                      height: size,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // The Outer Track Ring (Beads sit directly on this path)
+                          Container(
+                            width: size * 0.82,
+                            height: size * 0.82,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: _kRosePrimary.withValues(
+                                  alpha: isDark ? 0.35 : 0.2,
+                                ),
+                                width: 1.5,
                               ),
-                              blurRadius: 5,
-                              spreadRadius: 0.5,
                             ),
-                          ]
-                        : null,
-                  ),
-                ),
-              );
-            }),
+                          ),
 
-            // Dedicated imam bead at 12 o'clock.
-            Positioned(
-              left: center - size * 0.032,
-              top: center - ringRadius - size * 0.032,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 220),
-                curve: Curves.easeOut,
-                width: size * 0.064,
-                height: size * 0.064,
-                transform: Matrix4.identity()..rotateZ(math.pi / 4),
-                transformAlignment: Alignment.center,
+                          // Dynamic Orbital Energy Nodes (Beads)
+                          ...List.generate(totalNodes, (index) {
+                            final angle =
+                                arcStart + arcSweep * index / (totalNodes - 1);
+                            final x = center + orbitRadius * math.cos(angle);
+                            final y = center + orbitRadius * math.sin(angle);
+
+                            final isLit = index < filledNodes;
+                            final isKeyNode =
+                                index == 0 ||
+                                index == 11 ||
+                                index == 22 ||
+                                index == 32;
+                            final nodeSize = size * (isKeyNode ? 0.048 : 0.032);
+
+                            return Positioned(
+                              left: x - nodeSize / 2,
+                              top: y - nodeSize / 2,
+                              child: Container(
+                                width: nodeSize,
+                                height: nodeSize,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: isLit
+                                      ? [
+                                          BoxShadow(
+                                            color: _kRosePrimary.withValues(
+                                              alpha: 0.85,
+                                            ),
+                                            blurRadius: 10,
+                                            spreadRadius: 1.5,
+                                          ),
+                                        ]
+                                      : null,
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: isLit
+                                        ? const LinearGradient(
+                                            colors: [
+                                              _kRoseLight,
+                                              _kRosePrimary,
+                                              _kRoseDark,
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          )
+                                        : LinearGradient(
+                                            colors: [
+                                              isDark
+                                                  ? const Color(0xFF2A2333)
+                                                  : const Color(0xFFE2E8F0),
+                                              isDark
+                                                  ? const Color(0xFF16121C)
+                                                  : const Color(0xFFCBD5E1),
+                                            ],
+                                          ),
+                                    border: Border.all(
+                                      color: isLit
+                                          ? Colors.white
+                                          : Colors.transparent,
+                                      width: 1.2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+
+                          // Celestial Top Beacon (Imam Bead)
+                          Positioned(
+                            left: center - size * 0.038,
+                            top: center - orbitRadius - size * 0.045,
+                            child: Container(
+                              width: size * 0.076,
+                              height: size * 0.096,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    _kRoseLight,
+                                    _kRosePrimary,
+                                    _kRoseDark,
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                borderRadius: BorderRadius.circular(14),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: _kRosePrimary.withValues(
+                                      alpha: 0.75,
+                                    ),
+                                    blurRadius: 15,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.spa_outlined,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+
+              // Static, Perfectly Centered Holographic Glassmorphic Center Core
+              Container(
+                width: size * 0.58,
+                height: size * 0.58,
                 decoration: BoxDecoration(
-                  color: filledBeads > 0
-                      ? RushdColors.primaryLight
-                      : regularBeadColor,
-                  borderRadius: BorderRadius.circular(5),
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: isDark
+                        ? [
+                            const Color(0xFF221929).withValues(alpha: 0.95),
+                            const Color(0xFF120E16).withValues(alpha: 0.98),
+                          ]
+                        : [
+                            Colors.white.withValues(alpha: 0.95),
+                            const Color(0xFFFFF0F5).withValues(alpha: 0.90),
+                          ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                   border: Border.all(
-                    color: filledBeads > 0
-                        ? RushdColors.primary
-                        : regularBorderColor,
-                    width: 1.2,
+                    color: _kRosePrimary.withValues(alpha: 0.4),
+                    width: 2,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: RushdColors.primary.withValues(alpha: 0.12),
-                      blurRadius: 5,
-                      spreadRadius: 0.5,
+                      color: _kRosePrimary.withValues(
+                        alpha: isDark ? 0.35 : 0.15,
+                      ),
+                      blurRadius: 25,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'DHIKR COUNT',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        letterSpacing: 1.8,
+                        fontWeight: FontWeight.w900,
+                        color: _kRosePrimary.withValues(alpha: 0.9),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 150),
+                      transitionBuilder: (child, animation) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: ScaleTransition(
+                            scale: animation,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: FittedBox(
+                        key: ValueKey(current),
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          '$current',
+                          style: Theme.of(context).textTheme.displayMedium
+                              ?.copyWith(
+                                fontSize: size * 0.16,
+                                fontWeight: FontWeight.w900,
+                                height: 1,
+                                letterSpacing: -1.5,
+                                color: isDark ? _kRoseLight : _kRoseDark,
+                              ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _kRosePrimary.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: _kRosePrimary.withValues(alpha: 0.25),
+                        ),
+                      ),
+                      child: Text(
+                        'OF $target',
+                        style: Theme.of(context).textTheme.labelMedium
+                            ?.copyWith(
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1.4,
+                              color: isDark ? _kRoseLight : _kRoseDark,
+                            ),
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-
-            // Central counter.
-            Container(
-              width: size * 0.68,
-              height: size * 0.68,
-              decoration: BoxDecoration(
-                color: isDark ? RushdColors.darkSurface : Colors.white,
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: RushdColors.primary.withValues(
-                    alpha: isDark ? 0.22 : 0.15,
-                  ),
-                  width: 1.5,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(
-                      alpha: isDark ? 0.12 : 0.045,
-                    ),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'DHIKR COUNT',
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      letterSpacing: 1.7,
-                      fontWeight: FontWeight.w800,
-                      color: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.color?.withValues(alpha: 0.60),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 130),
-                    transitionBuilder: (child, animation) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: ScaleTransition(scale: animation, child: child),
-                      );
-                    },
-                    child: FittedBox(
-                      key: ValueKey(current),
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        '$current',
-                        style: Theme.of(context).textTheme.displayMedium
-                            ?.copyWith(
-                              fontSize: size * 0.16,
-                              fontWeight: FontWeight.w800,
-                              height: 1,
-                              letterSpacing: -1.5,
-                              color: isDark
-                                  ? RushdColors.primaryLight
-                                  : RushdColors.primaryDark,
-                            ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'OF $target',
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1.8,
-                      color: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.color?.withValues(alpha: 0.65),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

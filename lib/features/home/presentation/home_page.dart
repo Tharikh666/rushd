@@ -4,8 +4,10 @@ import 'package:quran/quran.dart' as quran;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:rushd/features/home/presentation/providers/home_providers.dart';
 import 'package:rushd/features/home/presentation/widgets/prayer_home_widgets.dart';
 
 import '../../../../core/premium/feature_access_controller.dart';
@@ -13,6 +15,15 @@ import '../../../../core/premium/rushd_feature.dart';
 import '../../../../core/theme/rushd_colors.dart';
 
 import '../../quran/data/quran_metadata.dart';
+import '../../quran/data/quran_data_service.dart';
+import '../../quran/data/quran_providers.dart';
+import '../../quran/domain/quran_ayah.dart';
+import '../../quran/services/quran_progress_service.dart';
+import '../domain/entities/prayer_time.dart';
+
+import 'package:rushd/features/yaseen/domain/services/yaseen_progress_service.dart';
+import 'package:rushd/features/tasbeeh/screens/dhikr_journeys_screen.dart'
+    show dhikrJourneysProvider;
 
 class RushdHomeScreen extends ConsumerStatefulWidget {
   const RushdHomeScreen({super.key});
@@ -23,11 +34,23 @@ class RushdHomeScreen extends ConsumerStatefulWidget {
 
 class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   final PageController _heroController = PageController(initialPage: 1000);
+  final PageController _prayerCarouselController = PageController(
+    initialPage: 1000,
+    viewportFraction: 0.82,
+  );
+
+  final QuranProgressService _quranProgressService =
+  const QuranProgressService();
+
+  final YaseenProgressService _yaseenProgressService =
+  YaseenProgressService();
 
   Timer? _heroTimer;
+  Timer? _prayerCarouselTimer;
   Timer? _clockTimer;
 
   int _heroPage = 1000;
+  int _prayerCarouselPage = 1000;
 
   DateTime _now = DateTime.now();
 
@@ -36,6 +59,21 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
     _HeroType.ayah,
     _HeroType.advertisement,
   ];
+
+  late Future<List<QuranAyah>> _bookmarksFuture;
+  late Future<QuranAyah?> _progressFuture;
+
+  void _refreshLocalData() {
+    _bookmarksFuture = ref.read(quranBookmarkServiceProvider).getBookmarks();
+    _progressFuture = ref.read(quranProgressServiceProvider).getProgress();
+  }
+
+  void _openReader(int surah, [int ayah = 1]) {
+    context.push('/quran/read/$surah?ayah=$ayah').then((_) {
+      if (!mounted) return;
+      setState(_refreshLocalData);
+    });
+  }
 
   @override
   void initState() {
@@ -53,6 +91,19 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
       );
     });
 
+    // Auto-sliding infinite timer for prayer cards carousel every 4 seconds
+    _prayerCarouselTimer = Timer.periodic(const Duration(seconds: 4), (_) {
+      if (!_prayerCarouselController.hasClients) return;
+
+      _prayerCarouselPage++;
+
+      _prayerCarouselController.animateToPage(
+        _prayerCarouselPage,
+        duration: const Duration(milliseconds: 600),
+        curve: Curves.easeInOutCubic,
+      );
+    });
+
     _clockTimer = Timer.periodic(const Duration(minutes: 1), (_) {
       if (!mounted) return;
 
@@ -60,13 +111,17 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
         _now = DateTime.now();
       });
     });
+
+    _refreshLocalData();
   }
 
   @override
   void dispose() {
     _heroTimer?.cancel();
+    _prayerCarouselTimer?.cancel();
     _clockTimer?.cancel();
     _heroController.dispose();
+    _prayerCarouselController.dispose();
 
     super.dispose();
   }
@@ -116,7 +171,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                       _buildSectionHeader(
                         context,
                         title: "TODAY'S PRAYERS",
-                        subtitle: 'Timings and progress timeline',
+                        subtitle: 'Auto-sliding infinite prayer timings',
                         actionText: 'View All',
                         onAction: () {
                           context.push('/prayer-times');
@@ -125,7 +180,8 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
 
                       const SizedBox(height: 16),
 
-                      const PrayerHomeTimeline(),
+                      /// INFINITE AUTO-SLIDING PRAYER CAROUSEL
+                      _buildPrayerCarouselCard(context),
 
                       const SizedBox(height: 36),
 
@@ -157,6 +213,95 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
     setState(() {
       _now = DateTime.now();
     });
+  }
+
+  Widget _buildPrayerCarouselCard(BuildContext context) {
+    final prayerState = ref.watch(prayerStateProvider);
+
+    return prayerState.when(
+      loading: () => const SizedBox(
+        height: 190,
+        child: Center(
+          child: CircularProgressIndicator(color: RushdColors.primary),
+        ),
+      ),
+      error: (error, _) => const SizedBox(
+        height: 100,
+        child: Center(child: Text('Failed to load prayer times')),
+      ),
+      data: (state) {
+        final current = state.currentPrayer;
+        final next = state.nextPrayer;
+
+        // Exclude sunrise card as requested
+        final prayersList = state.today.allTimes
+            .where((p) => p.name.toLowerCase() != 'sunrise')
+            .toList();
+
+        if (prayersList.isEmpty) return const SizedBox.shrink();
+
+        return SizedBox(
+          height: 200,
+          child: PageView.builder(
+            controller: _prayerCarouselController,
+            onPageChanged: (page) {
+              if (!mounted) return;
+              setState(() {
+                _prayerCarouselPage = page;
+              });
+            },
+            itemBuilder: (context, index) {
+              final prayer = prayersList[index % prayersList.length];
+              final active = current?.type == prayer.type;
+              final comingUp = next?.type == prayer.type;
+              final assetData = _getPrayerAssetData(prayer.name);
+
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                child: _RedesignedPrayerCarouselTile(
+                  prayer: prayer,
+                  isCurrent: active,
+                  isNext: comingUp,
+                  gradientColors: assetData['gradient'] as List<Color>,
+                  watermarkPath: assetData['watermark'] as String,
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Map<String, dynamic> _getPrayerAssetData(String name) {
+    switch (name.toLowerCase()) {
+      case 'fajr':
+        return {
+          'gradient': [const Color(0xFF2D4A87), const Color(0xFF6B8DD6)],
+          'watermark': 'assets/icons/prayer_times/fajr.svg',
+        };
+      case 'dhuhr':
+        return {
+          'gradient': [const Color(0xFFFFF7D6), const Color(0xFFFFFFFF)],
+          'watermark': 'assets/icons/prayer_times/dhuhr.svg',
+        };
+      case 'asr':
+        return {
+          'gradient': [const Color(0xFFFFE7CC), const Color(0xFFFFFFFF)],
+          'watermark': 'assets/icons/prayer_times/asr.svg',
+        };
+      case 'maghrib':
+        return {
+          'gradient': [const Color(0xFFFF9F68), const Color(0xFFFFD6A5)],
+          'watermark': 'assets/icons/prayer_times/maghrib.svg',
+        };
+      case 'isha':
+      default:
+        return {
+          'gradient': [const Color(0xFF0F172A), const Color(0xFF1E3A8A)],
+          'watermark': 'assets/icons/prayer_times/isha.svg',
+        };
+    }
   }
 
   Widget _buildHeroCarousel(BuildContext context) {
@@ -348,62 +493,136 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   // REDESIGNED JOURNEY SECTION
   // ============================================================================
   Widget _buildJourneySection(BuildContext context) {
-    return Column(
-      children: [
-        _JourneyCard(
-          icon: Icons.menu_book_rounded,
-          title: 'Quran Reading Progress',
-          subtitle: 'Surah Al-Baqarah • Verse 142',
-          progress: 0.64,
-          progressLabel: '64%',
-          accentColor: RushdColors.primary,
-          onTap: () {
-            context.push('/quran');
-          },
-        ),
+    return FutureBuilder<List<dynamic>>(
+      future: Future.wait<dynamic>([
+        _quranProgressService.getProgress(),
+        _yaseenProgressService.getLastReadAyah(),
+      ]),
+      builder: (context, snapshot) {
+        final QuranAyah? quranProgress =
+        snapshot.hasData ? snapshot.data![0] as QuranAyah? : null;
 
-        const SizedBox(height: 14),
+        final int? yaseenAyah =
+        snapshot.hasData ? snapshot.data![1] as int? : null;
 
-        Row(
-          children: [
-            Expanded(
-              child: _SmallJourneyCard(
-                icon: Icons.auto_stories_rounded,
-                title: 'Yaseen Memorization',
-                progress: 0.72,
-                progressLabel: '72%',
-                accentColor: const Color(0xFF6366F1),
-                onTap: () {
-                  Navigator.pushNamed(context, '/yaseen');
-                },
+        final dhikrState = ref.watch(dhikrJourneysProvider);
+
+        final journeys = dhikrState.valueOrNull ?? [];
+
+        final activeJourney = journeys.cast<dynamic>().firstWhere(
+              (journey) => journey != null && !journey.isCompleted,
+          orElse: () => null,
+        );
+
+        final hasQuranProgress = quranProgress != null;
+        final hasYaseenProgress = yaseenAyah != null;
+        final hasDhikrProgress = activeJourney != null;
+
+        if (snapshot.connectionState == ConnectionState.waiting &&
+            journeys.isEmpty) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 24),
+            child: Center(
+              child: CircularProgressIndicator(
+                color: RushdColors.primary,
               ),
             ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: _SmallJourneyCard(
-                icon: Icons.fingerprint_rounded,
-                title: 'Weekly Dhikr Goal',
-                progress: 0.34,
-                progressLabel: '34%',
-                accentColor: const Color(0xFF0EA5E9),
+          );
+        }
+
+        if (!hasQuranProgress &&
+            !hasYaseenProgress &&
+            !hasDhikrProgress) {
+          return const SizedBox.shrink();
+        }
+
+        return Column(
+          children: [
+            if (hasQuranProgress) ...[
+              _JourneyCard(
+                icon: Icons.menu_book_rounded,
+                title: 'Quran Reading Progress',
+                subtitle:
+                'Surah ${quranProgress.surahNumber} • Ayah ${quranProgress.ayahNumber}',
+                progress: _calculateQuranProgress(
+                  quranProgress.surahNumber,
+                  quranProgress.ayahNumber,
+                ),
+                progressLabel:
+                '${(_calculateQuranProgress(
+                  quranProgress.surahNumber,
+                  quranProgress.ayahNumber,
+                ) * 100).round()}%',
+                accentColor: RushdColors.primary,
                 onTap: () {
-                  Navigator.pushNamed(context, '/tasbeeh');
+                  _openReader(quranProgress.surahNumber, quranProgress.ayahNumber);
                 },
               ),
+              const SizedBox(height: 14),
+            ],
+            Row(
+              children: [
+                if (hasYaseenProgress)
+                  Expanded(
+                    child: _SmallJourneyCard(
+                      icon: Icons.auto_stories_rounded,
+                      title: 'Surah Yaseen',
+                      progress: ((yaseenAyah ?? 1) / 83).clamp(0.0, 1.0),
+                      progressLabel:
+                      '${(((yaseenAyah ?? 1) / 83) * 100).round()}%',
+                      accentColor: const Color(0xFF6366F1),
+                      onTap: () {
+                        context.push('/yaseen');
+                      },
+                    ),
+                  ),
+                if (hasYaseenProgress && hasDhikrProgress)
+                  const SizedBox(width: 14),
+                if (hasDhikrProgress)
+                  Expanded(
+                    child: _SmallJourneyCard(
+                      icon: Icons.fingerprint_rounded,
+                      title: activeJourney.name,
+                      progress: activeJourney.progress,
+                      progressLabel:
+                      '${activeJourney.currentCount}/'
+                          '${activeJourney.targetCount}',
+                      accentColor: const Color(0xFFCF376A),
+                      onTap: () {
+                        context.push(
+                          '/tasbeeh/counter/${activeJourney.id}',
+                        );
+                      },
+                    ),
+                  ),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 
+  double _calculateQuranProgress(int surah, int ayah) {
+    var completedAyahs = 0;
+
+    for (var index = 1; index < surah; index++) {
+      completedAyahs += quran.getVerseCount(index);
+    }
+
+    completedAyahs += ayah;
+
+    // The Quran contains 6,236 verses.
+    return (completedAyahs / 6236).clamp(0.0, 1.0);
+  }
+
   Widget _buildSectionHeader(
-    BuildContext context, {
-    required String title,
-    required String subtitle,
-    String? actionText,
-    VoidCallback? onAction,
-  }) {
+      BuildContext context, {
+        required String title,
+        required String subtitle,
+        String? actionText,
+        VoidCallback? onAction,
+      }) {
     final theme = Theme.of(context);
 
     return Row(
@@ -449,6 +668,242 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
           ),
       ],
     );
+  }
+}
+
+// ============================================================================
+// REDESIGNED PRAYER CAROUSEL TILE
+// ============================================================================
+
+class _RedesignedPrayerCarouselTile extends StatelessWidget {
+  const _RedesignedPrayerCarouselTile({
+    required this.prayer,
+    required this.isCurrent,
+    required this.isNext,
+    required this.gradientColors,
+    required this.watermarkPath,
+  });
+
+  final PrayerTime prayer;
+  final bool isCurrent;
+  final bool isNext;
+  final List<Color> gradientColors;
+  final String watermarkPath;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDarkCard =
+        prayer.name.toLowerCase() == 'fajr' ||
+            prayer.name.toLowerCase() == 'isha';
+
+    final textColor = isDarkCard ? Colors.white : const Color(0xFF0F172A);
+    final secondaryColor = isDarkCard
+        ? Colors.white.withOpacity(0.65)
+        : const Color(0xFF0F172A).withOpacity(0.5);
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(32),
+        boxShadow: [
+          BoxShadow(
+            color: isCurrent
+                ? const Color(0xFF0F766E).withOpacity(0.22)
+                : const Color(0xFF0F172A).withOpacity(0.04),
+            blurRadius: 28,
+            offset: const Offset(0, 14),
+          ),
+        ],
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: gradientColors,
+          ),
+          borderRadius: BorderRadius.circular(32),
+          border: Border.all(
+            color: isCurrent
+                ? (isDarkCard
+                ? Colors.white.withOpacity(0.4)
+                : const Color(0xFF0F766E).withOpacity(0.4))
+                : Colors.white.withOpacity(0.15),
+            width: isCurrent ? 2.5 : 1.5,
+          ),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              right: -10,
+              top: -10,
+              child: Opacity(
+                opacity: isDarkCard ? 0.15 : 0.09,
+                child: SvgPicture.asset(
+                  watermarkPath,
+                  width: 110,
+                  height: 110,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        prayer.name,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: textColor,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ),
+                    if (prayer.arabicName.isNotEmpty)
+                      Text(
+                        prayer.arabicName,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: 'Amiri',
+                          fontWeight: FontWeight.w700,
+                          color: textColor,
+                        ),
+                      ),
+                  ],
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isDarkCard
+                        ? Colors.white.withOpacity(0.08)
+                        : Colors.white.withOpacity(0.55),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: isDarkCard
+                          ? Colors.white.withOpacity(0.08)
+                          : Colors.white.withOpacity(0.4),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Azan Time: ',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: secondaryColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        _formatTime(prayer.time),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: textColor,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (isCurrent)
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isDarkCard
+                            ? Colors.white.withOpacity(0.15)
+                            : const Color(0xFF0F766E).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.lens_rounded,
+                            size: 7,
+                            color: isDarkCard
+                                ? Colors.white
+                                : const Color(0xFF0F766E),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Current Prayer',
+                            style: TextStyle(
+                              color: isDarkCard
+                                  ? Colors.white
+                                  : const Color(0xFF0F766E),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                else if (isNext)
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF97316).withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.schedule_rounded,
+                            size: 10,
+                            color: Color(0xFFEA580C),
+                          ),
+                          SizedBox(width: 6),
+                          Text(
+                            'Coming Up Next',
+                            style: TextStyle(
+                              color: Color(0xFFEA580C),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                else
+                  const SizedBox(height: 4),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _formatTime(DateTime time) {
+    final hour = time.hour;
+    final minute = time.minute;
+    final isPm = hour >= 12;
+    final displayHour = hour % 12 == 0 ? 12 : hour % 12;
+    return '$displayHour:${minute.toString().padLeft(2, '0')} ${isPm ? 'PM' : 'AM'}';
   }
 }
 
@@ -957,7 +1412,7 @@ class _WorshipCompactTile extends StatelessWidget {
 }
 
 // ============================================================================
-// REDESIGNED JOURNEY CARDS
+// REDESIGNED POLISHED JOURNEY CARDS (Bento Glass Style)
 // ============================================================================
 
 class _JourneyCard extends StatelessWidget {
@@ -983,67 +1438,105 @@ class _JourneyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return _BaseTile(
-      onTap: onTap,
-      radius: 22,
-      padding: const EdgeInsets.all(18),
-      child: Row(
-        children: [
-          _IconBox(icon: icon, color: accentColor, size: 46),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: accentColor.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(24),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: theme.cardColor,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: accentColor.withOpacity(0.25),
+                width: 1.5,
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  theme.cardColor,
+                  accentColor.withOpacity(0.04),
+                ],
+              ),
+            ),
+            child: Row(
               children: [
-                Text(
-                  title,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  subtitle,
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    fontSize: 11.5,
-                    color: theme.textTheme.bodySmall?.color?.withOpacity(0.55),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: LinearProgressIndicator(
-                    value: progress,
-                    minHeight: 6,
-                    backgroundColor: accentColor.withOpacity(0.12),
-                    valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+                _IconBox(icon: icon, color: accentColor, size: 50),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              title,
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 15,
+                                letterSpacing: -0.2,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: accentColor.withOpacity(0.12),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              progressLabel,
+                              style: TextStyle(
+                                color: accentColor,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 11.5,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontSize: 12,
+                          color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: LinearProgressIndicator(
+                          value: progress,
+                          minHeight: 7,
+                          backgroundColor: accentColor.withOpacity(0.12),
+                          valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 14),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                progressLabel,
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: accentColor,
-                  fontWeight: FontWeight.w900,
-                  fontSize: 13,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Icon(
-                Icons.arrow_forward_rounded,
-                size: 16,
-                color: theme.iconTheme.color?.withOpacity(0.4),
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -1070,48 +1563,91 @@ class _SmallJourneyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return _BaseTile(
-      onTap: onTap,
-      radius: 20,
-      padding: const EdgeInsets.all(15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              _IconBox(icon: icon, color: accentColor, size: 38),
-              const Spacer(),
-              Text(
-                progressLabel,
-                style: theme.textTheme.labelMedium?.copyWith(
-                  color: accentColor,
-                  fontWeight: FontWeight.w900,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.w800,
-              fontSize: 12.5,
-            ),
-          ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 5,
-              backgroundColor: accentColor.withOpacity(0.12),
-              valueColor: AlwaysStoppedAnimation<Color>(accentColor),
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            color: accentColor.withOpacity(0.07),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
         ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(22),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: theme.cardColor,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(
+                color: accentColor.withOpacity(0.22),
+                width: 1.5,
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  theme.cardColor,
+                  accentColor.withOpacity(0.04),
+                ],
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    _IconBox(icon: icon, color: accentColor, size: 42),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: accentColor.withOpacity(0.12),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        progressLabel,
+                        style: TextStyle(
+                          color: accentColor,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 13.5,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    minHeight: 6,
+                    backgroundColor: accentColor.withOpacity(0.12),
+                    valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -1210,10 +1746,10 @@ class _RushdGreetingHeader extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
+      BuildContext context,
+      double shrinkOffset,
+      bool overlapsContent,
+      ) {
     final theme = Theme.of(context);
     final progress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
 
@@ -1356,18 +1892,18 @@ class _RushdGreetingHeader extends SliverPersistentHeaderDelegate {
       'Sunday',
     ];
     const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
     ];
 
     return '${weekdays[date.weekday - 1]}, ${date.day} ${months[date.month - 1]}';

@@ -9,6 +9,10 @@ import '../data/repositories/dhikr_journey_repository.dart';
 import '../domain/models/dhikr_journey.dart';
 import '../../duas/data/repositories/dua_repository.dart';
 
+const Color _kRosePrimary = Color(0xFFCF376A);
+const Color _kRoseLight = Color(0xFFF472B6);
+const Color _kRoseDark = Color(0xFF9D174D);
+
 final dhikrJourneyRepositoryProvider = FutureProvider<DhikrJourneyRepository>((
   ref,
 ) async {
@@ -24,7 +28,10 @@ final dhikrJourneysProvider = FutureProvider<List<DhikrJourney>>((ref) async {
 class DhikrJourneysScreen extends ConsumerWidget {
   const DhikrJourneysScreen({super.key});
 
-  Future<void> _openCreateJourneySheet(BuildContext context, WidgetRef ref) async {
+  Future<void> _openCreateJourneySheet(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     final created = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
@@ -39,14 +46,15 @@ class DhikrJourneysScreen extends ConsumerWidget {
     }
   }
 
-  Future<void> _createJourney(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
+  Future<void> _createJourney(BuildContext context, WidgetRef ref) async {
     final choice = await showDialog<String>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        icon: const Icon(Icons.auto_awesome_rounded, size: 32),
+        icon: const Icon(
+          Icons.auto_awesome_rounded,
+          size: 32,
+          color: _kRosePrimary,
+        ),
         title: const Text('Begin a Dhikr Journey'),
         content: const Text(
           'Would you like to choose a Dua or Dhikr from the collection, '
@@ -58,6 +66,7 @@ class DhikrJourneysScreen extends ConsumerWidget {
             child: const Text('Create Manually'),
           ),
           FilledButton.icon(
+            style: FilledButton.styleFrom(backgroundColor: _kRosePrimary),
             onPressed: () => Navigator.of(dialogContext).pop('browse'),
             icon: const Icon(Icons.menu_book_rounded),
             label: const Text('Browse Duas & Dhikr'),
@@ -96,6 +105,7 @@ class DhikrJourneysScreen extends ConsumerWidget {
             child: const Text('Cancel'),
           ),
           FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
             onPressed: () => Navigator.of(dialogContext).pop(true),
             child: const Text('Delete'),
           ),
@@ -156,23 +166,25 @@ class DhikrJourneysScreen extends ConsumerWidget {
           const SizedBox(width: 8),
         ],
       ),
-
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: _kRosePrimary,
+        foregroundColor: Colors.white,
         onPressed: () => _createJourney(context, ref),
         icon: const Icon(Icons.add),
         label: const Text('New Journey'),
       ),
       body: RefreshIndicator(
+        color: _kRosePrimary,
         onRefresh: () async {
           ref.invalidate(dhikrJourneysProvider);
           await ref.read(dhikrJourneysProvider.future);
         },
         child: journeysAsync.when(
           loading: () => ListView(
-            physics: AlwaysScrollableScrollPhysics(),
-            children: [
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: const [
               SizedBox(height: 220),
-              Center(child: CircularProgressIndicator()),
+              Center(child: CircularProgressIndicator(color: _kRosePrimary)),
             ],
           ),
           error: (error, stack) => ListView(
@@ -180,11 +192,12 @@ class DhikrJourneysScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(24),
             children: [
               const SizedBox(height: 120),
-              const Icon(Icons.error_outline, size: 48),
+              const Icon(Icons.error_outline, size: 48, color: _kRosePrimary),
               const SizedBox(height: 16),
               const Center(child: Text('Could not load your journeys')),
               Center(
                 child: TextButton(
+                  style: TextButton.styleFrom(foregroundColor: _kRosePrimary),
                   onPressed: () => ref.invalidate(dhikrJourneysProvider),
                   child: const Text('Try again'),
                 ),
@@ -294,7 +307,6 @@ class _CreateJourneySheetState extends ConsumerState<_CreateJourneySheet> {
 
       if (!mounted) return;
 
-      // The parent refreshes its list after this sheet returns true.
       Navigator.of(context).pop(true);
     } catch (error) {
       if (!mounted) return;
@@ -349,7 +361,7 @@ class _CreateJourneySheetState extends ConsumerState<_CreateJourneySheet> {
               decoration: const InputDecoration(
                 labelText: 'Dhikr name',
                 hintText: 'e.g. SubhanAllah',
-                prefixIcon: Icon(Icons.spa_outlined),
+                prefixIcon: Icon(Icons.spa_outlined, color: _kRosePrimary),
                 border: OutlineInputBorder(),
               ),
               validator: (value) {
@@ -368,7 +380,7 @@ class _CreateJourneySheetState extends ConsumerState<_CreateJourneySheet> {
               decoration: const InputDecoration(
                 labelText: 'Target count',
                 hintText: '100',
-                prefixIcon: Icon(Icons.flag_outlined),
+                prefixIcon: Icon(Icons.flag_outlined, color: _kRosePrimary),
                 border: OutlineInputBorder(),
               ),
               validator: (value) {
@@ -386,18 +398,22 @@ class _CreateJourneySheetState extends ConsumerState<_CreateJourneySheet> {
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
+                style: FilledButton.styleFrom(
+                  backgroundColor: _kRosePrimary,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
                 onPressed: _saving ? null : _save,
                 icon: _saving
                     ? const SizedBox(
                         width: 18,
                         height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
                       )
                     : const Icon(Icons.add),
                 label: Text(_saving ? 'Creating...' : 'Begin Journey'),
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
               ),
             ),
           ],
@@ -422,13 +438,16 @@ class _JourneyHero extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            RushdColors.primaryDark,
-            RushdColors.primary,
-            RushdColors.primaryLight,
-          ],
+          colors: [_kRoseDark, _kRosePrimary, _kRoseLight],
         ),
         borderRadius: BorderRadius.circular(28),
+        boxShadow: [
+          BoxShadow(
+            color: _kRosePrimary.withValues(alpha: 0.35),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
       child: Stack(
         children: [
@@ -572,14 +591,14 @@ class _JourneyCard extends StatelessWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: RushdColors.primary.withValues(alpha: 0.10),
+                      color: _kRosePrimary.withValues(alpha: 0.10),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Icon(
                       completed
                           ? Icons.check_circle_outline
                           : Icons.spa_outlined,
-                      color: RushdColors.primaryLight,
+                      color: _kRoseLight,
                       size: 25,
                     ),
                   ),
@@ -656,7 +675,7 @@ class _JourneyCard extends StatelessWidget {
                     '${(journey.progress * 100).round()}%',
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w800,
-                      color: RushdColors.primaryLight,
+                      color: _kRoseLight,
                     ),
                   ),
                 ],
@@ -669,7 +688,7 @@ class _JourneyCard extends StatelessWidget {
                   minHeight: 7,
                   backgroundColor: theme.dividerColor.withValues(alpha: 0.35),
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    completed ? RushdColors.emerald : RushdColors.primaryLight,
+                    completed ? RushdColors.emerald : _kRoseLight,
                   ),
                 ),
               ),
@@ -730,14 +749,10 @@ class _EmptyJourneys extends StatelessWidget {
             width: 76,
             height: 76,
             decoration: BoxDecoration(
-              color: RushdColors.primary.withValues(alpha: 0.10),
+              color: _kRosePrimary.withValues(alpha: 0.10),
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.spa_outlined,
-              size: 38,
-              color: RushdColors.primaryLight,
-            ),
+            child: const Icon(Icons.spa_outlined, size: 38, color: _kRoseLight),
           ),
           const SizedBox(height: 20),
           Text(
@@ -755,6 +770,7 @@ class _EmptyJourneys extends StatelessWidget {
           ),
           const SizedBox(height: 22),
           FilledButton.icon(
+            style: FilledButton.styleFrom(backgroundColor: _kRosePrimary),
             onPressed: onCreate,
             icon: const Icon(Icons.add),
             label: const Text('Create a Journey'),

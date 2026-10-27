@@ -25,6 +25,8 @@ dependencies:
   scrollable_positioned_list: ^0.3.8
   flutter_compass: ^0.8.1
   share_plus: ^13.3.1
+  intl: ^0.20.3
+  flutter_svg: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -41,3 +43,4 @@ flutter:
     - assets/icons/
     - assets/config/
     - assets/datasets/
+    - assets/icons/prayer_times/

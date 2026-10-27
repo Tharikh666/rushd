@@ -112,22 +112,20 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         name: 'dua-category',
         builder: (context, state) {
           final categoryId = state.pathParameters['categoryId']!;
-
           return DuaCategoryScreen(categoryId: categoryId);
-        },
-      ),
-      GoRoute(
-        path: '/duas/:duaId',
-        builder: (context, state) {
-          final duaId = state.pathParameters['duaId']!;
-
-          return DuaDetailScreen(duaId: duaId);
         },
       ),
       GoRoute(
         path: '/duas/search',
         name: 'dua-search',
         builder: (context, state) => const DuaSearchScreen(),
+      ),
+      GoRoute(
+        path: '/duas/:duaId',
+        builder: (context, state) {
+          final duaId = state.pathParameters['duaId']!;
+          return DuaDetailScreen(duaId: duaId);
+        },
       ),
 
       // TASBEEH
