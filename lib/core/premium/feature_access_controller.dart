@@ -39,6 +39,10 @@ class FeatureAccessController {
   bool get shouldShowAds => tier == SubscriptionTier.free;
 
   bool isPremium(RushdFeature feature) {
+    // Ads are turned off for Premium users; they are not a Premium feature.
+    if (feature == RushdFeature.ads) {
+      return false;
+    }
     return !canAccess(feature);
   }
 }
