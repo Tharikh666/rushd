@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,9 +9,14 @@ import 'app/app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Google Mobile Ads before any ad widget requests an ad.
-  // Only Google's test ad unit IDs are used until production IDs are configured.
-  unawaited(MobileAds.instance.initialize());
+  // Google Mobile Ads supports Android and iOS only. Initialize it before
+  // running the app on those platforms; keep desktop/web runs safe.
+  final supportsMobileAds = !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
+  if (supportsMobileAds) {
+    await MobileAds.instance.initialize();
+  }
 
   // Keep the app in portrait orientation.
   await SystemChrome.setPreferredOrientations([
