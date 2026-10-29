@@ -21,6 +21,11 @@ class FeatureAccessController {
   });
 
   bool canAccess(RushdFeature feature) {
+    // Ads are a monetization capability for Free users, not a locked feature.
+    if (feature == RushdFeature.ads) {
+      return shouldShowAds;
+    }
+
     // Premium users can access everything.
     if (tier == SubscriptionTier.premium) {
       return true;
