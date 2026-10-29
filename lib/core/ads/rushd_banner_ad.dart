@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../premium/feature_access_controller.dart';
+import 'rushd_mobile_ads.dart';
 
 /// Shows a Google test banner to Free users on Android and iOS only.
 ///
@@ -68,11 +69,16 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
     _loadBannerAd();
   }
 
-  void _loadBannerAd() {
-    final adSize =
-        AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(widget.width);
+  Future<void> _loadBannerAd() async {
+    try {
+      // Do not request an ad until the shared SDK initialization completes.
+      await RushdMobileAds.initialize();
+      if (!mounted) return;
 
-    final banner = BannerAd(
+      final adSize =
+          AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(widget.width);
+
+      final banner = BannerAd(
       adUnitId: _testBannerAdUnitId,
       request: const AdRequest(),
       size: adSize,
@@ -101,7 +107,11 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
       ),
     );
 
-    banner.load();
+      banner.load();
+    } catch (error, stackTrace) {
+      debugPrint('RUSHD: Could not initialize/request banner ad: $error');
+      debugPrintStack(stackTrace: stackTrace);
+    }
   }
 
   @override
