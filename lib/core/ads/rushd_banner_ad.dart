@@ -40,7 +40,6 @@ class _RushdBannerAdSlot extends StatefulWidget {
 
 class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
   BannerAd? _bannerAd;
-  bool _loadFailed = false;
 
   // Official Google Mobile Ads Flutter sample banner IDs.
   String get _testBannerAdUnitId {
@@ -73,7 +72,6 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
 
             setState(() {
               _bannerAd = ad as BannerAd;
-              _loadFailed = false;
             });
           },
           onAdFailedToLoad: (ad, error) {
@@ -82,7 +80,6 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
             if (mounted) {
               setState(() {
                 _bannerAd = null;
-                _loadFailed = true;
               });
             }
           },
@@ -97,7 +94,6 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
       if (mounted) {
         setState(() {
           _bannerAd = null;
-          _loadFailed = true;
         });
       }
     }
