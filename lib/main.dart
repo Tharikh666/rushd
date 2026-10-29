@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'core/ads/rushd_mobile_ads.dart';
 
 import 'app/app.dart';
 
@@ -44,7 +44,7 @@ Future<void> main() async {
 
 Future<void> _initializeMobileAds() async {
   try {
-    await MobileAds.instance.initialize();
+    await RushdMobileAds.initialize();
     debugPrint('RUSHD: Google Mobile Ads initialized.');
   } catch (error, stackTrace) {
     // Ads should never prevent users from opening or using RUSHD.
