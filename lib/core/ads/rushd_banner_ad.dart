@@ -7,8 +7,8 @@ import '../premium/feature_access_controller.dart';
 
 /// Shows a Google test banner to Free users on Android and iOS only.
 ///
-/// This deliberately uses Google's sample ad unit IDs. Replace them with
-/// Rushd's own AdMob banner IDs only after creating the app in AdMob.
+/// Inline adaptive banners are used because this widget is placed inside the
+/// Home screen's scrollable content. The sample IDs below serve test ads only.
 class RushdBannerAd extends ConsumerWidget {
   const RushdBannerAd({super.key});
 
@@ -26,12 +26,26 @@ class RushdBannerAd extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return const _RushdBannerAdSlot();
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth.isFinite
+            ? constraints.maxWidth.truncate()
+            : MediaQuery.sizeOf(context).width.truncate();
+
+        if (width <= 0) {
+          return const SizedBox.shrink();
+        }
+
+        return _RushdBannerAdSlot(width: width);
+      },
+    );
   }
 }
 
 class _RushdBannerAdSlot extends StatefulWidget {
-  const _RushdBannerAdSlot();
+  const _RushdBannerAdSlot({required this.width});
+
+  final int width;
 
   @override
   State<_RushdBannerAdSlot> createState() => _RushdBannerAdSlotState();
@@ -39,6 +53,7 @@ class _RushdBannerAdSlot extends StatefulWidget {
 
 class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
   BannerAd? _bannerAd;
+  AdSize? _loadedAdSize;
 
   // Official Google sample banner ad units. These return test ads only.
   String get _testBannerAdUnitId {
@@ -54,19 +69,29 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
   }
 
   void _loadBannerAd() {
+    final adSize =
+        AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(widget.width);
+
     final banner = BannerAd(
       adUnitId: _testBannerAdUnitId,
       request: const AdRequest(),
-      size: AdSize.banner,
+      size: adSize,
       listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          if (!mounted) {
+        onAdLoaded: (ad) async {
+          final loadedBanner = ad as BannerAd;
+
+          // Inline adaptive banner height is known only after the platform
+          // returns the loaded ad's actual size.
+          final actualSize = await loadedBanner.getPlatformAdSize();
+
+          if (!mounted || actualSize == null) {
             ad.dispose();
             return;
           }
 
           setState(() {
-            _bannerAd = ad as BannerAd;
+            _bannerAd = loadedBanner;
+            _loadedAdSize = actualSize;
           });
         },
         onAdFailedToLoad: (ad, error) {
@@ -76,7 +101,6 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
       ),
     );
 
-    _bannerAd = null;
     banner.load();
   }
 
@@ -89,7 +113,9 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
   @override
   Widget build(BuildContext context) {
     final banner = _bannerAd;
-    if (banner == null) {
+    final adSize = _loadedAdSize;
+
+    if (banner == null || adSize == null) {
       return const SizedBox.shrink();
     }
 
@@ -114,8 +140,8 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
         ),
         Center(
           child: SizedBox(
-            width: banner.size.width.toDouble(),
-            height: banner.size.height.toDouble(),
+            width: adSize.width.toDouble(),
+            height: adSize.height.toDouble(),
             child: AdWidget(ad: banner),
           ),
         ),
