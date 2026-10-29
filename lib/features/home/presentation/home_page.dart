@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rushd/features/home/presentation/providers/home_providers.dart';
 import 'package:rushd/features/home/presentation/widgets/prayer_home_widgets.dart';
 
+import '../../../../core/ads/rushd_banner_ad.dart';
 import '../../../../core/premium/feature_access_controller.dart';
 import '../../../../core/premium/rushd_feature.dart';
 import '../../../../core/theme/rushd_colors.dart';
@@ -55,7 +56,6 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   final List<_HeroType> _heroTypes = const [
     _HeroType.prayer,
     _HeroType.ayah,
-    _HeroType.advertisement,
   ];
 
   late Future<List<QuranAyah>> _bookmarksFuture;
@@ -167,6 +167,13 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                       const SizedBox(height: 16),
 
                       _buildWorshipSection(context),
+
+                      if (ref
+                          .watch(featureAccessControllerProvider)
+                          .shouldShowAds) ...[
+                        const SizedBox(height: 28),
+                        const RushdBannerAd(),
+                      ],
 
                       const SizedBox(height: 36),
 
@@ -307,15 +314,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   }
 
   Widget _buildHeroCarousel(BuildContext context) {
-    final featureAccess = ref.watch(featureAccessControllerProvider);
-    final showAdvertisement = featureAccess.canAccess(RushdFeature.ads);
-
-    final visibleHeroTypes = _heroTypes.where((type) {
-      if (type == _HeroType.advertisement) {
-        return showAdvertisement;
-      }
-      return true;
-    }).toList();
+    final visibleHeroTypes = _heroTypes;
 
     return Column(
       children: [
