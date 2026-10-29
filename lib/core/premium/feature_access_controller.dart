@@ -30,6 +30,9 @@ class FeatureAccessController {
     return freeFeatures.contains(feature);
   }
 
+  /// Ads are shown only to Free users. Premium must remain ad-free.
+  bool get shouldShowAds => tier == SubscriptionTier.free;
+
   bool isPremium(RushdFeature feature) {
     return !canAccess(feature);
   }
