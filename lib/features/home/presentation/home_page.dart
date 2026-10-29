@@ -15,7 +15,6 @@ import '../../../../core/premium/rushd_feature.dart';
 import '../../../../core/theme/rushd_colors.dart';
 
 import '../../quran/data/quran_metadata.dart';
-import '../../quran/data/quran_data_service.dart';
 import '../../quran/data/quran_providers.dart';
 import '../../quran/domain/quran_ayah.dart';
 import '../../quran/services/quran_progress_service.dart';
@@ -40,10 +39,9 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   );
 
   final QuranProgressService _quranProgressService =
-  const QuranProgressService();
+      const QuranProgressService();
 
-  final YaseenProgressService _yaseenProgressService =
-  YaseenProgressService();
+  final YaseenProgressService _yaseenProgressService = YaseenProgressService();
 
   Timer? _heroTimer;
   Timer? _prayerCarouselTimer;
@@ -143,7 +141,11 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
             slivers: [
               SliverPersistentHeader(
                 pinned: true,
-                delegate: _RushdGreetingHeader(now: _now),
+                delegate: _RushdGreetingHeader(
+                  now: _now,
+                  brightness: theme.brightness,
+                  backgroundColor: theme.scaffoldBackgroundColor,
+                ),
               ),
 
               SliverToBoxAdapter(
@@ -253,7 +255,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
             itemBuilder: (context, index) {
               final prayer = prayersList[index % prayersList.length];
               final active = current?.type == prayer.type;
-              final comingUp = next?.type == prayer.type;
+              final comingUp = next.type == prayer.type;
               final assetData = _getPrayerAssetData(prayer.name);
 
               return Padding(
@@ -398,18 +400,23 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   }
 
   // ============================================================================
-  // REDESIGNED WORSHIP SECTION (Bento Grid Style)
-  // ============================================================================
+// BENTO GRID WORSHIP SECTION WITH CUSTOM SVG ASSETS
+// ============================================================================
   Widget _buildWorshipSection(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       children: [
-        // Primary Feature Tile (Quran)
-        _WorshipFeatureTile(
-          icon: Icons.menu_book_rounded,
+        // 1. Primary Feature Tile: Holy Quran (Emerald Theme)
+        _BentoMainFeatureTile(
+          svgAsset: 'assets/icons/worship_icons/quran.svg',
           title: 'Holy Quran',
           subtitle: 'Read, audio recitation & deep reflection',
-          accentColor: RushdColors.primary,
           badgeText: 'Most Loved',
+          gradientColors: isDark
+              ? const [Color(0xFF064E3B), Color(0xFF022C22)]
+              : const [Color(0xFF059669), Color(0xFF047857)],
+          accentColor: const Color(0xFF34D399),
           onTap: () {
             context.push('/quran');
           },
@@ -417,15 +424,18 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
 
         const SizedBox(height: 14),
 
-        // Medium Dual Tiles (Yaseen & Qibla)
+        // 2. Medium Dual Tiles: Surah Yaseen (Purple) & Qibla Finder (Royal Obsidian Gold)
         Row(
           children: [
             Expanded(
-              child: _WorshipMediumTile(
-                icon: Icons.auto_stories_rounded,
+              child: _BentoMediumTile(
+                svgAsset: 'assets/icons/worship_icons/yaseen.svg',
                 title: 'Surah Yaseen',
                 subtitle: 'Heart of Quran',
-                accentColor: const Color(0xFF6366F1),
+                gradientColors: isDark
+                    ? const [Color(0xFF312E81), Color(0xFF1E1B4B)]
+                    : const [Color(0xFF6366F1), Color(0xFF4F46E5)],
+                accentColor: const Color(0xFFA5B4FC),
                 onTap: () {
                   context.push('/yaseen');
                 },
@@ -433,11 +443,14 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
             ),
             const SizedBox(width: 14),
             Expanded(
-              child: _WorshipMediumTile(
-                icon: Icons.explore_rounded,
+              child: _BentoMediumTile(
+                svgAsset: 'assets/icons/worship_icons/qibla.svg',
                 title: 'Qibla Finder',
                 subtitle: 'Precise direction',
-                accentColor: const Color(0xFFF59E0B),
+                gradientColors: isDark
+                    ? const [Color(0xFF1E293B), Color(0xFF0F172A)]
+                    : const [Color(0xFF334155), Color(0xFF1E293B)],
+                accentColor: const Color(0xFFE6CA78), // Royal Gold
                 onTap: () {
                   context.push('/qibla');
                 },
@@ -448,14 +461,17 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
 
         const SizedBox(height: 14),
 
-        // Compact Trio Tiles (Salah, Duas, Dhikr)
+        // 3. Compact Trio Tiles: Salah Guide, Duas & Dhikr (Amber), Tasbeeh (Pink)
         Row(
           children: [
             Expanded(
-              child: _WorshipCompactTile(
-                icon: Icons.mosque_rounded,
+              child: _BentoCompactTile(
+                svgAsset: 'assets/icons/worship_icons/salah.svg',
                 title: 'Salah Guide',
-                accentColor: RushdColors.primary,
+                gradientColors: isDark
+                    ? const [Color(0xFF0369A1), Color(0xFF0C4A6E)]
+                    : const [Color(0xFF0EA5E9), Color(0xFF0284C7)],
+                accentColor: const Color(0xFF7DD3FC),
                 onTap: () {
                   context.push('/salah-guide');
                 },
@@ -463,10 +479,13 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: _WorshipCompactTile(
-                icon: Icons.favorite_outline_rounded,
-                title: 'Duas & Dhikrs',
-                accentColor: const Color(0xFFEC4899),
+              child: _BentoCompactTile(
+                svgAsset: 'assets/icons/worship_icons/dua.svg',
+                title: 'Duas & Dhikr',
+                gradientColors: isDark
+                    ? const [Color(0xFF78350F), Color(0xFF451A03)]
+                    : const [Color(0xFFD97706), Color(0xFFB45309)],
+                accentColor: const Color(0xFFFCD34D), // Amber
                 onTap: () {
                   context.push('/duas');
                 },
@@ -474,10 +493,13 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: _WorshipCompactTile(
-                icon: Icons.fingerprint_rounded,
+              child: _BentoCompactTile(
+                svgAsset: 'assets/icons/worship_icons/tasbeeh.svg',
                 title: 'Tasbeeh',
-                accentColor: const Color(0xFF0EA5E9),
+                gradientColors: isDark
+                    ? const [Color(0xFF831843), Color(0xFF500724)]
+                    : const [Color(0xFFDB2777), Color(0xFFBE185D)],
+                accentColor: const Color(0xFFF472B6), // Pink
                 onTap: () {
                   context.push('/tasbeeh');
                 },
@@ -499,18 +521,20 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
         _yaseenProgressService.getLastReadAyah(),
       ]),
       builder: (context, snapshot) {
-        final QuranAyah? quranProgress =
-        snapshot.hasData ? snapshot.data![0] as QuranAyah? : null;
+        final QuranAyah? quranProgress = snapshot.hasData
+            ? snapshot.data![0] as QuranAyah?
+            : null;
 
-        final int? yaseenAyah =
-        snapshot.hasData ? snapshot.data![1] as int? : null;
+        final int? yaseenAyah = snapshot.hasData
+            ? snapshot.data![1] as int?
+            : null;
 
         final dhikrState = ref.watch(dhikrJourneysProvider);
 
         final journeys = dhikrState.valueOrNull ?? [];
 
         final activeJourney = journeys.cast<dynamic>().firstWhere(
-              (journey) => journey != null && !journey.isCompleted,
+          (journey) => journey != null && !journey.isCompleted,
           orElse: () => null,
         );
 
@@ -523,16 +547,12 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 24),
             child: Center(
-              child: CircularProgressIndicator(
-                color: RushdColors.primary,
-              ),
+              child: CircularProgressIndicator(color: RushdColors.primary),
             ),
           );
         }
 
-        if (!hasQuranProgress &&
-            !hasYaseenProgress &&
-            !hasDhikrProgress) {
+        if (!hasQuranProgress && !hasYaseenProgress && !hasDhikrProgress) {
           return const SizedBox.shrink();
         }
 
@@ -543,19 +563,19 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                 icon: Icons.menu_book_rounded,
                 title: 'Quran Reading Progress',
                 subtitle:
-                'Surah ${quranProgress.surahNumber} • Ayah ${quranProgress.ayahNumber}',
+                    'Surah ${quranProgress.surahNumber} • Ayah ${quranProgress.ayahNumber}',
                 progress: _calculateQuranProgress(
                   quranProgress.surahNumber,
                   quranProgress.ayahNumber,
                 ),
                 progressLabel:
-                '${(_calculateQuranProgress(
-                  quranProgress.surahNumber,
-                  quranProgress.ayahNumber,
-                ) * 100).round()}%',
+                    '${(_calculateQuranProgress(quranProgress.surahNumber, quranProgress.ayahNumber) * 100).round()}%',
                 accentColor: RushdColors.primary,
                 onTap: () {
-                  _openReader(quranProgress.surahNumber, quranProgress.ayahNumber);
+                  _openReader(
+                    quranProgress.surahNumber,
+                    quranProgress.ayahNumber,
+                  );
                 },
               ),
               const SizedBox(height: 14),
@@ -567,9 +587,8 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                     child: _SmallJourneyCard(
                       icon: Icons.auto_stories_rounded,
                       title: 'Surah Yaseen',
-                      progress: ((yaseenAyah ?? 1) / 83).clamp(0.0, 1.0),
-                      progressLabel:
-                      '${(((yaseenAyah ?? 1) / 83) * 100).round()}%',
+                      progress: ((yaseenAyah) / 83).clamp(0.0, 1.0),
+                      progressLabel: '${(((yaseenAyah) / 83) * 100).round()}%',
                       accentColor: const Color(0xFF6366F1),
                       onTap: () {
                         context.push('/yaseen');
@@ -585,13 +604,11 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                       title: activeJourney.name,
                       progress: activeJourney.progress,
                       progressLabel:
-                      '${activeJourney.currentCount}/'
+                          '${activeJourney.currentCount}/'
                           '${activeJourney.targetCount}',
                       accentColor: const Color(0xFFCF376A),
                       onTap: () {
-                        context.push(
-                          '/tasbeeh/counter/${activeJourney.id}',
-                        );
+                        context.push('/tasbeeh/counter/${activeJourney.id}');
                       },
                     ),
                   ),
@@ -617,12 +634,12 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   }
 
   Widget _buildSectionHeader(
-      BuildContext context, {
-        required String title,
-        required String subtitle,
-        String? actionText,
-        VoidCallback? onAction,
-      }) {
+    BuildContext context, {
+    required String title,
+    required String subtitle,
+    String? actionText,
+    VoidCallback? onAction,
+  }) {
     final theme = Theme.of(context);
 
     return Row(
@@ -672,6 +689,360 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
 }
 
 // ============================================================================
+// BENTO WIDGET COMPONENTS WITH SVG ICON SUPPORT
+// ============================================================================
+
+class _BentoMainFeatureTile extends StatelessWidget {
+  final String svgAsset;
+  final String title;
+  final String subtitle;
+  final String? badgeText;
+  final List<Color> gradientColors;
+  final Color accentColor;
+  final VoidCallback onTap;
+
+  const _BentoMainFeatureTile({
+    required this.svgAsset,
+    required this.title,
+    required this.subtitle,
+    this.badgeText,
+    required this.gradientColors,
+    required this.accentColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(26),
+        boxShadow: [
+          BoxShadow(
+            color: gradientColors.first.withOpacity(0.25),
+            blurRadius: 22,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(26),
+          child: Container(
+            padding: const EdgeInsets.all(22),
+            height: 136,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: gradientColors,
+              ),
+              borderRadius: BorderRadius.circular(26),
+              border: Border.all(
+                color: accentColor.withOpacity(0.3),
+                width: 1.5,
+              ),
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  right: -25,
+                  bottom: -35,
+                  child: Opacity(
+                    opacity: 0.12,
+                    child: SvgPicture.asset(
+                      svgAsset,
+                      width: 160,
+                      height: 160,
+                      colorFilter: ColorFilter.mode(
+                        accentColor,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 44,
+                          height: 44,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.2),
+                            ),
+                          ),
+                          child: SvgPicture.asset(
+                            svgAsset,
+                            colorFilter: ColorFilter.mode(
+                              accentColor,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        if (badgeText != null)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.2),
+                              ),
+                            ),
+                            child: Text(
+                              badgeText!,
+                              style: TextStyle(
+                                color: accentColor,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    const Spacer(),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: -0.3,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.75),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BentoMediumTile extends StatelessWidget {
+  final String svgAsset;
+  final String title;
+  final String subtitle;
+  final List<Color> gradientColors;
+  final Color accentColor;
+  final VoidCallback onTap;
+
+  const _BentoMediumTile({
+    required this.svgAsset,
+    required this.title,
+    required this.subtitle,
+    required this.gradientColors,
+    required this.accentColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: gradientColors.first.withOpacity(0.2),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(24),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            height: 115,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: gradientColors,
+              ),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: accentColor.withOpacity(0.25),
+                width: 1.2,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 36,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: SvgPicture.asset(
+                        svgAsset,
+                        colorFilter: ColorFilter.mode(
+                          accentColor,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 11,
+                      color: Colors.white.withOpacity(0.4),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.7),
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BentoCompactTile extends StatelessWidget {
+  final String svgAsset;
+  final String title;
+  final List<Color> gradientColors;
+  final Color accentColor;
+  final VoidCallback onTap;
+
+  const _BentoCompactTile({
+    required this.svgAsset,
+    required this.title,
+    required this.gradientColors,
+    required this.accentColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
+          BoxShadow(
+            color: gradientColors.first.withOpacity(0.18),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(22),
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            height: 110,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: gradientColors,
+              ),
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(
+                color: accentColor.withOpacity(0.25),
+                width: 1.2,
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 38,
+                  height: 38,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: SvgPicture.asset(
+                    svgAsset,
+                    colorFilter: ColorFilter.mode(
+                      accentColor,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  title,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ============================================================================
 // REDESIGNED PRAYER CAROUSEL TILE
 // ============================================================================
 
@@ -694,7 +1065,7 @@ class _RedesignedPrayerCarouselTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDarkCard =
         prayer.name.toLowerCase() == 'fajr' ||
-            prayer.name.toLowerCase() == 'isha';
+        prayer.name.toLowerCase() == 'isha';
 
     final textColor = isDarkCard ? Colors.white : const Color(0xFF0F172A);
     final secondaryColor = isDarkCard
@@ -726,8 +1097,8 @@ class _RedesignedPrayerCarouselTile extends StatelessWidget {
           border: Border.all(
             color: isCurrent
                 ? (isDarkCard
-                ? Colors.white.withOpacity(0.4)
-                : const Color(0xFF0F766E).withOpacity(0.4))
+                      ? Colors.white.withOpacity(0.4)
+                      : const Color(0xFF0F766E).withOpacity(0.4))
                 : Colors.white.withOpacity(0.15),
             width: isCurrent ? 2.5 : 1.5,
           ),
@@ -1466,10 +1837,7 @@ class _JourneyCard extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  theme.cardColor,
-                  accentColor.withOpacity(0.04),
-                ],
+                colors: [theme.cardColor, accentColor.withOpacity(0.04)],
               ),
             ),
             child: Row(
@@ -1517,7 +1885,9 @@ class _JourneyCard extends StatelessWidget {
                         subtitle,
                         style: theme.textTheme.bodySmall?.copyWith(
                           fontSize: 12,
-                          color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
+                          color: theme.textTheme.bodySmall?.color?.withOpacity(
+                            0.6,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -1527,7 +1897,9 @@ class _JourneyCard extends StatelessWidget {
                           value: progress,
                           minHeight: 7,
                           backgroundColor: accentColor.withOpacity(0.12),
-                          valueColor: AlwaysStoppedAnimation<Color>(accentColor),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            accentColor,
+                          ),
                         ),
                       ),
                     ],
@@ -1591,10 +1963,7 @@ class _SmallJourneyCard extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  theme.cardColor,
-                  accentColor.withOpacity(0.04),
-                ],
+                colors: [theme.cardColor, accentColor.withOpacity(0.04)],
               ),
             ),
             child: Column(
@@ -1735,33 +2104,40 @@ class _IconBox extends StatelessWidget {
 
 class _RushdGreetingHeader extends SliverPersistentHeaderDelegate {
   final DateTime now;
+  final Brightness brightness;
+  final Color backgroundColor;
 
-  _RushdGreetingHeader({required this.now});
+  _RushdGreetingHeader({
+    required this.now,
+    required this.brightness,
+    required this.backgroundColor,
+  });
 
   @override
-  double get minExtent => 74;
+  double get minExtent => 70; // Safe collapsed size
 
   @override
-  double get maxExtent => 136;
+  double get maxExtent => 110; // Safe expanded size
 
   @override
   Widget build(
-      BuildContext context,
-      double shrinkOffset,
-      bool overlapsContent,
-      ) {
-    final theme = Theme.of(context);
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final progress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
 
     return ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
-          padding: EdgeInsets.fromLTRB(20, 8, 20, progress > 0.7 ? 10 : 12),
+          padding: EdgeInsets.fromLTRB(20, 8, 20, progress > 0.7 ? 6 : 10),
           decoration: BoxDecoration(
-            color: theme.scaffoldBackgroundColor.withOpacity(0.85),
+            color: backgroundColor.withOpacity(0.85),
             border: Border(
-              bottom: BorderSide(color: theme.dividerColor.withOpacity(0.3)),
+              bottom: BorderSide(
+                color: Theme.of(context).dividerColor.withOpacity(0.3),
+              ),
             ),
           ),
           child: AnimatedSwitcher(
@@ -1783,8 +2159,8 @@ class _RushdGreetingHeader extends SliverPersistentHeaderDelegate {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 46,
-          height: 46,
+          width: 44,
+          height: 44,
           decoration: BoxDecoration(
             color: RushdColors.primary.withOpacity(0.12),
             shape: BoxShape.circle,
@@ -1796,7 +2172,7 @@ class _RushdGreetingHeader extends SliverPersistentHeaderDelegate {
           child: const Icon(
             Icons.person_outline_rounded,
             color: RushdColors.primary,
-            size: 23,
+            size: 22,
           ),
         ),
         const SizedBox(width: 12),
@@ -1819,7 +2195,7 @@ class _RushdGreetingHeader extends SliverPersistentHeaderDelegate {
                 'Tharikh',
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w900,
-                  fontSize: 16,
+                  fontSize: 15,
                 ),
               ),
               const SizedBox(height: 1),
@@ -1892,18 +2268,18 @@ class _RushdGreetingHeader extends SliverPersistentHeaderDelegate {
       'Sunday',
     ];
     const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
 
     return '${weekdays[date.weekday - 1]}, ${date.day} ${months[date.month - 1]}';
@@ -1911,7 +2287,9 @@ class _RushdGreetingHeader extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant _RushdGreetingHeader oldDelegate) {
-    return oldDelegate.now != now;
+    return oldDelegate.now != now ||
+        oldDelegate.brightness != brightness ||
+        oldDelegate.backgroundColor != backgroundColor;
   }
 }
 

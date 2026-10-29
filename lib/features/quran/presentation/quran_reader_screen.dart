@@ -3,10 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quran/quran.dart' as quran;
 
-import '../../../core/theme/rushd_colors.dart';
-import '../data/quran_providers.dart';
-import '../domain/quran_ayah.dart';
 import '../data/quran_metadata.dart';
+import '../data/quran_providers.dart';
 
 class QuranReaderScreen extends ConsumerStatefulWidget {
   const QuranReaderScreen({
@@ -31,10 +29,11 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
   int? _selectedAyah;
   int? _savedAyah;
   bool _loading = true;
-  double _arabicFontSize = 31;
-  bool _showTranslation = true;
+  double _arabicFontSize = 32;
 
-  static const _ivory = Color(0xFFFFFDF2);
+  // Defaults to false as requested
+  bool _showTranslation = false;
+
   static const _emerald = Color(0xFF007967);
   static const _deepEmerald = Color(0xFF00564B);
   static const _gold = Color(0xFFD6B85A);
@@ -111,8 +110,12 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(saved ? 'Ayah bookmarked' : 'Bookmark removed'),
-        duration: const Duration(milliseconds: 1100),
+        content: Text(
+          saved ? 'Ayah saved to bookmarks sanctuary' : 'Bookmark removed',
+        ),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        duration: const Duration(milliseconds: 1200),
       ),
     );
   }
@@ -121,77 +124,268 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
     context.push('/quran/verse/${widget.surahNumber}/$ayahNumber');
   }
 
+  void _navigateToSurah(int nextSurahNumber) {
+    // Fixed route path matching your GoRouter setup (/quran/read/:surah)
+    context.pushReplacement('/quran/read/$nextSurahNumber');
+  }
+
   void _showReaderSettings() {
     showModalBottomSheet<void>(
       context: context,
+      isScrollControlled: true,
       showDragHandle: true,
       backgroundColor: Theme.of(context).cardColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
       builder: (sheetContext) {
         return StatefulBuilder(
           builder: (context, setSheetState) {
+            final theme = Theme.of(context);
+            final colors = theme.colorScheme;
+            final dark = theme.brightness == Brightness.dark;
+
             return SafeArea(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(22, 8, 22, 28),
+                padding: EdgeInsets.fromLTRB(
+                  24,
+                  8,
+                  24,
+                  MediaQuery.of(context).viewInsets.bottom + 28,
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Reading preferences',
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w800,
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: _emerald.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.tune_rounded,
+                            color: _emerald,
+                            size: 22,
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Reading Preferences',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
+                                color: colors.onSurface,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Customize display & text settings',
+                              style: TextStyle(
+                                fontSize: 12.5,
+                                color: colors.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    // Arabic Font Size Section
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'ARABIC FONT SIZE',
+                          style: TextStyle(
+                            fontSize: 10.5,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 1.2,
+                            color: colors.onSurfaceVariant.withValues(
+                              alpha: 0.7,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _emerald.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            '${_arabicFontSize.round()} px',
+                            style: const TextStyle(
+                              color: _emerald,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: dark
+                            ? colors.surfaceContainerHighest.withValues(
+                          alpha: 0.5,
+                        )
+                            : const Color(0xFFF8FAFC),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: colors.outline.withValues(alpha: 0.15),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 8),
+                            child: Icon(
+                              Icons.text_decrease_rounded,
+                              size: 18,
+                              color: _emerald,
+                            ),
+                          ),
+                          Expanded(
+                            child: Slider(
+                              min: 24,
+                              max: 46,
+                              divisions: 11,
+                              value: _arabicFontSize,
+                              activeColor: _emerald,
+                              onChanged: (value) {
+                                setState(() => _arabicFontSize = value);
+                                setSheetState(() {});
+                              },
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(right: 8),
+                            child: Icon(
+                              Icons.text_increase_rounded,
+                              size: 18,
+                              color: _emerald,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const Text('Arabic text size'),
-                    Row(
-                      children: [
-                        const Icon(Icons.text_fields_rounded),
-                        Expanded(
-                          child: Slider(
-                            min: 24,
-                            max: 44,
-                            divisions: 10,
-                            value: _arabicFontSize,
-                            activeColor: RushdColors.primary,
-                            onChanged: (value) {
-                              setState(() => _arabicFontSize = value);
-                              setSheetState(() {});
-                            },
+                    // Translation Display Toggle
+                    Text(
+                      'TRANSLATION SETTINGS',
+                      style: TextStyle(
+                        fontSize: 10.5,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1.2,
+                        color: colors.onSurfaceVariant.withValues(alpha: 0.7),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: dark
+                            ? colors.surfaceContainerHighest.withValues(
+                          alpha: 0.5,
+                        )
+                            : const Color(0xFFF8FAFC),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: colors.outline.withValues(alpha: 0.15),
+                        ),
+                      ),
+                      child: SwitchListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 2,
+                        ),
+                        title: Text(
+                          'Show Translation',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: colors.onSurface,
                           ),
                         ),
-                        Text('${_arabicFontSize.round()}'),
-                      ],
-                    ),
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('Show translation'),
-                      value: _showTranslation,
-                      onChanged: (value) {
-                        setState(() => _showTranslation = value);
-                        setSheetState(() {});
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    const Text('Translation language'),
-                    const SizedBox(height: 8),
-                    SegmentedButton<quran.Translation>(
-                      segments: const [
-                        ButtonSegment(
-                          value: quran.Translation.enSaheeh,
-                          label: Text('English'),
+                        subtitle: Text(
+                          'Display translated text under selected verses',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: colors.onSurfaceVariant,
+                          ),
                         ),
-                        ButtonSegment(
-                          value: quran.Translation.mlAbdulHameed,
-                          label: Text('Malayalam'),
+                        value: _showTranslation,
+                        activeColor: _emerald,
+                        onChanged: (value) {
+                          setState(() => _showTranslation = value);
+                          setSheetState(() {});
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    // Conditional Language Selector (Enabled only when _showTranslation is true)
+                    AnimatedOpacity(
+                      duration: const Duration(milliseconds: 200),
+                      opacity: _showTranslation ? 1.0 : 0.45,
+                      child: IgnorePointer(
+                        ignoring: !_showTranslation,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'TRANSLATION LANGUAGE',
+                              style: TextStyle(
+                                fontSize: 10.5,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.2,
+                                color: colors.onSurfaceVariant.withValues(
+                                  alpha: 0.7,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              width: double.infinity,
+                              child: SegmentedButton<quran.Translation>(
+                                style: ButtonStyle(
+                                  shape: WidgetStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                ),
+                                segments: const [
+                                  ButtonSegment(
+                                    value: quran.Translation.enSaheeh,
+                                    label: Text('English (Saheeh)'),
+                                  ),
+                                  ButtonSegment(
+                                    value: quran.Translation.mlAbdulHameed,
+                                    label: Text('Malayalam'),
+                                  ),
+                                ],
+                                selected: {_translation},
+                                onSelectionChanged: (values) {
+                                  setState(() => _translation = values.first);
+                                  setSheetState(() {});
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                      selected: {_translation},
-                      onSelectionChanged: (values) {
-                        setState(() => _translation = values.first);
-                        setSheetState(() {});
-                      },
+                      ),
                     ),
                   ],
                 ),
@@ -209,57 +403,64 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
     final surah = widget.surahNumber.clamp(1, 114);
     final count = data.getVerseCount(surah);
     final start = widget.initialAyah.clamp(1, count);
+    final colors = Theme.of(context).colorScheme;
     final dark = Theme.of(context).brightness == Brightness.dark;
 
     final englishName = QuranMetadata.englishMeanings[surah];
 
     return Scaffold(
-      backgroundColor: dark ? RushdColors.darkBackground : _ivory,
+      backgroundColor: colors.surface,
       appBar: AppBar(
-        backgroundColor: dark ? RushdColors.darkBackground : _ivory,
+        backgroundColor: colors.surface,
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back_rounded),
+          icon: Icon(Icons.arrow_back_rounded, color: colors.onSurface),
         ),
         centerTitle: true,
         title: Text(
-          englishName!.toUpperCase(),
-          style: const TextStyle(
+          (englishName ?? '').toUpperCase(),
+          style: TextStyle(
             fontSize: 14,
             letterSpacing: 2.2,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w900,
+            color: colors.onSurface,
           ),
         ),
         actions: [
           IconButton(
             tooltip: 'Reading settings',
             onPressed: _showReaderSettings,
-            icon: const Icon(Icons.tune_rounded),
+            icon: Icon(Icons.tune_rounded, color: colors.onSurface),
           ),
         ],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.fromLTRB(18, 14, 18, 42),
-              itemCount: count - start + 2,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return _surahIntroduction(data, surah, count, dark);
-                }
+        controller: _scrollController,
+        padding: const EdgeInsets.fromLTRB(18, 12, 18, 48),
+        itemCount: count - start + 3,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return _surahIntroduction(data, surah, count, dark);
+          }
 
-                final ayahNumber = start + index - 1;
+          if (index == count - start + 2) {
+            return _buildNextSurahButton(data, surah);
+          }
 
-                return _ayahBlock(
-                  data: data,
-                  surah: surah,
-                  ayahNumber: ayahNumber,
-                  dark: dark,
-                );
-              },
-            ),
+          final ayahNumber = start + index - 1;
+
+          return _ayahBlock(
+            data: data,
+            surah: surah,
+            ayahNumber: ayahNumber,
+            colors: colors,
+            dark: dark,
+          );
+        },
+      ),
     );
   }
 
@@ -268,8 +469,8 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
     final name = QuranMetadata.englishMeanings[surah];
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 36),
-      padding: const EdgeInsets.fromLTRB(20, 30, 20, 26),
+      margin: const EdgeInsets.only(bottom: 32),
+      padding: const EdgeInsets.fromLTRB(20, 28, 20, 26),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
@@ -277,59 +478,59 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
           colors: [_emerald, _deepEmerald],
         ),
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: _gold.withOpacity(0.25)),
+        border: Border.all(color: _gold.withValues(alpha: 0.3)),
         boxShadow: [
           BoxShadow(
-            color: _deepEmerald.withOpacity(0.14),
-            blurRadius: 22,
-            offset: const Offset(0, 10),
+            color: _deepEmerald.withValues(alpha: 0.2),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
       child: Column(
         children: [
           Text(
-            name!,
+            name ?? '',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
-              fontFamily: 'Cormorant Garamond',
-              fontSize: 29,
-              fontWeight: FontWeight.w600,
+              fontSize: 28,
+              fontWeight: FontWeight.w700,
               letterSpacing: 1.1,
             ),
           ),
-          const SizedBox(height: 7),
+          const SizedBox(height: 6),
           Text(
             data.getSurahName(surah),
-            style: const TextStyle(color: Color(0xFFD7F0E7), fontSize: 16),
+            style: const TextStyle(color: Color(0xFFD7F0E7), fontSize: 15.5),
           ),
-          const SizedBox(height: 22),
+          const SizedBox(height: 20),
           Text(
             data.getSurahNameArabic(surah),
             textDirection: TextDirection.rtl,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 38,
+              fontSize: 36,
               height: 1.6,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
           Text(
             _surahMeaning(surah),
             style: const TextStyle(
               color: Color(0xFFD7F0E7),
-              fontSize: 17,
-              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           Text(
             _surahMeaningMalayalam(surah),
-            style: const TextStyle(color: Color(0xFFD7F0E7), fontSize: 15),
+            style: const TextStyle(color: Color(0xFFD7F0E7), fontSize: 14.5),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 22),
           Wrap(
             alignment: WrapAlignment.center,
             spacing: 10,
@@ -345,8 +546,6 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
   }
 
   String _surahMeaning(int surah) {
-    // Use the English meaning where available in the Quran package.
-    // The WAHDA repository provides Malayalam meanings for all Surahs.
     return QuranMetadata.malayalamMeanings[surah] ?? '';
   }
 
@@ -356,22 +555,23 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
 
   Widget _headerPill(IconData icon, String label) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white24),
         borderRadius: BorderRadius.circular(30),
-        color: Colors.white.withOpacity(0.04),
+        color: Colors.white.withValues(alpha: 0.08),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 17, color: const Color(0xFFD7F0E7)),
-          const SizedBox(width: 7),
+          Icon(icon, size: 16, color: const Color(0xFFD7F0E7)),
+          const SizedBox(width: 6),
           Text(
             label,
             style: const TextStyle(
               color: Colors.white,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
+              fontSize: 13,
             ),
           ),
         ],
@@ -383,6 +583,7 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
     required dynamic data,
     required int surah,
     required int ayahNumber,
+    required ColorScheme colors,
     required bool dark,
   }) {
     final selected = _selectedAyah == ayahNumber;
@@ -400,23 +601,23 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
       onDoubleTap: () => _openVerse(ayahNumber),
       onLongPress: () => _toggleBookmark(ayahNumber),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 220),
-        margin: const EdgeInsets.only(bottom: 20),
+        duration: const Duration(milliseconds: 200),
+        margin: const EdgeInsets.only(bottom: 16),
         padding: EdgeInsets.symmetric(
-          horizontal: selected ? 16 : 5,
-          vertical: selected ? 20 : 14,
+          horizontal: selected ? 16 : 8,
+          vertical: selected ? 18 : 12,
         ),
         decoration: BoxDecoration(
           color: selected
-              ? (dark ? const Color(0xFF123A32) : const Color(0xFFF0F5EC))
+              ? (dark ? const Color(0xFF103A31) : const Color(0xFFEAF5F2))
               : Colors.transparent,
           borderRadius: BorderRadius.circular(22),
           border: selected
               ? Border.all(
-                  color: dark
-                      ? const Color(0xFF24584C)
-                      : const Color(0xFFE5EBDD),
-                )
+            color: dark
+                ? const Color(0xFF226E5D)
+                : const Color(0xFFB0DFD5),
+          )
               : null,
         ),
         child: Column(
@@ -428,30 +629,34 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
                   Text(
                     '${surah.toString().padLeft(3, '0')}:${ayahNumber.toString().padLeft(3, '0')}',
                     style: TextStyle(
-                      color: selected ? _emerald : Colors.grey,
+                      color: selected ? _emerald : colors.onSurfaceVariant,
                       fontSize: 11,
                       letterSpacing: 1.1,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   const Spacer(),
                   if (saved)
-                    const Icon(
-                      Icons.check_circle_rounded,
-                      size: 18,
-                      color: _emerald,
+                    const Padding(
+                      padding: EdgeInsets.only(left: 6),
+                      child: Icon(
+                        Icons.check_circle_rounded,
+                        size: 16,
+                        color: _emerald,
+                      ),
                     ),
                   if (bookmarked)
                     const Padding(
-                      padding: EdgeInsets.only(left: 8),
+                      padding: EdgeInsets.only(left: 6),
                       child: Icon(
                         Icons.bookmark_rounded,
-                        size: 18,
+                        size: 16,
                         color: _gold,
                       ),
                     ),
                 ],
               ),
+            const SizedBox(height: 4),
             Text.rich(
               TextSpan(
                 children: [
@@ -460,7 +665,7 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
                   TextSpan(
                     text: _ayahMarker(ayahNumber),
                     style: TextStyle(
-                      color: selected ? _emerald : const Color(0xFF827E6E),
+                      color: selected ? _emerald : colors.onSurfaceVariant,
                       fontSize: _arabicFontSize * 0.75,
                     ),
                   ),
@@ -470,48 +675,48 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
               textAlign: TextAlign.right,
               style: TextStyle(
                 fontSize: _arabicFontSize,
-                height: 2.25,
+                height: 2.2,
                 color: selected
                     ? (dark ? const Color(0xFF80D8C2) : _emerald)
-                    : (dark
-                          ? RushdColors.darkTextPrimary
-                          : const Color(0xFF28271F)),
+                    : colors.onSurface,
               ),
             ),
             if (selected && _showTranslation) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: 14),
               Divider(
-                color: selected ? _emerald.withOpacity(0.2) : Colors.black12,
+                color: selected
+                    ? _emerald.withValues(alpha: 0.25)
+                    : colors.outline.withValues(alpha: 0.2),
               ),
               const SizedBox(height: 8),
               Text(
                 translation,
                 style: TextStyle(
-                  fontSize: 15,
-                  height: 1.8,
-                  color: dark
-                      ? RushdColors.darkTextSecondary
-                      : const Color(0xFF60665E),
+                  fontSize: 14.5,
+                  height: 1.7,
+                  color: colors.onSurfaceVariant,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 12),
               Row(
                 children: [
                   Text(
                     _translation == quran.Translation.enSaheeh
-                        ? 'ENGLISH TRANSLATION'
+                        ? 'ENGLISH TRANSLATION (SAHEEH)'
                         : 'MALAYALAM TRANSLATION',
                     style: const TextStyle(
                       color: _emerald,
-                      fontSize: 9,
+                      fontSize: 9.5,
                       letterSpacing: 1.1,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
                   const Spacer(),
-                  TextButton(
+                  TextButton.icon(
                     onPressed: () => _openVerse(ayahNumber),
-                    child: const Text('Details'),
+                    icon: const Icon(Icons.open_in_new_rounded, size: 14),
+                    label: const Text('Details'),
+                    style: TextButton.styleFrom(foregroundColor: _emerald),
                   ),
                 ],
               ),
@@ -525,9 +730,9 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
                     bookmarked
                         ? Icons.bookmark_rounded
                         : Icons.bookmark_border_rounded,
-                    size: 18,
+                    size: 16,
                   ),
-                  label: Text(bookmarked ? 'Bookmarked' : 'Bookmark Ayah'),
+                  label: Text(bookmarked ? 'Remove Bookmark' : 'Save Bookmark'),
                   style: TextButton.styleFrom(foregroundColor: _emerald),
                 ),
               ),
@@ -537,8 +742,105 @@ class _QuranReaderScreenState extends ConsumerState<QuranReaderScreen> {
     );
   }
 
+  Widget _buildKhatamulQuranDuaButton() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(top: 12, bottom: 8),
+      child: OutlinedButton.icon(
+        onPressed: () => context.push('/duas/quran_4'),
+        icon: const Icon(Icons.auto_stories_rounded),
+        label: const Text('Read Khatamul Quran Dua'),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: _emerald,
+          side: BorderSide(
+            color: _emerald.withValues(alpha: 0.45),
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 15,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          textStyle: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNextSurahButton(dynamic data, int currentSurah) {
+    if (currentSurah >= 114) {
+      return Container(
+        margin: const EdgeInsets.only(top: 24, bottom: 12),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: _emerald.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: _emerald.withValues(alpha: 0.3)),
+        ),
+        child: Column(
+          children: [
+            const Icon(Icons.workspace_premium_rounded, color: _gold, size: 36),
+            const SizedBox(height: 8),
+            const Text(
+              'End of the Holy Quran',
+              style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+            ),
+            const SizedBox(height: 14),
+            _buildKhatamulQuranDuaButton(),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              style: FilledButton.styleFrom(
+                backgroundColor: _emerald,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              onPressed: () => _navigateToSurah(1),
+              icon: const Icon(Icons.replay_rounded, size: 18),
+              label: const Text('Return to Surah Al-Fatihah'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final nextSurah = currentSurah + 1;
+    final nextSurahNameEnglish = QuranMetadata.englishMeanings[nextSurah] ?? '';
+    final nextSurahNameArabic = data.getSurahNameArabic(nextSurah);
+
+    return Container(
+      margin: const EdgeInsets.only(top: 24, bottom: 12),
+      width: double.infinity,
+      child: FilledButton.icon(
+        style: FilledButton.styleFrom(
+          backgroundColor: _emerald,
+          padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          elevation: 4,
+          shadowColor: _emerald.withValues(alpha: 0.35),
+        ),
+        onPressed: () => _navigateToSurah(nextSurah),
+        icon: const Icon(Icons.arrow_forward_rounded, size: 20),
+        label: Text(
+          'Next Surah: ${nextSurahNameEnglish.toUpperCase()} ($nextSurahNameArabic)',
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ),
+    );
+  }
+
   String _ayahMarker(int number) {
-    // Decorative marker matching the circular Ayah symbols in WAHDA.
     return '۞${_arabicNumber(number)}';
   }
 

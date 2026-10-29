@@ -58,7 +58,7 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
           'Arabic text copied to clipboard',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        backgroundColor: const Color(0xFF1E3A8A),
+        backgroundColor: const Color(0xFFD97706),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
@@ -125,7 +125,6 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
       showDragHandle: true,
       backgroundColor: Theme.of(context).colorScheme.surface,
       builder: (sheetContext) {
-        // The controller belongs to this bottom sheet's widget subtree.
         return _CreateRecitationJourneySheet(
           name: name,
           formKey: formKey,
@@ -184,17 +183,20 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    const amberPrimary = Color(0xFFD97706);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.black87),
-        title: const Text(
+        iconTheme: IconThemeData(color: colors.onSurface),
+        title: Text(
           'DUA DETAILS',
           style: TextStyle(
-            color: Colors.black,
+            color: colors.onSurface,
             fontSize: 13,
             fontWeight: FontWeight.w900,
             letterSpacing: 2.5,
@@ -221,7 +223,10 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                       color: Colors.redAccent,
                     ),
                     const SizedBox(height: 12),
-                    const Text('Unable to load this Dua. Please try again.'),
+                    Text(
+                      'Unable to load this Dua. Please try again.',
+                      style: TextStyle(color: colors.onSurface),
+                    ),
                     const SizedBox(height: 16),
                     FilledButton(
                       onPressed: () {
@@ -230,7 +235,7 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                         });
                       },
                       style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFF1E3A8A),
+                        backgroundColor: amberPrimary,
                       ),
                       child: const Text('Try again'),
                     ),
@@ -267,12 +272,14 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
               Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: theme.cardColor,
                   borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: Colors.black.withOpacity(0.04)),
+                  border: Border.all(
+                    color: colors.outline.withValues(alpha: 0.15),
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.03),
+                      color: Colors.black.withValues(alpha: 0.03),
                       blurRadius: 15,
                       offset: const Offset(0, 6),
                     ),
@@ -288,13 +295,13 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1E3A8A).withOpacity(0.08),
+                          color: amberPrimary.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           category.replaceAll('_', ' ').toUpperCase(),
                           style: const TextStyle(
-                            color: Color(0xFF1E3A8A),
+                            color: amberPrimary,
                             fontSize: 10,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 1.0,
@@ -305,10 +312,10 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                     ],
                     Text(
                       title.isEmpty ? 'Dua Details' : title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
-                        color: Color(0xFF1E293B),
+                        color: colors.onSurface,
                         height: 1.3,
                       ),
                     ),
@@ -328,47 +335,51 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        const Color(0xFF1E3A8A).withOpacity(0.05),
-                        const Color(0xFF1E3A8A).withOpacity(0.01),
+                        amberPrimary.withValues(alpha: 0.08),
+                        amberPrimary.withValues(alpha: 0.02),
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
                     borderRadius: BorderRadius.circular(24),
                     border: Border.all(
-                      color: const Color(0xFF1E3A8A).withOpacity(0.1),
+                      color: amberPrimary.withValues(alpha: 0.2),
                     ),
                   ),
                   child: SelectableText(
                     arabic,
                     textAlign: TextAlign.center,
                     textDirection: TextDirection.rtl,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 30,
                       height: 1.9,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF1E3A8A),
+                      color: amberPrimary,
                     ),
                   ),
                 ),
 
               // 3. Transliterations & Translations Sections
               _buildSectionCard(
+                context: context,
                 title: 'English Transliteration',
                 content: englishTransliteration,
                 icon: Icons.translate_rounded,
               ),
               _buildSectionCard(
+                context: context,
                 title: 'English Meaning',
                 content: englishTranslation,
                 icon: Icons.menu_book_rounded,
               ),
               _buildSectionCard(
+                context: context,
                 title: 'Malayalam Transliteration',
                 content: malayalamTransliteration,
                 icon: Icons.translate_rounded,
               ),
               _buildSectionCard(
+                context: context,
                 title: 'Malayalam Meaning',
                 content: malayalamTranslation,
                 icon: Icons.menu_book_rounded,
@@ -380,27 +391,31 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                   margin: const EdgeInsets.only(bottom: 24),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.025),
+                    color: colors.surfaceContainerHighest.withValues(
+                      alpha: 0.4,
+                    ),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.black.withOpacity(0.04)),
+                    border: Border.all(
+                      color: colors.outline.withValues(alpha: 0.15),
+                    ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         children: [
                           Icon(
                             Icons.auto_stories_rounded,
                             size: 18,
-                            color: Colors.black54,
+                            color: colors.onSurfaceVariant,
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Text(
                             'Reference & Tags',
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: 13,
-                              color: Colors.black54,
+                              color: colors.onSurfaceVariant,
                             ),
                           ),
                         ],
@@ -409,10 +424,10 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                         const SizedBox(height: 12),
                         Text(
                           source,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 13.5,
-                            color: Colors.black87,
+                            color: colors.onSurface,
                           ),
                         ),
                       ],
@@ -428,18 +443,18 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                                 vertical: 5,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: theme.cardColor,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: Colors.black.withOpacity(0.06),
+                                  color: colors.outline.withValues(alpha: 0.2),
                                 ),
                               ),
                               child: Text(
                                 tag.toString(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 11,
-                                  color: Colors.black54,
+                                  color: colors.onSurfaceVariant,
                                 ),
                               ),
                             );
@@ -463,7 +478,7 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                       style: TextStyle(fontWeight: FontWeight.w800),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF1E3A8A),
+                      backgroundColor: amberPrimary,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 17),
                       elevation: 0,
@@ -487,7 +502,7 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                         style: TextStyle(fontWeight: FontWeight.w700),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1E3A8A),
+                        backgroundColor: amberPrimary,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         elevation: 0,
@@ -504,20 +519,18 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
                       icon: const Icon(
                         Icons.ios_share_rounded,
                         size: 18,
-                        color: Color(0xFF1E3A8A),
+                        color: amberPrimary,
                       ),
                       label: const Text(
                         'Share Dua',
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF1E3A8A),
+                          color: amberPrimary,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                          0xFF1E3A8A,
-                        ).withOpacity(0.08),
-                        foregroundColor: const Color(0xFF1E3A8A),
+                        backgroundColor: amberPrimary.withValues(alpha: 0.12),
+                        foregroundColor: amberPrimary,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
@@ -536,22 +549,25 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
   }
 
   Widget _buildSectionCard({
+    required BuildContext context,
     required String title,
     required String content,
     required IconData icon,
   }) {
     if (content.trim().isEmpty) return const SizedBox.shrink();
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.black.withOpacity(0.04)),
+        border: Border.all(color: colors.outline.withValues(alpha: 0.15)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -562,14 +578,14 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
         children: [
           Row(
             children: [
-              Icon(icon, size: 18, color: Colors.black45),
+              Icon(icon, size: 18, color: colors.onSurfaceVariant),
               const SizedBox(width: 8),
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.w800,
                   fontSize: 13,
-                  color: Colors.black54,
+                  color: colors.onSurfaceVariant,
                 ),
               ),
             ],
@@ -577,11 +593,11 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
           const SizedBox(height: 12),
           SelectableText(
             content,
-            style: const TextStyle(
+            style: TextStyle(
               height: 1.6,
               fontSize: 14.5,
               fontWeight: FontWeight.w500,
-              color: Color(0xFF1E293B),
+              color: colors.onSurface,
             ),
           ),
         ],
@@ -590,7 +606,6 @@ class _DuaDetailScreenState extends State<DuaDetailScreen> {
   }
 }
 
-/// The text controller is owned and disposed by this widget.
 class _CreateRecitationJourneySheet extends StatefulWidget {
   const _CreateRecitationJourneySheet({
     required this.name,
@@ -644,6 +659,8 @@ class _CreateRecitationJourneySheetState
 
   @override
   Widget build(BuildContext context) {
+    const amberPrimary = Color(0xFFD97706);
+
     return AnimatedPadding(
       duration: const Duration(milliseconds: 180),
       curve: Curves.easeOut,
@@ -695,17 +712,17 @@ class _CreateRecitationJourneySheetState
                   onPressed: _saving ? null : _submit,
                   icon: _saving
                       ? const SizedBox(
-                          width: 18,
-                          height: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
                       : const Icon(Icons.play_arrow_rounded),
                   label: Text(
                     _saving ? 'Creating journey...' : 'Create journey',
                   ),
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: const Color(0xFF1E3A8A),
+                    backgroundColor: amberPrimary,
                     foregroundColor: Colors.white,
                   ),
                 ),

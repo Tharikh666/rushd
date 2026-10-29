@@ -368,7 +368,7 @@ class _DhikrCounterScreenState extends ConsumerState<DhikrCounterScreen>
         title: const Text(
           'TASBEEH',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: 16,
             fontWeight: FontWeight.w800,
             letterSpacing: 2.2,
           ),

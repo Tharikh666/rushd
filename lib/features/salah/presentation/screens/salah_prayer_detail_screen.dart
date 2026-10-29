@@ -17,89 +17,163 @@ class _SalahPrayerDetailScreenState extends State<SalahPrayerDetailScreen> {
   late Future<Map<String, dynamic>> _bundleFuture;
   int _selectedRakah = 0;
   bool _niyyahExpanded = false;
+  int _selectedEidIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _bundleFuture = _repository.getPrayerBundle(widget.prayerId);
+    _bundleFuture = _loadBundle();
+  }
+
+  Future<Map<String, dynamic>> _loadBundle() async {
+    final results = await Future.wait<dynamic>([
+      _repository.getPrayerBundle(widget.prayerId),
+      _repository.getDailyPrayers(),
+      _repository.getSpecialPrayers(),
+    ]);
+
+    final bundle = Map<String, dynamic>.from(results[0] as Map);
+    bundle['dailyPrayers'] = results[1];
+    bundle['specialPrayers'] = results[2];
+    return bundle;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      body: FutureBuilder<Map<String, dynamic>>(
-        future: _bundleFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
 
-          if (snapshot.hasError || !snapshot.hasData) {
-            return _GuideError(
-              onRetry: () {
-                setState(() {
-                  _bundleFuture = _repository.getPrayerBundle(widget.prayerId);
-                });
-              },
-            );
-          }
-
-          final bundle = snapshot.data!;
-          final prayer = Map<String, dynamic>.from(bundle['prayer'] as Map);
-          final recitations = (bundle['recitations'] as List<dynamic>)
-              .map((item) => Map<String, dynamic>.from(item as Map))
-              .toList();
-          final positions = Map<String, dynamic>.from(
-            bundle['positions'] as Map,
+    return FutureBuilder<Map<String, dynamic>>(
+      future: _bundleFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(
+            appBar: AppBar(title: const Text('Prayer Guide')),
+            body: const Center(child: CircularProgressIndicator()),
           );
+        }
 
-          final rakahs = (prayer['rakahs'] as List<dynamic>? ?? [])
-              .map((item) => Map<String, dynamic>.from(item as Map))
-              .toList();
-
-          if (rakahs.isEmpty) {
-            return _GuideError(
-              message: 'No prayer steps are available for this guide.',
-              onRetry: () {
-                setState(() {
-                  _bundleFuture = _repository.getPrayerBundle(widget.prayerId);
-                });
-              },
-            );
-          }
-
-          final selectedIndex = _selectedRakah.clamp(0, rakahs.length - 1);
-          final selectedRakah = rakahs[selectedIndex];
-          final niyyahRecitation = _findRecitation(
-            recitations,
-            'niyyah_${widget.prayerId}',
+        if (snapshot.hasError || !snapshot.hasData) {
+          return _GuideError(
+            onRetry: () {
+              setState(() {
+                _bundleFuture = _loadBundle();
+              });
+            },
           );
+        }
 
-          return CustomScrollView(
+        final bundle = snapshot.data!;
+        final prayer = Map<String, dynamic>.from(bundle['prayer'] as Map);
+
+        final overviewPrayer =
+            _findOverviewPrayer(
+              bundle['dailyPrayers'] as List<dynamic>? ?? [],
+              bundle['specialPrayers'] as List<dynamic>? ?? [],
+              widget.prayerId,
+            ) ??
+            prayer;
+
+        final recitations = (bundle['recitations'] as List<dynamic>)
+            .map((item) => Map<String, dynamic>.from(item as Map))
+            .toList();
+        final positions = Map<String, dynamic>.from(bundle['positions'] as Map);
+
+        final rakahs = (prayer['rakahs'] as List<dynamic>? ?? [])
+            .map((item) => Map<String, dynamic>.from(item as Map))
+            .toList();
+
+        if (rakahs.isEmpty) {
+          return _GuideError(
+            message: 'No prayer steps are available for this guide.',
+            onRetry: () {
+              setState(() {
+                _bundleFuture = _loadBundle();
+              });
+            },
+          );
+        }
+
+        final selectedIndex = _selectedRakah.clamp(0, rakahs.length - 1);
+        final selectedRakah = rakahs[selectedIndex];
+
+        // Retrieve Niyyah options (supports multiple for Eid)
+        final niyyahs = _findNiyyahRecitations(recitations, widget.prayerId);
+
+        final gradientColors = _gradientColors(overviewPrayer['gradient']);
+        final isDarkGradient = _isDarkGradient(gradientColors);
+        final prayerName = _string(prayer, 'name').toUpperCase();
+        final titleColor = isDarkGradient
+            ? Colors.white
+            : const Color(0xFF1E293B);
+
+        return Scaffold(
+          body: CustomScrollView(
             slivers: [
-              // 1. Sleek Gradient App Bar / Hero Header
+              // 1. Dynamic Sliver App Bar with Centered Custom Styled Title
               SliverAppBar(
                 pinned: true,
                 expandedHeight: 220,
-                backgroundColor: const Color(0xFF1E3A8A),
-                iconTheme: const IconThemeData(color: Colors.white),
+                backgroundColor: gradientColors.first,
+                centerTitle: true,
+                iconTheme: IconThemeData(color: titleColor),
+                title: Text(
+                  prayerName,
+                  style: TextStyle(
+                    color: titleColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 2.2,
+                  ),
+                ),
                 flexibleSpace: FlexibleSpaceBar(
-                  background: _PrayerHero(prayer: prayer),
+                  background: _PrayerHero(
+                    prayer: overviewPrayer,
+                    rakahCount: rakahs.length,
+                  ),
                 ),
               ),
 
-              // 2. Overview & Interactive Niyyah Card
+              // 2. Interactive Niyyah Card with Eid Toggle Support
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
                   child: Column(
                     children: [
-                      _OverviewCard(prayer: prayer),
-                      if (niyyahRecitation != null) ...[
+                      if (_string(prayer, 'description').isNotEmpty) ...[
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: colors.surfaceContainerHighest.withValues(
+                              alpha: 0.5,
+                            ),
+                            borderRadius: BorderRadius.circular(18),
+                            border: Border.all(
+                              color: colors.outline.withValues(alpha: 0.12),
+                            ),
+                          ),
+                          child: Text(
+                            _string(prayer, 'description'),
+                            style: TextStyle(
+                              color: colors.onSurfaceVariant,
+                              fontSize: 14,
+                              height: 1.5,
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 16),
+                      ],
+                      if (niyyahs.isNotEmpty)
                         _NiyyahCard(
-                          niyyah: niyyahRecitation,
+                          prayerId: widget.prayerId,
+                          niyyahs: niyyahs,
+                          selectedIndex: _selectedEidIndex,
+                          onIndexChanged: (index) {
+                            setState(() {
+                              _selectedEidIndex = index;
+                            });
+                          },
                           isExpanded: _niyyahExpanded,
                           onToggle: () {
                             setState(() {
@@ -107,7 +181,6 @@ class _SalahPrayerDetailScreenState extends State<SalahPrayerDetailScreen> {
                             });
                           },
                         ),
-                      ],
                     ],
                   ),
                 ),
@@ -120,19 +193,20 @@ class _SalahPrayerDetailScreenState extends State<SalahPrayerDetailScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Follow the Steps',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
                           letterSpacing: -0.3,
+                          color: colors.onSurface,
                         ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Select a rakah to view detailed postures & recitations.',
                         style: TextStyle(
-                          color: Colors.grey.shade600,
+                          color: colors.onSurfaceVariant,
                           fontSize: 13,
                         ),
                       ),
@@ -164,9 +238,9 @@ class _SalahPrayerDetailScreenState extends State<SalahPrayerDetailScreen> {
                 ),
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -203,19 +277,39 @@ class _SalahPrayerDetailScreenState extends State<SalahPrayerDetailScreen> {
 
 class _PrayerHero extends StatelessWidget {
   final Map<String, dynamic> prayer;
+  final int rakahCount;
 
-  const _PrayerHero({required this.prayer});
+  const _PrayerHero({required this.prayer, required this.rakahCount});
 
   @override
   Widget build(BuildContext context) {
+    final colors = _gradientColors(prayer['gradient']);
+    final isDark = _isDarkGradient(colors);
+    final foreground = isDark ? Colors.white : const Color(0xFF1E293B);
+
+    final name = _string(prayer, 'name');
+    final arabic = _string(prayer, 'arabic');
+    final malayalam = _string(prayer, 'malayalam');
+    final hasQunoot = prayer['hasQunoot'] == true;
+
+    final watermark = _string(prayer, 'watermark');
+    final iconName = _string(prayer, 'icon');
+
+    IconData heroIcon = Icons.mosque_rounded;
+    if (watermark.isNotEmpty) {
+      heroIcon = _dailyIcon(name);
+    } else if (iconName.isNotEmpty) {
+      heroIcon = _specialIcon(iconName);
+    }
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(22, 72, 22, 22),
-      decoration: const BoxDecoration(
+      padding: const EdgeInsets.fromLTRB(20, 64, 20, 18),
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF1E3A8A), Color(0xFF3B82F6)],
+          colors: colors,
         ),
       ),
       child: Stack(
@@ -224,9 +318,9 @@ class _PrayerHero extends StatelessWidget {
             right: -10,
             bottom: -10,
             child: Icon(
-              Icons.mosque_rounded,
+              heroIcon,
               size: 130,
-              color: Colors.white.withOpacity(0.08),
+              color: foreground.withValues(alpha: 0.08),
             ),
           ),
           Align(
@@ -235,30 +329,73 @@ class _PrayerHero extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  _string(prayer, 'name'),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -0.5,
-                  ),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  children: [
+                    if (rakahCount > 0)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: foreground.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: foreground.withValues(alpha: 0.25),
+                          ),
+                        ),
+                        child: Text(
+                          '$rakahCount Rakah Sections',
+                          style: TextStyle(
+                            color: foreground,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    if (hasQunoot)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: foreground.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: foreground.withValues(alpha: 0.25),
+                          ),
+                        ),
+                        child: Text(
+                          'Qunoot Included',
+                          style: TextStyle(
+                            color: foreground,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  _string(prayer, 'malayalam'),
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.85),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                const SizedBox(height: 8),
+                if (malayalam.isNotEmpty) ...[
+                  Text(
+                    malayalam,
+                    style: TextStyle(
+                      color: foreground.withValues(alpha: 0.85),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 6),
+                  const SizedBox(height: 2),
+                ],
                 Text(
-                  _string(prayer, 'arabic'),
+                  arabic,
                   textDirection: TextDirection.rtl,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: foreground,
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
                   ),
@@ -273,90 +410,44 @@ class _PrayerHero extends StatelessWidget {
 }
 
 // -----------------------------------------------------------------------------
-// OVERVIEW CARD
-// -----------------------------------------------------------------------------
-
-class _OverviewCard extends StatelessWidget {
-  final Map<String, dynamic> prayer;
-
-  const _OverviewCard({required this.prayer});
-
-  @override
-  Widget build(BuildContext context) {
-    final rakahs = (prayer['rakahs'] as List<dynamic>? ?? [])
-        .map((item) => Map<String, dynamic>.from(item as Map))
-        .toList();
-
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 15,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _string(prayer, 'description'),
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 14,
-              height: 1.5,
-            ),
-          ),
-          const SizedBox(height: 14),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _InfoChip(
-                icon: Icons.format_list_numbered_rounded,
-                label: '${rakahs.length} Rakah Sections',
-              ),
-              if (prayer['hasQunoot'] == true)
-                const _InfoChip(
-                  icon: Icons.menu_book_rounded,
-                  label: 'Qunoot Included',
-                ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// -----------------------------------------------------------------------------
-// INTERACTIVE NIYYAH CARD
+// INTERACTIVE NIYYAH CARD WITH EID TOGGLE
 // -----------------------------------------------------------------------------
 
 class _NiyyahCard extends StatelessWidget {
-  final Map<String, dynamic> niyyah;
+  final String prayerId;
+  final List<Map<String, dynamic>> niyyahs;
+  final int selectedIndex;
+  final ValueChanged<int> onIndexChanged;
   final bool isExpanded;
   final VoidCallback onToggle;
 
   const _NiyyahCard({
-    required this.niyyah,
+    required this.prayerId,
+    required this.niyyahs,
+    required this.selectedIndex,
+    required this.onIndexChanged,
     required this.isExpanded,
     required this.onToggle,
   });
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final activeIndex = selectedIndex.clamp(0, niyyahs.length - 1);
+    final niyyah = niyyahs[activeIndex];
+
+    final titleText = prayerId == 'eid'
+        ? 'Niyyah for Eid Prayer'
+        : _string(niyyah, 'name', fallback: 'Prayer Intention');
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: colors.outline.withValues(alpha: 0.12)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 15,
             offset: const Offset(0, 4),
           ),
@@ -377,15 +468,15 @@ class _NiyyahCard extends StatelessWidget {
                       vertical: 5,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.teal.withOpacity(0.1),
+                      color: colors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: const Text(
+                    child: Text(
                       'NIYYAH',
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w800,
-                        color: Colors.teal,
+                        color: colors.primary,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -396,17 +487,18 @@ class _NiyyahCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _string(niyyah, 'name', fallback: 'Prayer Intention'),
-                          style: const TextStyle(
+                          titleText,
+                          style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 15,
+                            color: colors.onSurface,
                           ),
                         ),
                         if (!isExpanded)
                           Text(
                             'Tap to view intention & meanings',
                             style: TextStyle(
-                              color: Colors.grey.shade500,
+                              color: colors.onSurfaceVariant,
                               fontSize: 12,
                             ),
                           ),
@@ -416,9 +508,9 @@ class _NiyyahCard extends StatelessWidget {
                   AnimatedRotation(
                     turns: isExpanded ? 0.5 : 0,
                     duration: const Duration(milliseconds: 250),
-                    child: const Icon(
+                    child: Icon(
                       Icons.keyboard_arrow_down_rounded,
-                      color: Colors.grey,
+                      color: colors.onSurfaceVariant,
                     ),
                   ),
                 ],
@@ -432,20 +524,62 @@ class _NiyyahCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (niyyahs.length > 1) ...[
+                    Row(
+                      children: [
+                        for (var i = 0; i < niyyahs.length; i++)
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(right: i == 0 ? 8 : 0),
+                              child: ChoiceChip(
+                                selected: activeIndex == i,
+                                onSelected: (_) => onIndexChanged(i),
+                                label: Text(
+                                  i == 0 ? 'Eid-ul-Fitr' : 'Eid-ul-Adha',
+                                  textAlign: TextAlign.center,
+                                ),
+                                selectedColor: colors.primary,
+                                labelStyle: TextStyle(
+                                  color: activeIndex == i
+                                      ? colors.onPrimary
+                                      : colors.onSurfaceVariant,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12,
+                                ),
+                                backgroundColor: Theme.of(context).cardColor,
+                                side: BorderSide(
+                                  color: activeIndex == i
+                                      ? colors.primary
+                                      : colors.outline.withValues(alpha: 0.3),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
-                      color: Colors.teal.withOpacity(0.04),
+                      color: colors.primaryContainer.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: colors.outline.withValues(alpha: 0.1),
+                      ),
                     ),
                     child: Text(
                       _string(niyyah, 'arabic'),
                       textAlign: TextAlign.right,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
                         height: 2,
+                        color: colors.onSurface,
                       ),
                     ),
                   ),
@@ -501,6 +635,8 @@ class _RakahSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -514,19 +650,19 @@ class _RakahSelector extends StatelessWidget {
                 label: Text(
                   'Rakah ${_string(rakahs[i], 'rakah', fallback: '${i + 1}')}',
                 ),
-                selectedColor: const Color(0xFF1E3A8A),
+                selectedColor: colors.primary,
                 labelStyle: TextStyle(
                   color: selectedIndex == i
-                      ? Colors.white
-                      : Colors.blueGrey.shade700,
+                      ? colors.onPrimary
+                      : colors.onSurfaceVariant,
                   fontWeight: FontWeight.w700,
                   fontSize: 13,
                 ),
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).cardColor,
                 side: BorderSide(
                   color: selectedIndex == i
-                      ? const Color(0xFF1E3A8A)
-                      : Colors.grey.shade300,
+                      ? colors.primary
+                      : colors.outline.withValues(alpha: 0.3),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -546,15 +682,18 @@ class _RakahHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E3A8A).withOpacity(0.08),
+        color: colors.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: colors.primary.withValues(alpha: 0.15)),
       ),
       child: Row(
         children: [
-          const Icon(Icons.menu_book_rounded, color: Color(0xFF1E3A8A)),
+          Icon(Icons.menu_book_rounded, color: colors.primary),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -562,17 +701,17 @@ class _RakahHeading extends StatelessWidget {
               children: [
                 Text(
                   'Rakah ${_string(rakah, 'rakah')}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: 16,
-                    color: Color(0xFF1E3A8A),
+                    color: colors.primary,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   _string(rakah, 'type'),
                   style: TextStyle(
-                    color: Colors.blueGrey.shade600,
+                    color: colors.onSurfaceVariant,
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
@@ -605,16 +744,17 @@ class _PrayerStepCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final instruction = _string(step, 'instruction');
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: colors.outline.withValues(alpha: 0.12)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -633,13 +773,13 @@ class _PrayerStepCard extends StatelessWidget {
                   height: 32,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E3A8A).withOpacity(0.1),
+                    color: colors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
                     '$number',
-                    style: const TextStyle(
-                      color: Color(0xFF1E3A8A),
+                    style: TextStyle(
+                      color: colors.primary,
                       fontWeight: FontWeight.w800,
                       fontSize: 13,
                     ),
@@ -652,9 +792,10 @@ class _PrayerStepCard extends StatelessWidget {
                     children: [
                       Text(
                         _humanize(_string(step, 'step_id')),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w800,
+                          color: colors.onSurface,
                         ),
                       ),
                       if (position.isNotEmpty) ...[
@@ -672,7 +813,7 @@ class _PrayerStepCard extends StatelessWidget {
                 instruction,
                 style: TextStyle(
                   height: 1.5,
-                  color: Colors.grey.shade700,
+                  color: colors.onSurfaceVariant,
                   fontSize: 14,
                 ),
               ),
@@ -695,25 +836,27 @@ class _PositionBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.blueGrey.withOpacity(0.08),
+        color: colors.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.accessibility_new_rounded,
             size: 13,
-            color: Colors.blueGrey,
+            color: colors.onSurfaceVariant,
           ),
           const SizedBox(width: 5),
           Text(
             position,
-            style: const TextStyle(
-              color: Colors.blueGrey,
+            style: TextStyle(
+              color: colors.onSurfaceVariant,
               fontWeight: FontWeight.w700,
               fontSize: 11,
             ),
@@ -731,6 +874,8 @@ class _RecitationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     final arabic = _string(recitation, 'arabic');
     final englishTransliteration = _firstValue(recitation, [
       'transliteration',
@@ -757,25 +902,21 @@ class _RecitationCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E3A8A).withOpacity(0.03),
+        color: colors.primaryContainer.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFF1E3A8A).withOpacity(0.08)),
+        border: Border.all(color: colors.primary.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Icon(
-                Icons.menu_book_rounded,
-                size: 15,
-                color: Color(0xFF1E3A8A),
-              ),
+              Icon(Icons.menu_book_rounded, size: 15, color: colors.primary),
               const SizedBox(width: 6),
-              const Text(
+              Text(
                 'RECITATION',
                 style: TextStyle(
-                  color: Color(0xFF1E3A8A),
+                  color: colors.primary,
                   fontWeight: FontWeight.w900,
                   fontSize: 11,
                   letterSpacing: 1,
@@ -792,10 +933,11 @@ class _RecitationCard extends StatelessWidget {
                 child: Text(
                   arabic,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 26,
                     height: 1.9,
                     fontWeight: FontWeight.w500,
+                    color: colors.onSurface,
                   ),
                 ),
               ),
@@ -829,6 +971,8 @@ class _LanguageText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: Column(
@@ -836,8 +980,8 @@ class _LanguageText extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(
-              color: Color(0xFF1E3A8A),
+            style: TextStyle(
+              color: colors.primary,
               fontWeight: FontWeight.w800,
               fontSize: 11,
             ),
@@ -848,7 +992,7 @@ class _LanguageText extends StatelessWidget {
             style: TextStyle(
               height: 1.5,
               fontSize: 13.5,
-              color: Colors.grey.shade800,
+              color: colors.onSurface,
             ),
           ),
         ],
@@ -860,39 +1004,6 @@ class _LanguageText extends StatelessWidget {
 // -----------------------------------------------------------------------------
 // SHARED HELPERS & ERROR
 // -----------------------------------------------------------------------------
-
-class _InfoChip extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  const _InfoChip({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 14, color: const Color(0xFF1E3A8A)),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 12,
-              color: Colors.blueGrey,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _GuideError extends StatelessWidget {
   final VoidCallback onRetry;
@@ -932,6 +1043,46 @@ class _GuideError extends StatelessWidget {
       ),
     );
   }
+}
+
+Map<String, dynamic>? _findOverviewPrayer(
+  List<dynamic> dailyPrayers,
+  List<dynamic> specialPrayers,
+  String prayerId,
+) {
+  for (final item in [...dailyPrayers, ...specialPrayers]) {
+    if (item is Map) {
+      final id = item['id']?.toString() ?? item['prayer_id']?.toString() ?? '';
+      if (id == prayerId) {
+        return Map<String, dynamic>.from(item);
+      }
+    }
+  }
+  return null;
+}
+
+List<Map<String, dynamic>> _findNiyyahRecitations(
+  List<Map<String, dynamic>> recitations,
+  String prayerId,
+) {
+  final list = <Map<String, dynamic>>[];
+  if (prayerId == 'eid') {
+    for (final item in recitations) {
+      final id = item['id']?.toString() ?? '';
+      if (id == 'niyyah_eid_ul_fitr' || id == 'niyyah_eid_ul_adha') {
+        list.add(item);
+      }
+    }
+  } else {
+    final targetId = 'niyyah_$prayerId';
+    for (final item in recitations) {
+      if (item['id']?.toString() == targetId) {
+        list.add(item);
+        break;
+      }
+    }
+  }
+  return list;
 }
 
 Map<String, dynamic>? _findRecitation(
@@ -990,4 +1141,70 @@ String _humanize(String value) {
       .where((word) => word.isNotEmpty)
       .map((word) => '${word[0].toUpperCase()}${word.substring(1)}')
       .join(' ');
+}
+
+List<Color> _gradientColors(dynamic value) {
+  if (value is List && value.isNotEmpty) {
+    final colors = value.map((item) => _parseColor(item.toString())).toList();
+    if (colors.length == 1) {
+      return [colors.first, colors.first];
+    }
+    return colors;
+  }
+  return const [Color(0xFF1E3A8A), Color(0xFF3B82F6)];
+}
+
+Color _parseColor(String value) {
+  var hex = value.trim().replaceAll('#', '');
+  if (hex.length == 6) {
+    hex = 'FF$hex';
+  }
+  if (hex.length != 8) {
+    return const Color(0xFF64748B);
+  }
+  return Color(int.parse(hex, radix: 16));
+}
+
+bool _isDarkGradient(List<Color> colors) {
+  final average =
+      colors
+          .map(
+            (color) =>
+                (0.299 * color.red) +
+                (0.587 * color.green) +
+                (0.114 * color.blue),
+          )
+          .reduce((a, b) => a + b) /
+      colors.length;
+  return average < 155;
+}
+
+IconData _dailyIcon(String name) {
+  switch (name.toLowerCase()) {
+    case 'fajr':
+      return Icons.wb_twilight_rounded;
+    case 'dhuhr':
+      return Icons.wb_sunny_rounded;
+    case 'asr':
+      return Icons.light_mode_rounded;
+    case 'maghrib':
+      return Icons.wb_twilight_rounded;
+    case 'isha':
+      return Icons.nightlight_round;
+    default:
+      return Icons.mosque_rounded;
+  }
+}
+
+IconData _specialIcon(String name) {
+  switch (name) {
+    case 'mosque_rounded':
+      return Icons.mosque_rounded;
+    case 'celebration_rounded':
+      return Icons.celebration_rounded;
+    case 'volunteer_activism_rounded':
+      return Icons.volunteer_activism_rounded;
+    default:
+      return Icons.auto_awesome_rounded;
+  }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/theme/rushd_colors.dart';
 import '../../data/repositories/dua_repository.dart';
 
 class DuaSearchScreen extends StatefulWidget {
@@ -80,18 +79,18 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
 
     if (id == null || id.isEmpty) return;
 
+    FocusManager.instance.primaryFocus?.unfocus();
+
     context.push('/duas/$id');
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final colors = theme.colorScheme;
+    const amberPrimary = Color(0xFFD97706);
 
     return Scaffold(
-      backgroundColor: isDark
-          ? RushdColors.darkBackground
-          : RushdColors.lightBackground,
       appBar: AppBar(
         title: const Text('Search Recitations'),
         centerTitle: false,
@@ -121,7 +120,7 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                       )
                     : null,
                 filled: true,
-                fillColor: theme.colorScheme.surface,
+                fillColor: colors.surface,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(18),
                   borderSide: BorderSide.none,
@@ -134,7 +133,7 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(18),
-                  borderSide: const BorderSide(color: RushdColors.primaryLight),
+                  borderSide: const BorderSide(color: amberPrimary),
                 ),
               ),
             ),
@@ -163,6 +162,7 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                     _CategoryFilterChip(
                       label: 'All',
                       selected: _selectedCategory == 'all',
+                      amberPrimary: amberPrimary,
                       onTap: () {
                         setState(() => _selectedCategory = 'all');
                       },
@@ -171,6 +171,7 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                       (category) => _CategoryFilterChip(
                         label: _formatCategory(category),
                         selected: _selectedCategory == category.toLowerCase(),
+                        amberPrimary: amberPrimary,
                         onTap: () {
                           setState(() {
                             _selectedCategory = category.toLowerCase();
@@ -272,7 +273,7 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                               '';
 
                           return Material(
-                            color: theme.colorScheme.surface,
+                            color: theme.cardColor,
                             borderRadius: BorderRadius.circular(18),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(18),
@@ -282,8 +283,8 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(18),
                                   border: Border.all(
-                                    color: theme.dividerColor.withValues(
-                                      alpha: 0.45,
+                                    color: colors.outline.withValues(
+                                      alpha: 0.2,
                                     ),
                                   ),
                                 ),
@@ -294,14 +295,14 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                                       width: 44,
                                       height: 44,
                                       decoration: BoxDecoration(
-                                        color: RushdColors.primary.withValues(
-                                          alpha: 0.10,
+                                        color: amberPrimary.withValues(
+                                          alpha: 0.12,
                                         ),
                                         borderRadius: BorderRadius.circular(13),
                                       ),
                                       child: const Icon(
                                         Icons.menu_book_rounded,
-                                        color: RushdColors.primaryLight,
+                                        color: amberPrimary,
                                       ),
                                     ),
                                     const SizedBox(width: 12),
@@ -317,6 +318,7 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                                             style: theme.textTheme.titleSmall
                                                 ?.copyWith(
                                                   fontWeight: FontWeight.w800,
+                                                  color: colors.onSurface,
                                                 ),
                                           ),
                                           if (category.isNotEmpty) ...[
@@ -325,8 +327,7 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                                               _formatCategory(category),
                                               style: theme.textTheme.labelSmall
                                                   ?.copyWith(
-                                                    color: RushdColors
-                                                        .primaryLight,
+                                                    color: amberPrimary,
                                                     fontWeight: FontWeight.w700,
                                                   ),
                                             ),
@@ -343,6 +344,7 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                                                   ?.copyWith(
                                                     fontSize: 19,
                                                     height: 1.7,
+                                                    color: colors.onSurface,
                                                   ),
                                             ),
                                           ],
@@ -355,13 +357,8 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                                               style: theme.textTheme.bodySmall
                                                   ?.copyWith(
                                                     height: 1.5,
-                                                    color: theme
-                                                        .textTheme
-                                                        .bodySmall
-                                                        ?.color
-                                                        ?.withValues(
-                                                          alpha: 0.75,
-                                                        ),
+                                                    color:
+                                                        colors.onSurfaceVariant,
                                                   ),
                                             ),
                                           ],
@@ -371,8 +368,8 @@ class _DuaSearchScreenState extends State<DuaSearchScreen> {
                                     const SizedBox(width: 4),
                                     Icon(
                                       Icons.chevron_right_rounded,
-                                      color: theme.iconTheme.color?.withValues(
-                                        alpha: 0.55,
+                                      color: colors.onSurfaceVariant.withValues(
+                                        alpha: 0.6,
                                       ),
                                     ),
                                   ],
@@ -398,11 +395,13 @@ class _CategoryFilterChip extends StatelessWidget {
   const _CategoryFilterChip({
     required this.label,
     required this.selected,
+    required this.amberPrimary,
     required this.onTap,
   });
 
   final String label;
   final bool selected;
+  final Color amberPrimary;
   final VoidCallback onTap;
 
   @override
@@ -414,14 +413,14 @@ class _CategoryFilterChip extends StatelessWidget {
         selected: selected,
         onSelected: (_) => onTap(),
         showCheckmark: false,
-        selectedColor: RushdColors.primary.withValues(alpha: 0.14),
+        selectedColor: amberPrimary.withValues(alpha: 0.18),
         labelStyle: TextStyle(
           fontWeight: FontWeight.w600,
-          color: selected ? RushdColors.primaryLight : null,
+          color: selected ? amberPrimary : null,
         ),
         side: BorderSide(
           color: selected
-              ? RushdColors.primary.withValues(alpha: 0.35)
+              ? amberPrimary.withValues(alpha: 0.4)
               : Theme.of(context).dividerColor.withValues(alpha: 0.5),
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
@@ -474,7 +473,7 @@ class _SearchMessage extends StatelessWidget {
                 color: theme.textTheme.bodySmall?.color,
               ),
             ),
-            ?action,
+            if (action != null) action!,
           ],
         ),
       ),

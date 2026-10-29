@@ -20,6 +20,11 @@ class _QiblaScreenState extends State<QiblaScreen> {
   static const double _kaabaLatitude = 21.4225;
   static const double _kaabaLongitude = 39.8262;
 
+  // Royal Obsidian & Desert Gold Palette Variables
+  static const _gold = Color(0xFFE6CA78);
+  static const _goldAccent = Color(0xFFD6B85A);
+  static const _obsidianDark = Color(0xFF0F172A);
+
   double _heading = 0;
   double _qiblaDirection = 0;
 
@@ -120,9 +125,7 @@ class _QiblaScreenState extends State<QiblaScreen> {
               : 'Unknown location';
           country = place.country ?? '';
         }
-      } catch (_) {
-        // Coordinates and compass can still work without geocoding.
-      }
+      } catch (_) {}
 
       if (!mounted) return;
 
@@ -228,9 +231,18 @@ class _QiblaScreenState extends State<QiblaScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Qibla'), centerTitle: true),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'QIBLA FINDER',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 2.2,
+          ),
+        ),
+      ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage != null
@@ -284,6 +296,7 @@ class _QiblaScreenState extends State<QiblaScreen> {
   Widget _buildCompassContent(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -293,11 +306,12 @@ class _QiblaScreenState extends State<QiblaScreen> {
           padding: const EdgeInsets.fromLTRB(18, 12, 18, 28),
           children: [
             QiblaInfoCard(
-              city: _currentCity ?? '',
-              country: _currentCountry ?? '',
+              city: _currentCity,
+              country: _currentCountry,
               latitude: _position!.latitude,
               longitude: _position!.longitude,
               qiblaBearing: _qiblaDirection,
+              isAligned: _isAligned,
             ),
             const SizedBox(height: 20),
 
@@ -308,8 +322,10 @@ class _QiblaScreenState extends State<QiblaScreen> {
                     : 'Turn your phone to find the Qibla',
                 textAlign: TextAlign.center,
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: _isAligned ? colors.primary : null,
-                  fontWeight: FontWeight.w700,
+                  color: _isAligned
+                      ? _goldAccent
+                      : colors.onSurface.withValues(alpha: 0.9),
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),
@@ -319,24 +335,33 @@ class _QiblaScreenState extends State<QiblaScreen> {
               child: SizedBox(
                 width: compassSize,
                 height: compassSize,
-                child: _buildCompassDial(compassSize),
+                child: _buildCompassDial(compassSize, isDark),
               ),
             ),
 
             const SizedBox(height: 16),
 
+            // Alignment Status Badge
             Center(
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 250),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
+                  horizontal: 20,
                   vertical: 12,
                 ),
                 decoration: BoxDecoration(
                   color: _isAligned
-                      ? colors.primaryContainer
-                      : colors.surfaceContainerHighest,
+                      ? _gold.withValues(alpha: 0.18)
+                      : (isDark
+                            ? colors.surfaceContainerHighest
+                            : const Color(0xFFF1F5F9)),
                   borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                    color: _isAligned
+                        ? _gold.withValues(alpha: 0.5)
+                        : colors.outline.withValues(alpha: 0.15),
+                    width: 1.2,
+                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -345,9 +370,8 @@ class _QiblaScreenState extends State<QiblaScreen> {
                       _isAligned
                           ? Icons.check_circle_rounded
                           : Icons.navigation_rounded,
-                      color: _isAligned
-                          ? colors.onPrimaryContainer
-                          : colors.primary,
+                      color: _isAligned ? _goldAccent : colors.primary,
+                      size: 18,
                     ),
                     const SizedBox(width: 10),
                     Text(
@@ -355,10 +379,8 @@ class _QiblaScreenState extends State<QiblaScreen> {
                           ? 'Qibla aligned'
                           : 'Qibla ${_qiblaDirection.toStringAsFixed(0)}°',
                       style: theme.textTheme.titleSmall?.copyWith(
-                        color: _isAligned
-                            ? colors.onPrimaryContainer
-                            : colors.onSurface,
-                        fontWeight: FontWeight.w700,
+                        color: _isAligned ? _goldAccent : colors.onSurface,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                   ],
@@ -382,41 +404,12 @@ class _QiblaScreenState extends State<QiblaScreen> {
     );
   }
 
-  Widget _coordinateValue(
-    BuildContext context, {
-    required String label,
-    required double value,
-  }) {
-    final theme = Theme.of(context);
-    final colors = theme.colorScheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: theme.textTheme.labelSmall?.copyWith(
-            color: colors.onSurfaceVariant,
-            letterSpacing: 1.1,
-          ),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          '${value.toStringAsFixed(6)}°',
-          style: theme.textTheme.bodyLarge?.copyWith(
-            fontWeight: FontWeight.w700,
-            fontFeatures: const [FontFeature.tabularFigures()],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCompassDial(double size) {
+  Widget _buildCompassDial(double size, bool isDark) {
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
       children: [
+        // Outer Alignment Glow Halo
         AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           width: size * 0.9,
@@ -426,63 +419,79 @@ class _QiblaScreenState extends State<QiblaScreen> {
             boxShadow: [
               if (_isAligned)
                 BoxShadow(
-                  color: const Color(0xFF14B8A6).withValues(alpha: 0.3),
-                  blurRadius: 50,
-                  spreadRadius: 8,
+                  color: _gold.withValues(alpha: 0.45),
+                  blurRadius: 55,
+                  spreadRadius: 10,
                 ),
             ],
           ),
         ),
 
+        // Outer Metallic Gold Bezel
         Container(
           width: size,
           height: size,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: SweepGradient(
               colors: [
-                Color(0xFF0F766E),
-                Color(0xFF115E59),
-                Color(0xFF2DD4BF),
-                Color(0xFF042F2E),
-                Color(0xFF0F766E),
+                _goldAccent,
+                const Color(0xFF997A15),
+                _gold,
+                const Color(0xFF5C4707),
+                _goldAccent,
               ],
             ),
             boxShadow: [
               BoxShadow(
-                color: Color(0x33000000),
+                color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.15),
                 blurRadius: 24,
-                offset: Offset(0, 12),
+                offset: const Offset(0, 12),
               ),
             ],
           ),
         ),
 
+        // Inner Bezel Inset
         Container(
           width: size * 0.91,
           height: size * 0.91,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xFF042F2E), Color(0xFF115E59)],
+              colors: isDark
+                  ? [const Color(0xFF0F172A), const Color(0xFF1E293B)]
+                  : [const Color(0xFF1E293B), const Color(0xFF0F172A)],
             ),
-            border: Border.all(color: const Color(0xFF2DD4BF), width: 1.2),
+            border: Border.all(color: _gold.withValues(alpha: 0.6), width: 1.2),
           ),
         ),
 
+        // Compass Face Base (Light Ivory vs Dark Obsidian)
         Container(
           width: size * 0.895,
           height: size * 0.895,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: RadialGradient(
-              colors: [Color(0xFFFFFFFA), Color(0xFFF5FAF9), Color(0xFFD1E2DD)],
+              colors: isDark
+                  ? const [
+                      Color(0xFF1E293B),
+                      Color(0xFF0F172A),
+                      Color(0xFF0A0F1D),
+                    ]
+                  : const [
+                      Color(0xFFFFFFFF),
+                      Color(0xFFF8FAFC),
+                      Color(0xFFE2E8F0),
+                    ],
             ),
           ),
         ),
 
+        // Rotating Dial with Compass Face Ticks & Direction Labels
         Transform.rotate(
           angle: -_heading * pi / 180,
           child: SizedBox(
@@ -493,38 +502,66 @@ class _QiblaScreenState extends State<QiblaScreen> {
               children: [
                 CustomPaint(
                   size: Size.square(size * 0.895),
-                  painter: CompassFacePainter(),
+                  painter: CompassFacePainter(isDark: isDark),
                 ),
-                _buildDirectionLabel('N', 180, const Color(0xFFDC2626), size),
-                _buildDirectionLabel('E', 270, const Color(0xFF475569), size),
-                _buildDirectionLabel('S', 0, const Color(0xFF475569), size),
-                _buildDirectionLabel('W', 90, const Color(0xFF475569), size),
+                _buildDirectionLabel(
+                  'N',
+                  180,
+                  const Color(0xFFEF4444),
+                  size,
+                  isDark,
+                ),
+                _buildDirectionLabel(
+                  'E',
+                  270,
+                  isDark ? _gold : const Color(0xFF334155),
+                  size,
+                  isDark,
+                ),
+                _buildDirectionLabel(
+                  'S',
+                  0,
+                  isDark ? _gold : const Color(0xFF334155),
+                  size,
+                  isDark,
+                ),
+                _buildDirectionLabel(
+                  'W',
+                  90,
+                  isDark ? _gold : const Color(0xFF334155),
+                  size,
+                  isDark,
+                ),
                 _buildDirectionLabel(
                   'NE',
                   225,
-                  const Color(0xFF94A3B8),
+                  isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
                   size,
+                  isDark,
                   ordinal: true,
                 ),
                 _buildDirectionLabel(
                   'SE',
                   315,
-                  const Color(0xFF94A3B8),
+                  isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
                   size,
+                  isDark,
                   ordinal: true,
                 ),
                 _buildDirectionLabel(
                   'SW',
                   45,
-                  const Color(0xFF94A3B8),
+                  isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
                   size,
+                  isDark,
                   ordinal: true,
                 ),
                 _buildDirectionLabel(
                   'NW',
                   135,
-                  const Color(0xFF94A3B8),
+                  isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
                   size,
+                  isDark,
                   ordinal: true,
                 ),
               ],
@@ -532,6 +569,7 @@ class _QiblaScreenState extends State<QiblaScreen> {
           ),
         ),
 
+        // Fixed Top Heading Marker Indicator
         Positioned(
           top: size * 0.005,
           child: Container(
@@ -539,8 +577,10 @@ class _QiblaScreenState extends State<QiblaScreen> {
             height: size * 0.11,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: _isAligned ? const Color(0xFF0D9488) : Colors.white,
-              border: Border.all(color: const Color(0xFF0F766E), width: 2.5),
+              color: _isAligned
+                  ? _goldAccent
+                  : (isDark ? _obsidianDark : Colors.white),
+              border: Border.all(color: _gold, width: 2.5),
               boxShadow: const [
                 BoxShadow(
                   color: Color(0x33000000),
@@ -552,11 +592,14 @@ class _QiblaScreenState extends State<QiblaScreen> {
             child: Icon(
               Icons.navigation_rounded,
               size: size * 0.045,
-              color: _isAligned ? Colors.white : const Color(0xFF0F766E),
+              color: _isAligned
+                  ? Colors.white
+                  : (isDark ? _gold : const Color(0xFF1E293B)),
             ),
           ),
         ),
 
+        // Rotating Qibla Needle
         Transform.rotate(
           angle: _relativeQibla,
           child: CustomPaint(
@@ -565,16 +608,17 @@ class _QiblaScreenState extends State<QiblaScreen> {
           ),
         ),
 
+        // Center Kaaba Emblem Dock
         Container(
           width: size * 0.2,
           height: size * 0.2,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.white.withValues(alpha: 0.7),
-            border: Border.all(color: const Color(0xFFB5C9C5), width: 2),
+            color: isDark ? const Color(0xFF1E293B) : Colors.white,
+            border: Border.all(color: _gold, width: 2),
             boxShadow: const [
               BoxShadow(
-                color: Color(0x22000000),
+                color: Color(0x33000000),
                 blurRadius: 10,
                 offset: Offset(0, 3),
               ),
@@ -592,7 +636,8 @@ class _QiblaScreenState extends State<QiblaScreen> {
     String text,
     double baseAngleDegrees,
     Color color,
-    double size, {
+    double size,
+    bool isDark, {
     bool ordinal = false,
   }) {
     final screenAngle = (baseAngleDegrees - _heading) * pi / 180;
@@ -605,8 +650,8 @@ class _QiblaScreenState extends State<QiblaScreen> {
         style: TextStyle(
           color: color,
           fontSize: ordinal ? size * 0.037 : size * 0.063,
-          fontWeight: ordinal ? FontWeight.w500 : FontWeight.w800,
-          fontFamily: 'Courier',
+          fontWeight: ordinal ? FontWeight.w600 : FontWeight.w900,
+          fontFamily: 'serif',
         ),
       ),
     );
@@ -634,16 +679,11 @@ class PremiumCompassNeedlePainter extends CustomPainter {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: isAligned
-            ? const [Color(0xFF2DD4BF), Color(0xFF0D9488)]
-            : const [Color(0xFF14B8A6), Color(0xFF0F766E)],
+            ? const [Color(0xFFFFF1B0), Color(0xFFD6B85A)]
+            : const [Color(0xFFE6CA78), Color(0xFFB38F2D)],
       ).createShader(Offset.zero & size);
 
-    canvas.drawShadow(
-      northPath,
-      Colors.black.withValues(alpha: 0.25),
-      8,
-      false,
-    );
+    canvas.drawShadow(northPath, Colors.black.withValues(alpha: 0.3), 8, false);
     canvas.drawPath(northPath, northPaint);
 
     final southPath = Path()
@@ -655,7 +695,7 @@ class PremiumCompassNeedlePainter extends CustomPainter {
 
     final southPaint = Paint()
       ..shader = const LinearGradient(
-        colors: [Color(0xFF9CA3AF), Color(0xFF4B5563)],
+        colors: [Color(0xFF64748B), Color(0xFF334155)],
       ).createShader(Offset.zero & size);
 
     canvas.drawPath(southPath, southPaint);
@@ -666,7 +706,7 @@ class PremiumCompassNeedlePainter extends CustomPainter {
       Paint()
         ..shader =
             const RadialGradient(
-              colors: [Colors.white, Color(0xFF9CA3AF)],
+              colors: [Color(0xFFFFF1B0), Color(0xFFD6B85A)],
             ).createShader(
               Rect.fromCircle(center: center, radius: size.width * 0.035),
             ),
@@ -680,6 +720,10 @@ class PremiumCompassNeedlePainter extends CustomPainter {
 }
 
 class CompassFacePainter extends CustomPainter {
+  final bool isDark;
+
+  const CompassFacePainter({required this.isDark});
+
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
@@ -691,7 +735,8 @@ class CompassFacePainter extends CustomPainter {
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.5
-        ..color = const Color(0xFFB5C9C5).withValues(alpha: 0.7),
+        ..color = (isDark ? const Color(0xFFE6CA78) : const Color(0xFF94A3B8))
+            .withValues(alpha: 0.4),
     );
 
     for (var degree = 0; degree < 360; degree += 5) {
@@ -718,17 +763,17 @@ class CompassFacePainter extends CustomPainter {
       );
 
       final color = isMajor
-          ? const Color(0xFF115E59)
+          ? (isDark ? const Color(0xFFE6CA78) : const Color(0xFF1E293B))
           : isMedium
-          ? const Color(0xFF718096)
-          : const Color(0xFFA0AEC0);
+          ? (isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B))
+          : (isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1));
 
       canvas.drawLine(
         start,
         end,
         Paint()
           ..strokeWidth = isMajor
-              ? 2
+              ? 2.0
               : isMedium
               ? 1.2
               : 0.8
@@ -742,10 +787,13 @@ class CompassFacePainter extends CustomPainter {
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1
-        ..color = const Color(0xFFB5C9C5).withValues(alpha: 0.4),
+        ..color = (isDark ? const Color(0xFFE6CA78) : const Color(0xFF94A3B8))
+            .withValues(alpha: 0.25),
     );
   }
 
   @override
-  bool shouldRepaint(covariant CompassFacePainter oldDelegate) => false;
+  bool shouldRepaint(covariant CompassFacePainter oldDelegate) {
+    return oldDelegate.isDark != isDark;
+  }
 }

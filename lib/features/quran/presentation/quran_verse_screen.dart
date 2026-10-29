@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quran/quran.dart' as quran;
+import 'package:share_plus/share_plus.dart';
 import 'package:rushd/features/quran/data/quran_metadata.dart';
 
 import '../../../core/theme/rushd_colors.dart';
@@ -30,6 +31,9 @@ class _QuranVerseScreenState extends ConsumerState<QuranVerseScreen> {
     final count = data.getVerseCount(surah);
     final ayah = widget.ayahNumber.clamp(1, count);
 
+    final colors = Theme.of(context).colorScheme;
+    final dark = Theme.of(context).brightness == Brightness.dark;
+
     final arabic = data.getVerse(surah, ayah);
     final english = data.getTranslation(
       surah,
@@ -46,59 +50,72 @@ class _QuranVerseScreenState extends ConsumerState<QuranVerseScreen> {
     final place = data.getPlaceOfRevelation(surah);
 
     final fullText = [
-      '$surahName · Ayah $ayah',
+      '✨ Surah $surahName · Ayah $ayah ✨\n',
       arabic,
-      '',
-      'English',
-      english,
-      '',
-      'Malayalam',
-      malayalam,
+      '\n• English (Saheeh):\n$english',
+      '\n• Malayalam:\n$malayalam',
+      '\n--- \nShared via RUSHD App',
     ].join('\n');
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F9F1),
+      backgroundColor: colors.surface,
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF7F9F1),
+        backgroundColor: colors.surface,
+        surfaceTintColor: Colors.transparent,
         title: const Text(
-          'QURAN VERSE',
+          'QURAN VERSE DETAILS',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: 13.5,
             letterSpacing: 2,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w900,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
           onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back_rounded),
+          icon: Icon(Icons.arrow_back_rounded, color: colors.onSurface),
         ),
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 10, 16, 28),
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 32),
           children: [
+            // Hero Header Card
             Container(
               padding: const EdgeInsets.all(22),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFF006451), Color(0xFF004B40)],
+                  colors: [Color(0xFF007967), Color(0xFF004B35)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF007967).withValues(alpha: 0.2),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
               child: Column(
                 children: [
                   Text(
                     data.getSurahNameArabic(surah),
                     textDirection: TextDirection.rtl,
-                    style: const TextStyle(color: Colors.white, fontSize: 30),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   Text(
-                    '$surahName · ${data.getSurahName(surah)}',
+                    'Surah $surahName · ${data.getSurahName(surah)}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
+                      fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -109,114 +126,166 @@ class _QuranVerseScreenState extends ConsumerState<QuranVerseScreen> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.1),
+                      color: Colors.white.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Text(
-                      'Ayah $ayah',
-                      style: const TextStyle(color: Colors.white),
+                      'Ayah $ayah of $count',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12.5,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 18),
+            const SizedBox(height: 16),
+
+            // Verse & Translations Card
             Container(
               decoration: BoxDecoration(
-                color: const Color(0xFFFFFEF7),
+                color: dark
+                    ? colors.surfaceContainerHighest.withValues(alpha: 0.5)
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: const Color(0xFFE5E9DE)),
+                border: Border.all(
+                  color: colors.outline.withValues(alpha: 0.15),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.02),
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(22, 30, 22, 28),
+                    padding: const EdgeInsets.fromLTRB(20, 28, 20, 24),
                     child: Text(
                       '$arabic  ۞',
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 32,
-                        height: 2.0,
-                        color: Color(0xFF18211D),
+                      style: TextStyle(
+                        fontSize: 30,
+                        height: 2.1,
+                        color: colors.onSurface,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  const Divider(height: 1),
-                  _translationSection(
-                    label: 'ENGLISH TRANSLATION',
-                    text: english,
+                  Divider(
+                    height: 1,
+                    color: colors.outline.withValues(alpha: 0.15),
                   ),
-                  const Divider(height: 1),
+                  _translationSection(
+                    label: 'ENGLISH TRANSLATION (SAHEEH)',
+                    text: english,
+                    colors: colors,
+                  ),
+                  Divider(
+                    height: 1,
+                    color: colors.outline.withValues(alpha: 0.15),
+                  ),
                   _translationSection(
                     label: 'MALAYALAM TRANSLATION',
                     text: malayalam,
+                    colors: colors,
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 16),
+
+            // Metadata Card
             Container(
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFE5E9DE)),
+                color: dark
+                    ? colors.surfaceContainerHighest.withValues(alpha: 0.5)
+                    : Colors.white,
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(
+                  color: colors.outline.withValues(alpha: 0.15),
+                ),
               ),
               child: Column(
                 children: [
                   _metadata(
                     'Surah',
-                    '$surahName / ${data.getSurahName(surah)}',
+                    '$surahName (${data.getSurahName(surah)})',
+                    colors,
                   ),
-                  _metadata('Ayah', '$ayah'),
-                  _metadata('Juz', '$juz'),
-                  _metadata('Revelation', place),
+                  _metadata('Ayah Number', '$ayah', colors),
+                  _metadata('Juz Part', '$juz', colors),
+                  _metadata('Revelation Place', place, colors),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
+
+            // Action Buttons
             Row(
               children: [
                 Expanded(
                   child: FilledButton.icon(
                     style: FilledButton.styleFrom(
-                      backgroundColor: RushdColors.primaryDark,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      backgroundColor: const Color(0xFF007967),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
                     onPressed: () async {
                       await Clipboard.setData(ClipboardData(text: fullText));
                       if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Verse text copied')),
+                        SnackBar(
+                          content: const Text('Verse text copied to clipboard'),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
                       );
                     },
-                    icon: const Icon(Icons.copy_rounded, size: 17),
-                    label: const Text('Copy Full Text'),
+                    icon: const Icon(Icons.copy_rounded, size: 18),
+                    label: const Text(
+                      'Copy Full Text',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 12),
                 OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 14,
+                      horizontal: 18,
+                      vertical: 15,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    side: BorderSide(
+                      color: colors.outline.withValues(alpha: 0.3),
                     ),
                   ),
                   onPressed: () async {
-                    await Clipboard.setData(ClipboardData(text: fullText));
-                    if (!context.mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Verse copied. You can now paste it to share.',
-                        ),
-                      ),
+                    await HapticFeedback.lightImpact();
+                    await Share.share(
+                      fullText,
+                      subject: 'Surah $surahName - Ayah $ayah',
                     );
                   },
-                  icon: const Icon(Icons.share_outlined, size: 17),
-                  label: const Text('Share'),
+                  icon: const Icon(Icons.share_outlined, size: 18),
+                  label: const Text(
+                    'Share',
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
                 ),
               ],
             ),
@@ -226,7 +295,11 @@ class _QuranVerseScreenState extends ConsumerState<QuranVerseScreen> {
     );
   }
 
-  Widget _translationSection({required String label, required String text}) {
+  Widget _translationSection({
+    required String label,
+    required String text,
+    required ColorScheme colors,
+  }) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -235,17 +308,17 @@ class _QuranVerseScreenState extends ConsumerState<QuranVerseScreen> {
           Text(
             label,
             style: const TextStyle(
-              color: Color(0xFF71958B),
-              fontSize: 10,
+              color: Color(0xFF007967),
+              fontSize: 10.5,
               letterSpacing: 1.1,
               fontWeight: FontWeight.w900,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           Text(
             text,
-            style: const TextStyle(
-              color: Color(0xFF38433E),
+            style: TextStyle(
+              color: colors.onSurface,
               fontSize: 15,
               height: 1.8,
             ),
@@ -255,24 +328,25 @@ class _QuranVerseScreenState extends ConsumerState<QuranVerseScreen> {
     );
   }
 
-  Widget _metadata(String label, String value) {
+  Widget _metadata(String label, String value, ColorScheme colors) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(color: Color(0xFF829087)),
+              style: TextStyle(color: colors.onSurfaceVariant, fontSize: 13.5),
             ),
           ),
           Flexible(
             child: Text(
               value,
               textAlign: TextAlign.end,
-              style: const TextStyle(
-                color: Color(0xFF293B33),
-                fontWeight: FontWeight.w600,
+              style: TextStyle(
+                color: colors.onSurface,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
               ),
             ),
           ),

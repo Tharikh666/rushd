@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -149,12 +150,13 @@ class DhikrJourneysScreen extends ConsumerWidget {
             }
           },
         ),
+        centerTitle: true,
         title: const Text(
           'DHIKR JOURNEYS',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: FontWeight.w800,
-            letterSpacing: 1.8,
+            letterSpacing: 2.2,
           ),
         ),
         actions: [
@@ -453,11 +455,21 @@ class _JourneyHero extends StatelessWidget {
         children: [
           Positioned(
             right: -12,
-            top: -18,
-            child: Icon(
-              Icons.spa_outlined,
-              size: 130,
-              color: Colors.white.withValues(alpha: 0.09),
+            top: -8,
+            child: IgnorePointer(
+              child: Opacity(
+                opacity: 0.16,
+                child: SvgPicture.asset(
+                  'assets/icons/worship_icons/tasbeeh.svg',
+                  width: 180,
+                  height: 180,
+                  fit: BoxFit.contain,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ),
             ),
           ),
           Column(
@@ -752,7 +764,15 @@ class _EmptyJourneys extends StatelessWidget {
               color: _kRosePrimary.withValues(alpha: 0.10),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.spa_outlined, size: 38, color: _kRoseLight),
+            child: Center(
+              child: SvgPicture.asset(
+                'assets/icons/worship_icons/tasbeeh.svg',
+                width: 48, // Adjusted size for balanced proportion inside 76x76
+                height: 48,
+                fit: BoxFit.contain,
+                colorFilter: const ColorFilter.mode(_kRoseLight, BlendMode.srcIn),
+              ),
+            ),
           ),
           const SizedBox(height: 20),
           Text(

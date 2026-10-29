@@ -19,6 +19,21 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
+  static const Map<String, IconData> _categoryIcons = {
+    'daily_essentials': Icons.wb_sunny_rounded,
+    'salah_related': Icons.mosque_rounded,
+    'quran_related': Icons.menu_book_rounded,
+    'ramadan': Icons.nightlight_round,
+    'food_and_drink': Icons.restaurant_rounded,
+    'sleep': Icons.bedtime_rounded,
+    'travel': Icons.luggage_rounded,
+    'wudu_and_purification': Icons.water_drop_rounded,
+    'protection': Icons.shield_rounded,
+    'home_and_family': Icons.home_rounded,
+    'janaza': Icons.volunteer_activism_rounded,
+    'goal_achievement': Icons.track_changes_rounded,
+  };
+
   @override
   void initState() {
     super.initState();
@@ -60,8 +75,13 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    const amberPrimary = Color(0xFFD97706);
+    final categoryIcon =
+        _categoryIcons[widget.categoryId] ?? Icons.menu_book_rounded;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _duasFuture,
         builder: (context, snapshot) {
@@ -70,7 +90,7 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
           }
 
           if (snapshot.hasError) {
-            return _buildErrorView();
+            return _buildErrorView(colors, amberPrimary);
           }
 
           final allDuas = snapshot.data ?? [];
@@ -82,65 +102,91 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
                 translation.contains(_searchQuery);
           }).toList();
 
-          // Wrapped in RefreshIndicator so _refreshDuas is actively used
           return RefreshIndicator(
             onRefresh: _refreshDuas,
-            color: const Color(0xFF1E3A8A),
+            color: amberPrimary,
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
               slivers: [
-                // 1. Sleek Gradient Header with Search & Counter
+                // 1. Sleek Amber Gradient Header with Centered App Bar Title & Dynamic Watermark Icon
                 SliverAppBar(
                   pinned: true,
-                  expandedHeight: 200,
-                  backgroundColor: const Color(0xFF1E3A8A),
+                  expandedHeight: 210,
+                  backgroundColor: amberPrimary,
+                  centerTitle: true,
                   iconTheme: const IconThemeData(color: Colors.white),
+                  title: Text(
+                    _categoryTitle.toUpperCase(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 2.2,
+                    ),
+                  ),
                   flexibleSpace: FlexibleSpaceBar(
                     background: Container(
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [Color(0xFF1E3A8A), Color(0xFF3B82F6)],
+                          colors: [Color(0xFFD97706), Color(0xFFF59E0B)],
                         ),
                       ),
-                      padding: const EdgeInsets.fromLTRB(20, 72, 20, 20),
+                      padding: const EdgeInsets.fromLTRB(20, 64, 20, 20),
                       child: Stack(
                         children: [
                           Positioned(
                             right: -10,
-                            bottom: -10,
+                            bottom: -15,
                             child: Icon(
-                              Icons.auto_awesome_rounded,
-                              size: 110,
-                              color: Colors.white.withValues(alpha: 0.08),
+                              categoryIcon,
+                              size: 140,
+                              color: Colors.white12,
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                _categoryTitle,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: -0.5,
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.2),
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    '${allDuas.length} Supplications',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '${allDuas.length} supplications available',
-                                style: TextStyle(
-                                  color: Colors.white.withValues(alpha: 0.8),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
+                                const SizedBox(height: 10),
+                                Text(
+                                  'Explore curated Adhkar for this collection',
+                                  style: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.9),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -154,8 +200,11 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: theme.cardColor,
                         borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: colors.outline.withValues(alpha: 0.15),
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.03),
@@ -166,16 +215,18 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
                       ),
                       child: TextField(
                         controller: _searchController,
-                        style: const TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: 14, color: colors.onSurface),
                         decoration: InputDecoration(
                           hintText: 'Search duas in $_categoryTitle...',
                           hintStyle: TextStyle(
-                            color: Colors.grey.shade400,
+                            color: colors.onSurfaceVariant.withValues(
+                              alpha: 0.7,
+                            ),
                             fontSize: 14,
                           ),
                           prefixIcon: const Icon(
                             Icons.search_rounded,
-                            color: Color(0xFF1E3A8A),
+                            color: amberPrimary,
                             size: 20,
                           ),
                           suffixIcon: _searchQuery.isNotEmpty
@@ -202,7 +253,7 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
                 if (filteredDuas.isEmpty)
                   SliverFillRemaining(
                     hasScrollBody: false,
-                    child: _buildEmptyState(),
+                    child: _buildEmptyState(colors),
                   )
                 else
                   SliverPadding(
@@ -212,7 +263,11 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
                         final dua = filteredDuas[index];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 10),
-                          child: _DuaCard(index: index + 1, dua: dua),
+                          child: _DuaCard(
+                            index: index + 1,
+                            dua: dua,
+                            amberPrimary: amberPrimary,
+                          ),
                         );
                       }, childCount: filteredDuas.length),
                     ),
@@ -225,7 +280,7 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
     );
   }
 
-  Widget _buildErrorView() {
+  Widget _buildErrorView(ColorScheme colors, Color amberPrimary) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -238,18 +293,20 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
               color: Colors.redAccent,
             ),
             const SizedBox(height: 12),
-            const Text(
+            Text(
               'Unable to load supplications.',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: colors.onSurface,
+              ),
             ),
             const SizedBox(height: 16),
             FilledButton.icon(
               onPressed: () => setState(_loadDuas),
               icon: const Icon(Icons.refresh_rounded, size: 18),
               label: const Text('Try again'),
-              style: FilledButton.styleFrom(
-                backgroundColor: const Color(0xFF1E3A8A),
-              ),
+              style: FilledButton.styleFrom(backgroundColor: amberPrimary),
             ),
           ],
         ),
@@ -257,7 +314,7 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(ColorScheme colors) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -269,7 +326,7 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
                   ? Icons.search_off_rounded
                   : Icons.menu_book_rounded,
               size: 54,
-              color: Colors.grey.shade300,
+              color: colors.onSurfaceVariant.withValues(alpha: 0.4),
             ),
             const SizedBox(height: 14),
             Text(
@@ -277,7 +334,7 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
                   ? 'No duas match "$_searchQuery"'
                   : 'No duas found in this category.',
               style: TextStyle(
-                color: Colors.grey.shade600,
+                color: colors.onSurfaceVariant,
                 fontWeight: FontWeight.w600,
                 fontSize: 15,
               ),
@@ -293,23 +350,33 @@ class _DuaCategoryScreenState extends State<DuaCategoryScreen> {
 // DUA ITEM CARD
 // -----------------------------------------------------------------------------
 
+// -----------------------------------------------------------------------------
+// DUA ITEM CARD
+// -----------------------------------------------------------------------------
+
 class _DuaCard extends StatelessWidget {
   final int index;
   final Map<String, dynamic> dua;
+  final Color amberPrimary;
 
-  const _DuaCard({required this.index, required this.dua});
+  const _DuaCard({
+    required this.index,
+    required this.dua,
+    required this.amberPrimary,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final id = dua['id']?.toString() ?? '';
     final title = dua['title']?.toString() ?? 'Untitled Dua';
     final arabic = dua['arabic']?.toString() ?? '';
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: colors.outline.withValues(alpha: 0.15)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -323,7 +390,13 @@ class _DuaCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         child: InkWell(
           borderRadius: BorderRadius.circular(18),
-          onTap: id.isEmpty ? null : () => context.push('/duas/$id'),
+          onTap: id.isEmpty
+              ? null
+              : () {
+                  // Dismiss the keyboard before navigating
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  context.push('/duas/$id');
+                },
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -333,13 +406,13 @@ class _DuaCard extends StatelessWidget {
                   height: 36,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E3A8A).withValues(alpha: 0.08),
+                    color: amberPrimary.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(11),
                   ),
                   child: Text(
                     '$index',
-                    style: const TextStyle(
-                      color: Color(0xFF1E3A8A),
+                    style: TextStyle(
+                      color: amberPrimary,
                       fontWeight: FontWeight.w800,
                       fontSize: 13,
                     ),
@@ -352,10 +425,10 @@ class _DuaCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF1E293B),
+                          color: colors.onSurface,
                         ),
                       ),
                       if (arabic.isNotEmpty) ...[
@@ -367,7 +440,7 @@ class _DuaCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.grey.shade500,
+                            color: colors.onSurfaceVariant,
                           ),
                         ),
                       ],
@@ -378,7 +451,7 @@ class _DuaCard extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 15,
-                  color: Colors.grey.shade400,
+                  color: colors.onSurfaceVariant.withValues(alpha: 0.6),
                 ),
               ],
             ),

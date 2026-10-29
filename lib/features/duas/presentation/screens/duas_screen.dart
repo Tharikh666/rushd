@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/repositories/dua_repository.dart';
@@ -28,6 +29,7 @@ class _DuasScreenState extends State<DuasScreen> {
     'protection': 'Protection',
     'home_and_family': 'Home and Family',
     'janaza': 'Janazah',
+    'goal_achievement': 'Goal Achievement',
   };
 
   static const Map<String, IconData> _categoryIcons = {
@@ -42,6 +44,7 @@ class _DuasScreenState extends State<DuasScreen> {
     'protection': Icons.shield_rounded,
     'home_and_family': Icons.home_rounded,
     'janaza': Icons.volunteer_activism_rounded,
+    'goal_achievement': Icons.track_changes_rounded,
   };
 
   @override
@@ -80,8 +83,11 @@ class _DuasScreenState extends State<DuasScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    const amberPrimary = Color(0xFFD97706);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _duasFuture,
         builder: (context, snapshot) {
@@ -121,61 +127,141 @@ class _DuasScreenState extends State<DuasScreen> {
 
               await Future.wait([_duasFuture, _dailyDuasFuture]);
             },
-            color: const Color(0xFF1E3A8A),
+            color: amberPrimary,
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
               slivers: [
-                // 1. Sleek Gradient App Bar / Hero Header
+                // 1. Sleek Gradient App Bar with Centered App Bar Title & Clean Hero
                 SliverAppBar(
                   pinned: true,
-                  expandedHeight: 220,
-                  backgroundColor: const Color(0xFF1E3A8A),
+                  expandedHeight: 230,
+                  backgroundColor: amberPrimary,
+                  centerTitle: true,
+                  title: const Text(
+                    'DUAS & DHIKRS',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 2.2,
+                    ),
+                  ),
                   flexibleSpace: FlexibleSpaceBar(
                     background: Container(
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [Color(0xFF1E3A8A), Color(0xFF3B82F6)],
+                          colors: [Color(0xFFD97706), Color(0xFFF59E0B)],
                         ),
                       ),
-                      padding: const EdgeInsets.fromLTRB(20, 72, 20, 20),
+                      padding: const EdgeInsets.fromLTRB(20, 64, 20, 20),
                       child: Stack(
                         children: [
                           Positioned(
-                            right: -10,
-                            bottom: -10,
-                            child: Icon(
-                              Icons.auto_awesome_rounded,
-                              size: 130,
-                              color: Colors.white.withValues(alpha: 0.08),
+                            right: -25,
+                            bottom: -30,
+                            child: IgnorePointer(
+                              child: Opacity(
+                                opacity: 0.16,
+                                child: SvgPicture.asset(
+                                  'assets/icons/worship_icons/dua.svg',
+                                  width: 180,
+                                  height: 180,
+                                  fit: BoxFit.contain,
+                                  colorFilter: const ColorFilter.mode(
+                                    Colors.white,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Text(
-                                'Duas and Dhikrs',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: -0.5,
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Wrap(
+                                  spacing: 8,
+                                  runSpacing: 4,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(
+                                          color: Colors.white.withValues(
+                                            alpha: 0.3,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        '${duas.length} Authentic Supplications',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(
+                                          color: Colors.white.withValues(
+                                            alpha: 0.3,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        '${categories.length} Categories',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Remember Allah throughout your day',
-                                style: TextStyle(
-                                  color: Colors.white.withValues(alpha: 0.85),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
+                                const SizedBox(height: 10),
+                                const Text(
+                                  'أذكار و أدعية',
+                                  textDirection: TextDirection.rtl,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 2),
+                                Text(
+                                  'Remember Allah throughout your day & night',
+                                  style: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.9),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -190,9 +276,11 @@ class _DuasScreenState extends State<DuasScreen> {
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: theme.cardColor,
                         borderRadius: BorderRadius.circular(22),
-                        border: Border.all(color: Colors.grey.shade200),
+                        border: Border.all(
+                          color: colors.outline.withValues(alpha: 0.15),
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.03),
@@ -209,25 +297,23 @@ class _DuasScreenState extends State<DuasScreen> {
                               Container(
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  color: const Color(
-                                    0xFF1E3A8A,
-                                  ).withValues(alpha: 0.08),
+                                  color: amberPrimary.withValues(alpha: 0.12),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: const Icon(
                                   Icons.menu_book_rounded,
-                                  color: Color(0xFF1E3A8A),
+                                  color: amberPrimary,
                                   size: 20,
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              const Expanded(
+                              Expanded(
                                 child: Text(
                                   'Authentic Adhkar & Duas',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 16,
-                                    color: Color(0xFF1E293B),
+                                    color: colors.onSurface,
                                   ),
                                 ),
                               ),
@@ -237,7 +323,7 @@ class _DuasScreenState extends State<DuasScreen> {
                           Text(
                             'Explore authentic supplications for everyday moments, worship, and spiritual reflection.',
                             style: TextStyle(
-                              color: Colors.grey.shade600,
+                              color: colors.onSurfaceVariant,
                               fontSize: 13.5,
                               height: 1.5,
                             ),
@@ -267,7 +353,7 @@ class _DuasScreenState extends State<DuasScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
                     child: Material(
-                      color: Colors.white,
+                      color: theme.cardColor,
                       borderRadius: BorderRadius.circular(18),
                       child: InkWell(
                         borderRadius: BorderRadius.circular(18),
@@ -280,16 +366,14 @@ class _DuasScreenState extends State<DuasScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(18),
                             border: Border.all(
-                              color: const Color(
-                                0xFF1E3A8A,
-                              ).withValues(alpha: 0.10),
+                              color: amberPrimary.withValues(alpha: 0.25),
                             ),
                           ),
                           child: Row(
                             children: [
                               const Icon(
                                 Icons.search_rounded,
-                                color: Color(0xFF1E3A8A),
+                                color: amberPrimary,
                                 size: 23,
                               ),
                               const SizedBox(width: 12),
@@ -297,7 +381,7 @@ class _DuasScreenState extends State<DuasScreen> {
                                 child: Text(
                                   'Search duas, dhikr, meanings...',
                                   style: TextStyle(
-                                    color: Colors.grey.shade600,
+                                    color: colors.onSurfaceVariant,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -305,7 +389,9 @@ class _DuasScreenState extends State<DuasScreen> {
                               ),
                               Icon(
                                 Icons.tune_rounded,
-                                color: Colors.grey.shade500,
+                                color: colors.onSurfaceVariant.withValues(
+                                  alpha: 0.7,
+                                ),
                                 size: 20,
                               ),
                             ],
@@ -323,20 +409,20 @@ class _DuasScreenState extends State<DuasScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Explore by Category',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -0.3,
-                            color: Color(0xFF1E293B),
+                            color: colors.onSurface,
                           ),
                         ),
                         const SizedBox(height: 2),
                         Text(
                           'Find a supplication for the moment.',
                           style: TextStyle(
-                            color: Colors.grey.shade600,
+                            color: colors.onSurfaceVariant,
                             fontSize: 13,
                           ),
                         ),
@@ -395,20 +481,20 @@ class _DuasScreenState extends State<DuasScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Duas of the Day',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: -0.3,
-                                color: Color(0xFF1E293B),
+                                color: colors.onSurface,
                               ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               'Selected reminders for your daily reflections.',
                               style: TextStyle(
-                                color: Colors.grey.shade600,
+                                color: colors.onSurfaceVariant,
                                 fontSize: 13,
                               ),
                             ),
@@ -456,11 +542,15 @@ class _CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    const amberPrimary = Color(0xFFD97706);
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: colors.outline.withValues(alpha: 0.15)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -484,10 +574,10 @@ class _CategoryCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(9),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E3A8A).withValues(alpha: 0.08),
+                    color: amberPrimary.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(11),
                   ),
-                  child: Icon(icon, size: 20, color: const Color(0xFF1E3A8A)),
+                  child: Icon(icon, size: 20, color: amberPrimary),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -496,17 +586,17 @@ class _CategoryCard extends StatelessWidget {
                       title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 14,
-                        color: Color(0xFF1E293B),
+                        color: colors.onSurface,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       '$count ${count == 1 ? 'dua' : 'duas'}',
                       style: TextStyle(
-                        color: Colors.grey.shade500,
+                        color: colors.onSurfaceVariant,
                         fontSize: 11.5,
                         fontWeight: FontWeight.w500,
                       ),
@@ -534,14 +624,17 @@ class _FeaturedDuaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    const amberPrimary = Color(0xFFD97706);
     final title = dua['title']?.toString() ?? 'Untitled dua';
     final arabic = dua['arabic']?.toString() ?? '';
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: colors.outline.withValues(alpha: 0.15)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -566,17 +659,17 @@ class _FeaturedDuaCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 15,
-                          color: Color(0xFF1E293B),
+                          color: colors.onSurface,
                         ),
                       ),
                     ),
                     Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 14,
-                      color: Colors.grey.shade400,
+                      color: colors.onSurfaceVariant,
                     ),
                   ],
                 ),
@@ -588,11 +681,11 @@ class _FeaturedDuaCard extends StatelessWidget {
                     textDirection: TextDirection.rtl,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 22,
                       height: 1.8,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFF1E293B),
+                      color: colors.onSurface,
                     ),
                   ),
                 ],
@@ -600,7 +693,7 @@ class _FeaturedDuaCard extends StatelessWidget {
                 const Text(
                   'Tap to read full supplication',
                   style: TextStyle(
-                    color: Color(0xFF1E3A8A),
+                    color: amberPrimary,
                     fontWeight: FontWeight.w700,
                     fontSize: 12,
                   ),
@@ -626,21 +719,24 @@ class _StatChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    const amberPrimary = Color(0xFFD97706);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: colors.surfaceContainerHighest.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: const Color(0xFF1E3A8A)),
+          Icon(icon, size: 14, color: amberPrimary),
           const SizedBox(width: 6),
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.blueGrey,
+            style: TextStyle(
+              color: colors.onSurfaceVariant,
               fontWeight: FontWeight.w700,
               fontSize: 12,
             ),
@@ -663,6 +759,8 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const amberPrimary = Color(0xFFD97706);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Daily Duas')),
       body: Center(
@@ -683,9 +781,7 @@ class _ErrorView extends StatelessWidget {
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh_rounded),
                 label: const Text('Try again'),
-                style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF1E3A8A),
-                ),
+                style: FilledButton.styleFrom(backgroundColor: amberPrimary),
               ),
             ],
           ),

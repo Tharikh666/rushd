@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/repositories/salah_repository.dart';
@@ -72,7 +73,17 @@ class _SalahGuideScreenState extends State<SalahGuideScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Salah Guide'), centerTitle: false),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'SALAH GUIDE',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 2.2,
+          ),
+        ),
+      ),
       body: FutureBuilder<_SalahOverviewData>(
         future: _overviewFuture,
         builder: (context, snapshot) {
@@ -163,67 +174,137 @@ class _IntroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [colors.primary, colors.primary.withValues(alpha: 0.78)],
+          colors: [
+            colors.primary,
+            colors.primary.withValues(alpha: isDark ? 0.65 : 0.82),
+            colors.primaryContainer.withValues(alpha: 0.5),
+          ],
         ),
-        borderRadius: BorderRadius.circular(26),
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            right: -12,
-            top: -14,
-            child: Icon(
-              Icons.mosque_rounded,
-              size: 116,
-              color: Colors.white.withValues(alpha: 0.09),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.14),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: const Icon(
-                  Icons.menu_book_rounded,
-                  color: Colors.white,
-                  size: 25,
-                ),
-              ),
-              const SizedBox(height: 18),
-              const Text(
-                'Learn Salah,\nstep by step.',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 27,
-                  height: 1.2,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.5,
-                ),
-              ),
-              const SizedBox(height: 9),
-              Text(
-                'Explore prayer positions, rakahs and recitations.',
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.84),
-                  fontSize: 14,
-                  height: 1.5,
-                ),
-              ),
-            ],
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.18),
+          width: 1.2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: colors.primary.withValues(alpha: 0.3),
+            blurRadius: 28,
+            offset: const Offset(0, 12),
           ),
         ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(28),
+        child: Stack(
+          children: [
+            // Background SVG Watermark
+            Positioned(
+              right: -25,
+              bottom: -30,
+              child: IgnorePointer(
+                child: Opacity(
+                  opacity: 0.12,
+                  child: SvgPicture.asset(
+                    'assets/icons/worship_icons/salah.svg',
+                    width: 180,
+                    height: 180,
+                    fit: BoxFit.contain,
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Card Content
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.16),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/icons/worship_icons/salah.svg',
+                          width: 26,
+                          height: 26,
+                          fit: BoxFit.contain,
+                          colorFilter: const ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: const Text(
+                          'STEP-BY-STEP',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 1.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 22),
+                  const Text(
+                    'Learn Salah,\nstep by step.',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      height: 1.15,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -0.6,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Explore prayer positions, rakahs and recitations.',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.85),
+                      fontSize: 14.5,
+                      height: 1.5,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
