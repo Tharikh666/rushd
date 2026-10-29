@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,21 +11,16 @@ import 'app/app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Google Mobile Ads supports Android and iOS only. Initialize it before
-  // running the app on those platforms; keep desktop/web runs safe.
   final supportsMobileAds = !kIsWeb &&
       (defaultTargetPlatform == TargetPlatform.android ||
           defaultTargetPlatform == TargetPlatform.iOS);
-  if (supportsMobileAds) {
-    await MobileAds.instance.initialize();
-  }
 
-  // Keep the app in portrait orientation.
+  // Keep platform setup ahead of the first frame, but never block app startup
+  // on AdMob/WebView/network initialization.
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
 
-  // Configure the Android status bar.
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -37,4 +34,21 @@ Future<void> main() async {
       child: RushdApp(),
     ),
   );
+
+  // Initialize ads after the Flutter UI has started. The ad widget also waits
+  // for SDK initialization locally before requesting a banner.
+  if (supportsMobileAds) {
+    unawaited(_initializeMobileAds());
+  }
+}
+
+Future<void> _initializeMobileAds() async {
+  try {
+    await MobileAds.instance.initialize();
+    debugPrint('RUSHD: Google Mobile Ads initialized.');
+  } catch (error, stackTrace) {
+    // Ads should never prevent users from opening or using RUSHD.
+    debugPrint('RUSHD: Google Mobile Ads initialization failed: $error');
+    debugPrintStack(stackTrace: stackTrace);
+  }
 }
