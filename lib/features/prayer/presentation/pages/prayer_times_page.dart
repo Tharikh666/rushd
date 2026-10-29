@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import '../../../home/domain/entities/prayer_time.dart';
 import '../../../home/presentation/providers/home_providers.dart';
+import '../../providers/device_location_provider.dart';
 
 class PrayerTimesPage extends ConsumerWidget {
   const PrayerTimesPage({super.key});
@@ -11,6 +12,13 @@ class PrayerTimesPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final prayerState = ref.watch(prayerStateProvider);
+    final locationLabel = ref
+        .watch(deviceLocationProvider)
+        .when(
+      data: (location) => location?.label,
+      loading: () => 'Locating...',
+      error: (error, stackTrace) => null,
+    );
     final todayDate = DateTime.now();
     final todayDayName = DateFormat('EEEE').format(todayDate);
 
@@ -70,7 +78,7 @@ class PrayerTimesPage extends ConsumerWidget {
                 _PrayerHeroCard(
                   currentPrayer: current,
                   nextPrayer: next,
-                  timezone: state.today.timezone,
+                  locationLabel: locationLabel,
                 ),
                 const SizedBox(height: 36),
 
@@ -78,14 +86,19 @@ class PrayerTimesPage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Today • $todayDayName (${todayDate.day}/${todayDate.month})',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w800,
-                        color: colors.onSurface,
+                    Expanded(
+                      child: Text(
+                        'Today • $todayDayName (${todayDate.day}/${todayDate.month})',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          color: colors.onSurface,
+                        ),
                       ),
                     ),
+                    const SizedBox(width: 12),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -101,15 +114,45 @@ class PrayerTimesPage extends ConsumerWidget {
                           width: 1,
                         ),
                       ),
-                      child: Text(
-                        state.today.timezone.isNotEmpty
-                            ? state.today.timezone
-                            : 'Local Time',
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: colors.onSurfaceVariant,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.schedule_rounded,
+                            size: 15,
+                            color: isDark
+                                ? _PrayerAccent.soft
+                                : _PrayerAccent.base,
+                          ),
+                          const SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'TIME ZONE',
+                                style: TextStyle(
+                                  fontSize: 8.5,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 1,
+                                  color: colors.onSurfaceVariant.withOpacity(
+                                    0.7,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                state.today.timezone.isNotEmpty
+                                    ? state.today.timezone
+                                    : 'Local Time',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: colors.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -154,13 +197,13 @@ class PrayerTimesPage extends ConsumerWidget {
                             gradient: LinearGradient(
                               colors: isDark
                                   ? [
-                                      const Color(0xFF1E293B),
-                                      const Color(0xFF0F172A),
-                                    ]
+                                const Color(0xFF1F3160),
+                                const Color(0xFF9A5B0B),
+                              ]
                                   : [
-                                      const Color(0xFF2D4A87),
-                                      const Color(0xFFF59E0B),
-                                    ],
+                                const Color(0xFF2D4A87),
+                                const Color(0xFFF59E0B),
+                              ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
@@ -189,7 +232,7 @@ class PrayerTimesPage extends ConsumerWidget {
                                 children: [
                                   Row(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.baseline,
+                                    CrossAxisAlignment.baseline,
                                     textBaseline: TextBaseline.alphabetic,
                                     children: [
                                       Expanded(
@@ -249,7 +292,7 @@ class PrayerTimesPage extends ConsumerWidget {
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'End of Fajr Time: ',
@@ -298,28 +341,28 @@ class PrayerTimesPage extends ConsumerWidget {
       case 'fajr':
         return {
           'gradient': isDark
-              ? [const Color(0xFF1E293B), const Color(0xFF0F172A)]
+              ? [const Color(0xFF1A2B55), const Color(0xFF3A5A9E)]
               : [const Color(0xFF2D4A87), const Color(0xFF6B8DD6)],
           'watermark': 'assets/icons/prayer_times/fajr.svg',
         };
       case 'dhuhr':
         return {
           'gradient': isDark
-              ? [const Color(0xFF1E293B), const Color(0xFF111827)]
+              ? [const Color(0xFF9A7B12), const Color(0xFF3F3008)]
               : [const Color(0xFFFFF7D6), const Color(0xFFFFFFFF)],
           'watermark': 'assets/icons/prayer_times/dhuhr.svg',
         };
       case 'asr':
         return {
           'gradient': isDark
-              ? [const Color(0xFF1E293B), const Color(0xFF111827)]
+              ? [const Color(0xFFB45F3A), const Color(0xFF4A2418)]
               : [const Color(0xFFFFE7CC), const Color(0xFFFFFFFF)],
           'watermark': 'assets/icons/prayer_times/asr.svg',
         };
       case 'maghrib':
         return {
           'gradient': isDark
-              ? [const Color(0xFF1E293B), const Color(0xFF0F172A)]
+              ? [const Color(0xFFE0622F), const Color(0xFF7A2E4A)]
               : [const Color(0xFFFF9F68), const Color(0xFFFFD6A5)],
           'watermark': 'assets/icons/prayer_times/maghrib.svg',
         };
@@ -327,7 +370,7 @@ class PrayerTimesPage extends ConsumerWidget {
       default:
         return {
           'gradient': isDark
-              ? [const Color(0xFF0F172A), const Color(0xFF090D16)]
+              ? [const Color(0xFF070B1C), const Color(0xFF16215A)]
               : [const Color(0xFF0F172A), const Color(0xFF1E3A8A)],
           'watermark': 'assets/icons/prayer_times/isha.svg',
         };
@@ -347,28 +390,30 @@ class _PrayerHeroCard extends StatelessWidget {
   const _PrayerHeroCard({
     required this.currentPrayer,
     required this.nextPrayer,
-    required this.timezone,
+    required this.locationLabel,
   });
 
   final PrayerTime? currentPrayer;
   final PrayerTime? nextPrayer;
-  final String timezone;
+  final String? locationLabel;
 
   @override
   Widget build(BuildContext context) {
+    final label = locationLabel;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF0D534D), Color(0xFF115E59), Color(0xFF0F766E)],
+          colors: [_PrayerAccent.deep, _PrayerAccent.mid, _PrayerAccent.base],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(32),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0F766E).withOpacity(0.22),
+            color: _PrayerAccent.base.withOpacity(0.22),
             blurRadius: 28,
             offset: const Offset(0, 14),
           ),
@@ -416,24 +461,35 @@ class _PrayerHeroCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.location_on_rounded,
-                        color: Color(0xFF2DD4BF),
-                        size: 14,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        timezone.isNotEmpty ? timezone : 'Local',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
+                  if (label != null)
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.location_on_rounded,
+                              color: _PrayerAccent.soft,
+                              size: 14,
+                            ),
+                            const SizedBox(width: 4),
+                            Flexible(
+                              child: Text(
+                                label,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -458,7 +514,7 @@ class _PrayerHeroCard extends StatelessWidget {
                     Text(
                       nextPrayer!.arabicName,
                       style: const TextStyle(
-                        color: Color(0xFF99F6E4),
+                        color: _PrayerAccent.pale,
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         fontFamily: 'Amiri',
@@ -486,7 +542,7 @@ class _PrayerHeroCard extends StatelessWidget {
                       children: [
                         const Icon(
                           Icons.access_time_filled_rounded,
-                          color: Color(0xFF2DD4BF),
+                          color: _PrayerAccent.soft,
                           size: 16,
                         ),
                         const SizedBox(width: 8),
@@ -551,8 +607,8 @@ class _PrayerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isNaturallyDarkCard =
         prayer.name.toLowerCase() == 'fajr' ||
-        prayer.name.toLowerCase() == 'isha' ||
-        isDarkTheme;
+            prayer.name.toLowerCase() == 'isha' ||
+            isDarkTheme;
 
     final textColor = isNaturallyDarkCard
         ? Colors.white
@@ -568,10 +624,10 @@ class _PrayerCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: isCurrent
-                ? const Color(0xFF0F766E).withOpacity(0.22)
+                ? _PrayerAccent.base.withOpacity(0.22)
                 : (isDarkTheme
-                      ? Colors.black.withOpacity(0.2)
-                      : const Color(0xFF0F172A).withOpacity(0.04)),
+                ? gradientColors.first.withOpacity(0.35)
+                : const Color(0xFF0F172A).withOpacity(0.04)),
             blurRadius: 32,
             offset: const Offset(0, 16),
           ),
@@ -588,11 +644,11 @@ class _PrayerCard extends StatelessWidget {
           border: Border.all(
             color: isCurrent
                 ? (isNaturallyDarkCard
-                      ? Colors.white.withOpacity(0.4)
-                      : const Color(0xFF0F766E).withOpacity(0.4))
+                ? Colors.white.withOpacity(0.4)
+                : _PrayerAccent.base.withOpacity(0.4))
                 : (isDarkTheme
-                      ? Colors.white.withOpacity(0.12)
-                      : Colors.white.withOpacity(0.15)),
+                ? Colors.white.withOpacity(0.12)
+                : Colors.white.withOpacity(0.15)),
             width: isCurrent ? 2.5 : 1.5,
           ),
         ),
@@ -709,12 +765,12 @@ class _PrayerCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: isNaturallyDarkCard
                             ? Colors.white.withOpacity(0.15)
-                            : const Color(0xFF0F766E).withOpacity(0.1),
+                            : _PrayerAccent.base.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(
                           color: isNaturallyDarkCard
                               ? Colors.white.withOpacity(0.2)
-                              : const Color(0xFF0F766E).withOpacity(0.15),
+                              : _PrayerAccent.base.withOpacity(0.15),
                           width: 1,
                         ),
                       ),
@@ -726,7 +782,7 @@ class _PrayerCard extends StatelessWidget {
                             size: 8,
                             color: isNaturallyDarkCard
                                 ? Colors.white
-                                : const Color(0xFF0F766E),
+                                : _PrayerAccent.base,
                           ),
                           const SizedBox(width: 8),
                           Text(
@@ -734,7 +790,7 @@ class _PrayerCard extends StatelessWidget {
                             style: TextStyle(
                               color: isNaturallyDarkCard
                                   ? Colors.white
-                                  : const Color(0xFF0F766E),
+                                  : _PrayerAccent.base,
                               fontSize: 12,
                               fontWeight: FontWeight.w800,
                             ),
@@ -795,4 +851,12 @@ class _PrayerCard extends StatelessWidget {
     final displayHour = hour % 12 == 0 ? 12 : hour % 12;
     return '$displayHour:${minute.toString().padLeft(2, '0')} ${isPm ? 'PM' : 'AM'}';
   }
+}
+
+abstract final class _PrayerAccent {
+  static const deep = Color(0xFF3B0764);
+  static const mid = Color(0xFF581C87);
+  static const base = Color(0xFF7E22CE);
+  static const soft = Color(0xFFC084FC);
+  static const pale = Color(0xFFE9D5FF);
 }
