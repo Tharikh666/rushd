@@ -21,6 +21,11 @@ class FeatureAccessController {
   });
 
   bool canAccess(RushdFeature feature) {
+    // Ads are a monetization capability for Free users, not a locked feature.
+    if (feature == RushdFeature.ads) {
+      return shouldShowAds;
+    }
+
     // Premium users can access everything.
     if (tier == SubscriptionTier.premium) {
       return true;
@@ -30,7 +35,14 @@ class FeatureAccessController {
     return freeFeatures.contains(feature);
   }
 
+  /// Ads are shown only to Free users. Premium must remain ad-free.
+  bool get shouldShowAds => tier == SubscriptionTier.free;
+
   bool isPremium(RushdFeature feature) {
+    // Ads are turned off for Premium users; they are not a Premium feature.
+    if (feature == RushdFeature.ads) {
+      return false;
+    }
     return !canAccess(feature);
   }
 }

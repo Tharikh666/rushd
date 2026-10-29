@@ -70,6 +70,11 @@ class PremiumScreen extends StatelessWidget {
             subtitle: 'Access additional worship features as they launch.',
           ),
           const _PremiumFeature(
+            icon: Icons.block_rounded,
+            title: 'Ad-free worship experience',
+            subtitle: 'Enjoy a calmer experience without advertising.',
+          ),
+          const _PremiumFeature(
             icon: Icons.favorite_rounded,
             title: 'Support RUSHD',
             subtitle: 'Help us continue building meaningful tools.',
@@ -77,7 +82,7 @@ class PremiumScreen extends StatelessWidget {
           const SizedBox(height: 24),
           FilledButton(
             onPressed: null,
-            child: const Text('Subscriptions coming soon'),
+            child: const Text('Premium subscriptions coming soon'),
           ),
           const SizedBox(height: 12),
           Text(

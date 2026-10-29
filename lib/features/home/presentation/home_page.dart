@@ -10,8 +10,8 @@ import 'package:go_router/go_router.dart';
 import 'package:rushd/features/home/presentation/providers/home_providers.dart';
 import 'package:rushd/features/home/presentation/widgets/prayer_home_widgets.dart';
 
+import '../../../../core/ads/rushd_banner_ad.dart';
 import '../../../../core/premium/feature_access_controller.dart';
-import '../../../../core/premium/rushd_feature.dart';
 import '../../../../core/theme/rushd_colors.dart';
 
 import '../../quran/data/quran_metadata.dart';
@@ -55,7 +55,6 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   final List<_HeroType> _heroTypes = const [
     _HeroType.prayer,
     _HeroType.ayah,
-    _HeroType.advertisement,
   ];
 
   late Future<List<QuranAyah>> _bookmarksFuture;
@@ -167,6 +166,13 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
                       const SizedBox(height: 16),
 
                       _buildWorshipSection(context),
+
+                      if (ref
+                          .watch(featureAccessControllerProvider)
+                          .shouldShowAds) ...[
+                        const SizedBox(height: 28),
+                        const RushdBannerAd(),
+                      ],
 
                       const SizedBox(height: 36),
 
@@ -307,15 +313,7 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
   }
 
   Widget _buildHeroCarousel(BuildContext context) {
-    final featureAccess = ref.watch(featureAccessControllerProvider);
-    final showAdvertisement = featureAccess.canAccess(RushdFeature.ads);
-
-    final visibleHeroTypes = _heroTypes.where((type) {
-      if (type == _HeroType.advertisement) {
-        return showAdvertisement;
-      }
-      return true;
-    }).toList();
+    final visibleHeroTypes = _heroTypes;
 
     return Column(
       children: [
@@ -370,8 +368,6 @@ class _RushdHomeScreenState extends ConsumerState<RushdHomeScreen> {
         return const PrayerHomeHeroCard();
       case _HeroType.ayah:
         return const _DailyAyahHeroCard();
-      case _HeroType.advertisement:
-        return const _AdvertisementHeroCard();
     }
   }
 
@@ -1282,7 +1278,7 @@ class _RedesignedPrayerCarouselTile extends StatelessWidget {
 // HERO TYPES & CARDS (Intact per instructions)
 // ============================================================================
 
-enum _HeroType { prayer, ayah, advertisement }
+enum _HeroType { prayer, ayah }
 
 class _DailyAyahHeroCard extends StatelessWidget {
   const _DailyAyahHeroCard();
@@ -1425,87 +1421,6 @@ class _DailyAyahHeroCard extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _AdvertisementHeroCard extends StatelessWidget {
-  const _AdvertisementHeroCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return _HeroContainer(
-      child: Stack(
-        children: [
-          Positioned(
-            right: -30,
-            bottom: -40,
-            child: _HeroDecoration(icon: Icons.auto_awesome_rounded),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _HeroPill(
-                  icon: Icons.campaign_outlined,
-                  label: 'ADVERTISEMENT',
-                ),
-                const Spacer(),
-                const Text(
-                  'Support something\nmeaningful.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 26,
-                    height: 1.15,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Discover services and initiatives from trusted partners.',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.75),
-                    fontSize: 13,
-                    height: 1.4,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.14),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.white.withOpacity(0.12)),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Learn More',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(width: 6),
-                      Icon(
-                        Icons.arrow_forward_rounded,
-                        color: Colors.white,
-                        size: 14,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
