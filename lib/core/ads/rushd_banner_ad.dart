@@ -6,10 +6,10 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../premium/feature_access_controller.dart';
 import 'rushd_mobile_ads.dart';
 
-/// Shows a Google test banner to Free users on Android and iOS only.
+/// Displays Google's official sample banner ad to Free users on Android/iOS.
 ///
-/// Inline adaptive banners are used because this widget is placed inside the
-/// Home screen's scrollable content. The sample IDs below serve test ads only.
+/// The IDs are Google's Flutter sample banner units for development only.
+/// Replace them with Rushd's own AdMob banner IDs before release.
 class RushdBannerAd extends ConsumerWidget {
   const RushdBannerAd({super.key});
 
@@ -27,26 +27,12 @@ class RushdBannerAd extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth.isFinite
-            ? constraints.maxWidth.truncate()
-            : MediaQuery.sizeOf(context).width.truncate();
-
-        if (width <= 0) {
-          return const SizedBox.shrink();
-        }
-
-        return _RushdBannerAdSlot(width: width);
-      },
-    );
+    return const _RushdBannerAdSlot();
   }
 }
 
 class _RushdBannerAdSlot extends StatefulWidget {
-  const _RushdBannerAdSlot({required this.width});
-
-  final int width;
+  const _RushdBannerAdSlot();
 
   @override
   State<_RushdBannerAdSlot> createState() => _RushdBannerAdSlotState();
@@ -54,13 +40,13 @@ class _RushdBannerAdSlot extends StatefulWidget {
 
 class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
   BannerAd? _bannerAd;
-  AdSize? _loadedAdSize;
+  bool _loadFailed = false;
 
-  // Official Google sample banner ad units. These return test ads only.
+  // Official Google Mobile Ads Flutter sample banner IDs.
   String get _testBannerAdUnitId {
     return defaultTargetPlatform == TargetPlatform.iOS
-        ? 'ca-app-pub-3940256099942544/2435281174'
-        : 'ca-app-pub-3940256099942544/9214589741';
+        ? 'ca-app-pub-3940256099942544/2934735716'
+        : 'ca-app-pub-3940256099942544/6300978111';
   }
 
   @override
@@ -71,46 +57,49 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
 
   Future<void> _loadBannerAd() async {
     try {
-      // Do not request an ad until the shared SDK initialization completes.
       await RushdMobileAds.initialize();
       if (!mounted) return;
 
-      final adSize =
-          AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(widget.width);
-
       final banner = BannerAd(
-      adUnitId: _testBannerAdUnitId,
-      request: const AdRequest(),
-      size: adSize,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) async {
-          final loadedBanner = ad as BannerAd;
+        adUnitId: _testBannerAdUnitId,
+        request: const AdRequest(),
+        size: AdSize.banner,
+        listener: BannerAdListener(
+          onAdLoaded: (ad) {
+            if (!mounted) {
+              ad.dispose();
+              return;
+            }
 
-          // Inline adaptive banner height is known only after the platform
-          // returns the loaded ad's actual size.
-          final actualSize = await loadedBanner.getPlatformAdSize();
-
-          if (!mounted || actualSize == null) {
+            setState(() {
+              _bannerAd = ad as BannerAd;
+              _loadFailed = false;
+            });
+          },
+          onAdFailedToLoad: (ad, error) {
             ad.dispose();
-            return;
-          }
-
-          setState(() {
-            _bannerAd = loadedBanner;
-            _loadedAdSize = actualSize;
-          });
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-          debugPrint('RUSHD test banner failed to load: $error');
-        },
-      ),
-    );
+            debugPrint('RUSHD test banner failed to load: $error');
+            if (mounted) {
+              setState(() {
+                _bannerAd = null;
+                _loadFailed = true;
+              });
+            }
+          },
+        ),
+      );
 
       banner.load();
     } catch (error, stackTrace) {
       debugPrint('RUSHD: Could not initialize/request banner ad: $error');
       debugPrintStack(stackTrace: stackTrace);
+
+      if (mounted) {
+        setState(() {
+          _bannerAd = null;
+          _loadFailed = true;
+        });
+      }
     }
   }
 
@@ -123,13 +112,15 @@ class _RushdBannerAdSlotState extends State<_RushdBannerAdSlot> {
   @override
   Widget build(BuildContext context) {
     final banner = _bannerAd;
-    final adSize = _loadedAdSize;
 
-    if (banner == null || adSize == null) {
+    if (banner == null) {
+      // Keep the production UI clean if an ad cannot load. During debugging,
+      // the failure reason is printed to the Flutter console.
       return const SizedBox.shrink();
     }
 
     final theme = Theme.of(context);
+    final adSize = banner.size;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
